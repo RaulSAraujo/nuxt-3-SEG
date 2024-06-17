@@ -18,12 +18,18 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    experimental: {
+      websocket: true
+    }
+  },
+
   runtimeConfig: {
     public: {
-      base_url_external: process.env.API_URL_EXTERNAL,
-      base_url_weather: process.env.BASE_URL_WEATHER,
-      key_weather: process.env.API_KEY_WEATHER,
       base_url_local: process.env.API_URL_LOCAL,
+      base_url_external: process.env.API_URL_EXTERNAL,
+      key_weather: process.env.API_KEY_WEATHER,
+      base_url_weather: process.env.BASE_URL_WEATHER,
       automation_base_url: process.env.BASE_URL_AUTOMATION,
     }
   },

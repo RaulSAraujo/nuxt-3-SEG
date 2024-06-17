@@ -19,6 +19,7 @@
 <script setup>
 definePageMeta({
   name: "HomePage",
+  layout: 'home'
 });
 
 useHead({

@@ -2,6 +2,8 @@
   <v-app>
     <Header />
 
-    <slot></slot>
+    <v-main>
+      <slot></slot>
+    </v-main>
   </v-app>
 </template>

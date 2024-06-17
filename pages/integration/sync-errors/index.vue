@@ -1,0 +1,3 @@
+<template>
+    sync error
+</template>

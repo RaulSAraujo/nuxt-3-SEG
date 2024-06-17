@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     const { username, password } = await readBody(event)
 
     try {
-        const response = await $fetch(`${useRuntimeConfig().public.base_url_local}/login`, {
+        const response = await $fetch(`${useRuntimeConfig().public.base_url_external}/login`, {
             method: 'POST',
             body: JSON.stringify({
                 username,

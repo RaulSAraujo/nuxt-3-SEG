@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
     try {
         const authHeaderValue = getRequestHeader(event, 'authorization')
-        const response = await $fetch(`${useRuntimeConfig().public.base_url_local}/login/refresh`, {
+        const response = await $fetch(`${useRuntimeConfig().public.base_url_external}/login/refresh`, {
             method: 'POST',
             body: JSON.stringify({
                 jwt: authHeaderValue

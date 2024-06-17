@@ -1,85 +1,122 @@
+<script setup lang="ts">
+import dayjs from "dayjs";
+import type { User } from "~/interfaces/User";
+
+const now = useNow({ interval: 1000 });
+
+const selected = ref<{ id: number; author: string; message: string; date: string }[]>([]);
+// watch(selected, (newValue, oldValue) => {
+//   console.log(newValue);
+//   console.log(oldValue);
+// });
+
+const { data } = useAuthState();
+const user = data.value as User;
+
+let ws: WebSocket | undefined;
+const notifications = useState<{ id: number; author: string; message: string; date: string }[]>(() => []);
+
+const connect = async () => {
+  const url = `ws://http://192.168.1.10:2001/api/chat-ws?user_id=${user.id}&group_id=${user.group_id}`;
+
+  if (ws) {
+    console.log("ws", "Closing previous connection before reconnecting...");
+
+    ws.close();
+  }
+
+  console.log("ws", "Connecting to", url, "...");
+  ws = new WebSocket(url);
+
+  ws.addEventListener("newNotification", (event) => {
+    console.log(event);
+  });
+
+  await new Promise((resolve) => ws!.addEventListener("open", resolve));
+  console.log("ws", "Connected!");
+};
+
+onMounted(() => {
+  const host = window.location.hostname;
+
+  if (!host.includes("ddns")) {
+    // connect();
+  }
+});
+</script>
+
 <template>
-  <!-- <v-menu
+  <v-menu
     v-if="notifications.length > 0"
-    offset-y
-    rounded="xl"
-    max-height="80vh"
-    nudge-bottom="15px"
+    offset="20 140"
+    location="bottom"
+    transition="slide-y-transition"
     :close-on-content-click="false"
-    @input="readNotifier"
   >
-    <template #activator="{ on, attrs }">
-      <v-badge
-        dot
-        color="blue"
-        offset-y="18"
-        offset-x="18"
-        :content="notifications.length"
-      >
-        <v-btn v-bind="attrs" class="ml-2" icon plain v-on="on">
-          <v-icon color="grey">mdi-bell</v-icon>
-        </v-btn>
+    <template v-slot:activator="{ props }">
+      <v-badge color="blue" bordered :content="notifications.length">
+        <v-btn v-bind="props" icon="mdi-bell" variant="plain" density="compact" />
       </v-badge>
     </template>
 
-    <v-card width="350px" rounded="lg">
-      <v-toolbar color="transparent" elevation="0">
-        <v-toolbar-title class="text-title">NOTIFICAÇÕES</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn class="mr-1" icon small @click="readAll()">
-          <v-icon> mdi-notification-clear-all </v-icon>
-        </v-btn>
-      </v-toolbar>
+    <v-list
+      v-model:selected="selected"
+      :selectable="true"
+      select-strategy="leaf"
+      lines="one"
+      density="compact"
+      width="250px"
+      class="rounded-xl"
+    >
+      <v-row no-gutters justify="space-between" align="center" class="mx-4 my-2">
+        <span class="text-body-1">NOTIFICAÇÕES</span>
+
+        <v-btn icon="mdi-notification-clear-all" variant="plain" density="compact" />
+        <!-- @click="readAll()" -->
+      </v-row>
 
       <v-divider></v-divider>
 
-      <v-list two-line color="transparent">
-        <v-list-item-group
-          v-model="selected"
-          multiple
-          value="message"
-          color="transparent"
-          active-class="text--disabled opacityText"
-        >
-          <v-virtual-scroll
-            :items="notifications"
-            height="250px"
-            item-height="64px"
-            style="--width-scrollbar: 12px"
-          >
-            <template v-slot:default="{ item }">
-              <v-list-item>
-                <template #default="{ active }">
-                  <v-list-item-content>
-                    <v-list-item-title class="text-overline">
-                      {{ item.author }}
-                    </v-list-item-title>
+      <v-virtual-scroll
+        :items="notifications"
+        height="250px"
+        item-height="64px"
+        class="my-2"
+        style="
+          --width-scrollbar: 5px;
+          --track-color: rgba(0, 0, 0, 0);
+          --thumb-color: #8080804d;
+          --border-color: rgba(0, 0, 0, 0);
+          --track-color-hover: #808080a3;
+        "
+      >
+        <template v-slot:default="{ item }">
+          <v-list-item color="grey-darken-3" :value="item">
+            <v-list-item-title v-text="item.author" class="text-body-2" />
+            <v-list-item-subtitle v-text="item.message" class="text-caption" />
 
-                    <v-list-item-subtitle class="text-caption">
-                      {{ item.message }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
+            <template #append="{ isActive }">
+              <v-list-item-action start>
+                <v-badge
+                  v-if="!isActive"
+                  dot
+                  color="blue"
+                  style="position: absolute; top: 5px; right: 10px"
+                />
+                <div v-else></div>
 
-                  <v-list-item-action>
-                    <v-list-item-action-text>
-                      {{ formatDiffMin(item.date) }} Min
-                    </v-list-item-action-text>
-
-                    <v-badge v-if="!active" dot color="blue" />
-                    <div v-else></div>
-                  </v-list-item-action>
-                </template>
-              </v-list-item>
-
-              <v-divider></v-divider>
+                <span class="text-overline font-italic">
+                  {{ dayjs(now).diff(item.date, "minutes") }} Min
+                </span>
+              </v-list-item-action>
             </template>
-          </v-virtual-scroll>
-        </v-list-item-group>
-      </v-list>
-    </v-card>
-  </v-menu>-->
+          </v-list-item>
 
-  <v-btn class="ml-2" icon>
-    <v-icon color="grey">mdi-bell</v-icon>
-  </v-btn>
+          <v-divider></v-divider>
+        </template>
+      </v-virtual-scroll>
+    </v-list>
+  </v-menu>
+
+  <v-btn v-else color="grey" variant="plain" icon="mdi-bell" />
 </template>
