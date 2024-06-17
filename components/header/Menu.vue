@@ -1,12 +1,19 @@
-<script setup>
-const { auth_pages, verify_auth_pages } = usePageStore();
+<script setup lang="ts">
+import type { Page } from "~/interfaces/Page";
 
-verify_auth_pages();
+const { data: pages } = await useAsyncData("pages", async () => {
+  const res = (await $fetch("/api/pages")) as Page[];
+  return res;
+},{
+  getCachedData(key, nuxtApp) {
+    return nuxtApp.payload.data[key]
+  },
+});
 </script>
 
 <template>
   <v-menu
-    v-for="(page, i) in auth_pages"
+    v-for="(page, i) in pages"
     :key="i"
     location="bottom"
     transition="slide-y-transition"
@@ -24,7 +31,7 @@ verify_auth_pages();
       />
     </template>
 
-    <v-list :lines="false" density="comfortable" variant="plain" nav class="rounded-xl">
+    <v-list :lines="false" density="default" variant="plain" nav class="rounded-xl">
       <v-list-item
         v-for="(item, a) in page.items"
         :key="a"

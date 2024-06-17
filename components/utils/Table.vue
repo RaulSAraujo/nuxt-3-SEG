@@ -1,5 +1,6 @@
-<script setup>
-const headers = ref([
+<script setup lang="ts">
+import type { AsyncData } from "#app";
+const headers = ref<{ text: string; value: string }[]>([
   { text: "id", value: "id" },
   { text: "name", value: "name" },
 ]);
@@ -13,17 +14,24 @@ const loadItems = async (
 ) => {
   loading.value = true;
 
-  const { data } = await useAsyncData("Product", async () => {
-    const res = await $api().get(`product`, {
+  const res = await $api().get(`product`, {
+    params: {
       page: options.page,
       perPage: options.itemsPerPage,
-    });
-
-    return res;
+    },
+    timeout: 3000,
+    retry: 3,
+    retryStatusCodes: [408],
   });
 
-  //   items.value = rows;
-  //   totalItems.value = totalRecords;
+  if(res?.error.value){
+    return console.error(res?.error.value)
+  }
+
+  const data = res?.data.value as { resultCount: number, rows: [], totalRecords: number }
+
+  items.value = data.rows;
+  totalItems.value = data.totalRecords;
   loading.value = false;
 };
 </script>

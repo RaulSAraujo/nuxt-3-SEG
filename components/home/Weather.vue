@@ -11,6 +11,10 @@ const { data: weatherData } = await useAsyncData("Weather", async () => {
   const res = (await $fetch(url)) as Weather;
 
   return res;
+},{
+  getCachedData(key, nuxtApp) {
+    return  nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+  },
 });
 
 loading.value.default = false;

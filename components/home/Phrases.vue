@@ -3,13 +3,21 @@ import type { Phrase } from "~/interfaces/Phrase";
 
 const loading = ref({ type: Boolean, default: true });
 
-const { data: phrasesData } = await useAsyncData("Phrases", async () => {
-  const res = (await $fetch(
-    "https://pensador-api.vercel.app/?term=trabalho&max=1"
-  )) as Phrase;
+const { data: phrasesData } = await useAsyncData(
+  "Phrases",
+  async () => {
+    const res = (await $fetch(
+      "https://pensador-api.vercel.app/?term=trabalho&max=1"
+    )) as Phrase;
 
-  return res.frases[0].texto;
-});
+    return res.frases[0].texto;
+  },
+  {
+    getCachedData(key, nuxtApp) {
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+    },
+  }
+);
 
 loading.value.default = false;
 </script>

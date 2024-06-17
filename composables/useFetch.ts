@@ -1,63 +1,34 @@
+import type { AsyncData, UseFetchOptions } from "#app";
+
+const { token } = useAuth();
+
+const config = useRuntimeConfig();
+
 export const $api = () => {
-    const app = useNuxtApp();
+    const baseURL = config.public.base_url_external; // Cache base URL for efficiency
 
-    const get = async (url: string, params: Record<string, any> = {}) => {
+    const fetchWithAuth = async (url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', opts: UseFetchOptions<Object>) => {
         try {
-            const queryString = new URLSearchParams(params).toString();
-            const response = await app.$GET(`${url}?${queryString}`);
-
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
-    };
-
-    const post = async (url: string, data: Object | Array<string>) => {
-        try {
-            const response = await app.$POST(`${url}`, {
-                body: JSON.stringify(data),
+            const response = await useFetch(url, {
+                baseURL,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `${token.value}`, // Use Bearer token format
+                },
+                method,
+                ...opts,
             });
 
-            return handleResponse(response);
+            return response as AsyncData<Object, Object>;
         } catch (error) {
-            handleError(error);
+            console.error('API request error:', error); // More informative error message
         }
-    };
-
-    const put = async (url: string, data: Object | Array<string>) => {
-        try {
-            const response = await app.$PUT(`${url}`, {
-                body: JSON.stringify(data),
-            });
-
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
-    };
-
-    const del = async (url: string) => {
-        try {
-            const response = await app.$DELETE(`${url}`);
-
-            return handleResponse(response);
-        } catch (error) {
-            handleError(error);
-        }
-    };
-
-    const handleResponse = async (response: any) => {
-        return response;
-    };
-
-    const handleError = (error: any) => {
-        console.error(error);
     };
 
     return {
-        get,
-        post,
-        put,
-        del,
+        get: async (url: string, opts: UseFetchOptions<Object>) => fetchWithAuth(url, 'GET', opts),
+        post: async (url: string, opts: UseFetchOptions<Object>) => fetchWithAuth(url, 'POST', opts),
+        put: async (url: string, opts: UseFetchOptions<Object>) => fetchWithAuth(url, 'PUT', opts),
+        del: async (url: string, opts: UseFetchOptions<Object>) => fetchWithAuth(url, 'DELETE', opts),
     };
 };

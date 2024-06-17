@@ -83,7 +83,7 @@ export default defineNuxtConfig({
   },
 
   auth: {
-    baseURL: '/api/',
+    baseURL: '/api/auth/',
     provider: {
       type: 'refresh',
       endpoints: {
