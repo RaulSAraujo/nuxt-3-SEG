@@ -15,20 +15,24 @@ async function toggleTheme() {
 
   user.theme = theme.global.name.value === "dark" ? false : true;
 
-  $api()
-    .put("/user", {
+  const res = await $api("/user", {
+    method: "PUT",
+    body: {
       id: user.id,
       theme: theme.global.name.value === "dark" ? false : true,
-    })
-    .then(() => {
-      // Update useStorage(Nitro) local
-      $fetch("/api/session", {
-        method: "PUT",
-        body: {
-          theme: theme.global.name.value === "dark" ? false : true,
-        },
-      });
-    });
+    },
+  });
+
+  if(res.error.value){
+    return console.error(res.error.value)
+  }
+
+  $fetch("/api/auth/session", {
+    method: "PUT",
+    body: {
+      theme: theme.global.name.value === "dark" ? false : true,
+    },
+  });
 }
 </script>
 

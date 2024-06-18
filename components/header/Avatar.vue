@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { User } from "~/interfaces/User";
 
-const { signOut } = useAuth();
-const { data } = useAuthState();
+const { data, signOut } = useAuth();
 
 const user = data.value as User;
 </script>
