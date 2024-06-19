@@ -21,15 +21,10 @@ export default defineNuxtPlugin(() => {
     //   // Log response
     //   console.log("[fetch response]", request, response.status, response.body);
     // },
-    // async onResponseError({ request, response, options }) {
-    //   // Log error
-    //   console.log(
-    //     "[fetch response error]",
-    //     request,
-    //     response.status,
-    //     response.body
-    //   );
-    // },
+    async onResponseError({ request, response, options }) {
+      // Log error
+      console.log( "[fetch response error]", request, response.status, response.body );
+    },
   })
   // Expose to useNuxtApp().$customFetch
   return {

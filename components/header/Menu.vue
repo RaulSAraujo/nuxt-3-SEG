@@ -27,7 +27,7 @@ const { data: pages } = await useAsyncData("pages", async () => {
         :text="page.title"
         density="default"
         height="60px"
-        class="text-title font-weight-bold text-uppercase"
+        class="text-uppercase"
       />
     </template>
 
@@ -43,7 +43,7 @@ const { data: pages } = await useAsyncData("pages", async () => {
           <v-icon :icon="item.icon" />
         </template>
 
-        <v-list-item-title v-text="item.title" class="text-uppercase text-body-2" />
+        <v-list-item-title v-text="item.title" class="text-uppercase" />
       </v-list-item>
     </v-list>
   </v-menu>

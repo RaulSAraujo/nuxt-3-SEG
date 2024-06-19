@@ -2,7 +2,7 @@
 const img = useImage();
 
 const props = defineProps({
-  height: { type: [Number, String], default: "100vh" },
+  height: { type: [Number, String], default: "93vh" },
   src: {
     type: String,
     default: "/img/background.jpg",
