@@ -1,4 +1,4 @@
-import { User } from '~/interfaces/User';
+import type { User } from '~/interfaces/User';
 import { createError, eventHandler, getRequestHeader, H3Event } from 'h3';
 
 const parseJwt = (token: string) => {

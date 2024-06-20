@@ -1,4 +1,4 @@
-import { User } from '~/interfaces/User';
+import type { User } from '~/interfaces/User';
 import { eventHandler, H3Event } from 'h3';
 
 export default eventHandler(async (event: H3Event) => {

@@ -6,7 +6,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <v-toolbar flat>
+  <v-toolbar flat density="compact">
     <v-toolbar-title>{{ props.title }}</v-toolbar-title>
 
     <v-spacer></v-spacer>

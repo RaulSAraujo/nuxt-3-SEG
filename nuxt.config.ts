@@ -3,6 +3,10 @@ import colors from 'vuetify/lib/util/colors.mjs'
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
+  typescript: {
+    typeCheck: true
+  },
+
   app: {
     baseURL: '/',
     head: {

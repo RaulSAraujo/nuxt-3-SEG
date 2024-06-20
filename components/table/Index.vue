@@ -54,10 +54,10 @@ let headers: ComputedRef<
 >;
 $api(`grid-configurations?user_id=${user.id}&model=${props.model}`, {
   priority: "high",
-  // key: "Grid-product",
-  // getCachedData(key, nuxtApp) {
-  //   return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
-  // },
+  key: "Grid-product",
+  getCachedData(key, nuxtApp) {
+    return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+  },
 })
   .then((res) => {
     if (res.error.value) throw res.error;
@@ -88,8 +88,17 @@ $api(`grid-configurations?user_id=${user.id}&model=${props.model}`, {
  * Função para obter os dados
  * @param options Informações de filtros da tabela
  */
-const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) => {
+const loadItems = async (
+  options = { page: 1, itemsPerPage: 10, sortBy: [], sort: {} }
+) => {
   loading.value = true;
+
+  let sortField = undefined;
+  let sortType = undefined;
+  if (options.sortBy.length > 0) {
+    sortField = options.sortBy.map(({ key }) => key).join(",");
+    sortType = options.sortBy.map(({ order }) => order).join(",");
+  }
 
   useNuxtApp()
     .$customFetch(props.url, {
@@ -97,6 +106,10 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
       params: {
         page: options.page,
         perPage: options.itemsPerPage,
+      },
+      query: {
+        "sort-field": sortField,
+        "sort-type": sortType,
       },
       priority: "low",
     })
@@ -117,6 +130,7 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
 
 <template>
   <ClientOnly>
+    <!-- @vue-ignore -->
     <v-data-table-server
       v-bind="$attrs"
       :headers="headers"
@@ -124,7 +138,7 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
       :items-length="totalItems"
       :loading="loading"
       loading-text="Loading... Please wait"
-      density="comfortable"
+      density="compact"
       @update:options="loadItems"
     >
       <template #top>
@@ -136,26 +150,25 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
         :key="header.key"
         #[`item.${header.key}`]="{ item }: Record<string, any>"
       >
-        <span v-if="header.type === 'DATE'">
-          {{
-            $dayjs(item[header.key]).isValid()
-              ? $dayjs(item[header.key]).format("DD/MM/YYYY")
-              : ""
-          }}
-        </span>
+        <TableTemplatesDate v-if="header.type === 'DATE'" :value="item[header.key]" />
 
-        <v-icon
+        <TableTemplatesBoolean
           v-else-if="header.type === 'BOOLEAN'"
-          size="20px"
-          :icon="item.support == true ? 'mdi-check-bold' : 'mdi-close-thick'"
-          :color="item.support == true ? 'green' : 'red'"
+          :value="item[header.key]"
         />
 
-        <span v-else>
-          {{ item[header.key] }}
-        </span>
+        <template v-else>
+          <template
+            v-if="header.type === 'STRING' && typeof item[header.key] === 'string'"
+          >
+            <TableTemplatesString :value="item[header.key]" :maxWidth="header.maxWidth" />
+          </template>
+
+          <span v-else>{{ item[header.key] }}</span>
+        </template>
       </template>
 
+      <!-- @vue-skip -->
       <template v-for="slot in parentSlots" :key="slot" #[slot]="props">
         <slot :name="slot" v-bind="props" />
       </template>
@@ -163,10 +176,4 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
   </ClientOnly>
 </template>
 
-<style>
-.v-data-table__tr .v-data-table__td {
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-</style>
+<style></style>

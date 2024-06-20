@@ -3,7 +3,7 @@ import type { Phrase } from "~/interfaces/Phrase";
 
 const loading = ref({ type: Boolean, default: true });
 
-const { data: phrasesData } = await useAsyncData(
+const { data: phrasesData } = useAsyncData(
   "Phrases",
   async () => {
     const res = (await $fetch(

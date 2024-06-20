@@ -7,15 +7,19 @@ const url = `${useRuntimeConfig().public.base_url_weather}/weather?appid=${
   useRuntimeConfig().public.key_weather
 }&lang=pt_br&Mode=json&id=3463011&units=metric`;
 
-const { data: weatherData } = await useAsyncData("Weather", async () => {
-  const res = (await $fetch(url)) as Weather;
+const { data: weatherData } = useAsyncData(
+  "Weather",
+  async () => {
+    const res = (await $fetch(url)) as Weather;
 
-  return res;
-},{
-  getCachedData(key, nuxtApp) {
-    return  nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+    return res;
   },
-});
+  {
+    getCachedData(key, nuxtApp) {
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+    },
+  }
+);
 
 loading.value.default = false;
 </script>

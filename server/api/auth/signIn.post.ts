@@ -1,5 +1,5 @@
-import { Operation } from "~/interfaces/Operation"
-import { Page } from "~/interfaces/Page"
+import type { Operation } from "~/interfaces/Operation"
+import type { Page } from "~/interfaces/Page"
 
 interface SignIn {
     group_id: number,
