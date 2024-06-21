@@ -19,12 +19,14 @@
     "nuxt": "^3.12.1",
     "pinia": "^2.1.7",
     "vue-router": "^4.3.3",
+    "vue3-toastify": "^0.2.1",
     "vuetify-nuxt-module": "^0.14.1"
   },
   "overrides": {
     "vue": "latest"
   },
   "devDependencies": {
+    "@nuxt/test-utils": "^3.13.1",
     "@vueuse/core": "^10.11.0",
     "@vueuse/nuxt": "^10.11.0",
     "dayjs-nuxt": "^2.1.9",

@@ -60,37 +60,37 @@ $api(`grid-configurations?user_id=${user.id}&model=${props.model}`, {
   },
 })
   .then((res) => {
-    if (res.error.value) throw res.error;
+    if (res.error.value) throw res
 
     grid = res.data.value as GridData;
 
-    headers = computed(() =>
-      grid.rows[0].available_columns
-        .sort(
-          (a, b) =>
-            parseInt(`${b.sequence_grid}` || "0") - parseInt(`${a.sequence_grid}` || "0")
-        )
-        .map(({ text, align, sortable, value, width, type }) => ({
-          title: text,
-          key: value,
-          maxWidth: width,
-          align,
-          sortable,
-          type,
-        }))
-    );
+    const sorted = useSorted(grid.rows[0].available_columns, (a, b) => {
+      if (a.sequence_grid == null) return 1;
+      if (b.sequence_grid == null) return -1;
+
+      if (a.sequence_grid < b.sequence_grid) return -1;
+      if (a.sequence_grid > b.sequence_grid) return 1;
+      return 0;
+    });
+
+    headers = useArrayMap(sorted, ({ text, align, sortable, value, width, type }) => ({
+      title: text,
+      key: value,
+      maxWidth: width,
+      align,
+      sortable,
+      type,
+    }));
   })
   .catch((err) => {
-    console.error(err);
+    $toast().error(`${err.error.value.cause}` ?? err.error.value.message);
   });
 
 /**
  * Função para obter os dados
  * @param options Informações de filtros da tabela
  */
-const loadItems = async (
-  options = { page: 1, itemsPerPage: 10, sortBy: [], sort: {} }
-) => {
+const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) => {
   loading.value = true;
 
   let sortField = undefined;
@@ -108,8 +108,8 @@ const loadItems = async (
         perPage: options.itemsPerPage,
       },
       query: {
-        "sort-field": sortField,
-        "sort-type": sortType,
+        "sort-field[]": sortField,
+        "sort-type[]": sortType,
       },
       priority: "low",
     })
@@ -120,7 +120,7 @@ const loadItems = async (
       totalItems.value = data.totalRecords;
     })
     .catch((error) => {
-      console.error(error);
+      $toast().error(`${error.cause}` ?? `${error.message}`);
     })
     .finally(() => {
       loading.value = false;
@@ -175,5 +175,3 @@ const loadItems = async (
     </v-data-table-server>
   </ClientOnly>
 </template>
-
-<style></style>

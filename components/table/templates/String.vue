@@ -1,7 +1,7 @@
 <script setup lang="ts">
-defineProps<{ value: string; maxWidth: string | number | null }>();
+defineProps<{ value: string | null; maxWidth: string | number | null }>();
 
-const widthColumnText = (label: String) => {
+const widthColumnText = (label: string | null) => {
   if (typeof label === "string" && label.length > 0) {
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
@@ -16,9 +16,9 @@ const widthColumnText = (label: String) => {
 
 <template>
   <v-tooltip
-    v-if="widthColumnText(value) > parseFloat(`${maxWidth || 0.0}`)"
+    v-if="widthColumnText(value ?? '') > parseFloat(`${maxWidth ?? 0.0}`)"
     location="top"
-    :text="value"
+    :text="value ?? ''"
     style="
       --v-theme-surface-variant: 25, 118, 210;
       --v-theme-on-surface-variant: 255, 255, 255;
@@ -33,19 +33,11 @@ const widthColumnText = (label: String) => {
         "
       >
         <span v-bind="props">
-          {{ value }}
+          {{ value ?? '' }}
         </span>
       </div>
     </template>
   </v-tooltip>
 
-  <span v-else>{{ value }}</span>
+  <span v-else>{{ value ?? '' }}</span>
 </template>
-
-<style>
-/* .v-data-table__tr .v-data-table__td {
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-} */
-</style>

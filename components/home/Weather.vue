@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import type { Weather } from "~/interfaces/Weather";
 
-const loading = ref({ type: Boolean, default: true });
-
-const url = `${useRuntimeConfig().public.base_url_weather}/weather?appid=${
-  useRuntimeConfig().public.key_weather
-}&lang=pt_br&Mode=json&id=3463011&units=metric`;
-
-const { data: weatherData } = useAsyncData(
+const { data: weatherData, status } = useLazyAsyncData(
   "Weather",
   async () => {
-    const res = (await $fetch(url)) as Weather;
+    const res = (await $fetch("/weather", {
+      baseURL: useRuntimeConfig().public.base_url_weather,
+      params: {
+        appid: useRuntimeConfig().public.key_weather,
+        lang: "pt_br",
+        Mode: "json",
+        id: "3463011",
+        units: "metric",
+      },
+    })) as Weather;
 
     return res;
   },
@@ -20,13 +23,11 @@ const { data: weatherData } = useAsyncData(
     },
   }
 );
-
-loading.value.default = false;
 </script>
 
 <template>
   <v-skeleton-loader
-    :loading="loading.default"
+    :loading="status === 'pending'"
     width="20vw"
     type="image"
     theme="light"

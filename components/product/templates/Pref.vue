@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 defineProps({
   item: { type: Object, default: {} },
 });
@@ -9,7 +9,7 @@ defineProps({
     <div v-if="item.Family.product_id == item.id">
       <v-tooltip
         location="bottom"
-        text="Pref.Venda"
+        text="Pref. Venda"
         style="
           --v-theme-surface-variant: 49, 191, 58;
           --v-theme-on-surface-variant: 255, 255, 255;
@@ -23,7 +23,7 @@ defineProps({
     <div v-if="item.Family.buy_preference_id == item.id">
       <v-tooltip
         location="bottom"
-        text="Pref.Compra"
+        text="Pref. Compra"
         style="
           --v-theme-surface-variant: 46, 94, 71;
           --v-theme-on-surface-variant: 255, 255, 255;

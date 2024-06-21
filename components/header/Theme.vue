@@ -8,6 +8,18 @@ const user = data.value as User;
 
 onMounted(() => {
   theme.global.name.value = user.theme ? "light" : "dark";
+
+  if (theme.global.name.value === "light") {
+    document.documentElement.style.setProperty("--track-color", "#ffffff");
+    document.documentElement.style.setProperty("--track-color-hover", "#b7b4b4");
+    document.documentElement.style.setProperty("--thumb-color", "#d6d5d5");
+    document.documentElement.style.setProperty("--border-color", "#ffffff");
+  } else {
+    document.documentElement.style.removeProperty("--track-color");
+    document.documentElement.style.removeProperty("--track-color-hover");
+    document.documentElement.style.removeProperty("--thumb-color");
+    document.documentElement.style.removeProperty("--border-color");
+  }
 });
 
 async function toggleTheme() {
@@ -23,8 +35,8 @@ async function toggleTheme() {
     },
   });
 
-  if(res.error.value){
-    return console.error(res.error.value)
+  if (res.error.value) {
+    return $toast().error(`${res.error.value.cause}` ?? res.error.value.message);
   }
 
   $fetch("/api/auth/session", {
@@ -33,6 +45,18 @@ async function toggleTheme() {
       theme: theme.global.name.value === "dark" ? false : true,
     },
   });
+
+  if (theme.global.name.value === "light") {
+    document.documentElement.style.setProperty("--track-color", "#ffffff");
+    document.documentElement.style.setProperty("--track-color-hover", "#b7b4b4");
+    document.documentElement.style.setProperty("--thumb-color", "#d6d5d5");
+    document.documentElement.style.setProperty("--border-color", "#ffffff");
+  } else {
+    document.documentElement.style.removeProperty("--track-color");
+    document.documentElement.style.removeProperty("--track-color-hover");
+    document.documentElement.style.removeProperty("--thumb-color");
+    document.documentElement.style.removeProperty("--border-color");
+  }
 }
 </script>
 

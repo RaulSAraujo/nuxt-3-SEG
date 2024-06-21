@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import type { Phrase } from "~/interfaces/Phrase";
 
-const loading = ref({ type: Boolean, default: true });
-
-const { data: phrasesData } = useAsyncData(
+const { data: phrasesData, status } = useLazyAsyncData(
   "Phrases",
   async () => {
     const res = (await $fetch(
@@ -18,13 +16,11 @@ const { data: phrasesData } = useAsyncData(
     },
   }
 );
-
-loading.value.default = false;
 </script>
 
 <template>
   <v-skeleton-loader
-    :loading="loading.default"
+    :loading="status === 'pending'"
     type="paragraph"
     color="transparent"
     theme="light"

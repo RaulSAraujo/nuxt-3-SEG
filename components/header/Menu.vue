@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import type { Page } from "~/interfaces/Page";
 
-const { data: pages } = await useAsyncData("pages", async () => {
-  const res = (await $fetch("/api/pages")) as Page[];
-  return res;
-},{
-  getCachedData(key, nuxtApp) {
-    return nuxtApp.payload.data[key]
+const { data: pages } = useAsyncData(
+  "pages",
+  async () => {
+    const res = (await $fetch("/api/pages")) as Page[];
+    return res;
   },
-});
+  {
+    getCachedData(key, nuxtApp) {
+      return nuxtApp.payload.data[key];
+    },
+  }
+);
 </script>
 
 <template>

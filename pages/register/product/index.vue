@@ -1,4 +1,8 @@
 <script setup lang="ts">
+useHead({
+  titleTemplate: `Produto compra - %s`,
+});
+
 // import type { User } from "~/interfaces/User";
 
 // interface FilterData {
@@ -90,87 +94,49 @@ const modelName = findModelName(name);
       <ProductTemplatesPrice
         :price="item.price"
         :promotion_price="item.promotion_price"
+        :promotion_starts_at="item.promotion_starts_at"
         :promotion_ends_at="item.promotion_ends_at"
       />
     </template>
 
-    <!-- <template #item.cost="{ props: { item } }">
-      <v-tooltip v-if="item.cost_at" top color="blue">
-        <template #activator="{ on, attrs }">
-          <div class="d-inline-block text-truncate" v-bind="attrs" v-on="on">
-            {{
-              parseFloat(item.cost || 0).toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              })
-            }}
-          </div>
-        </template>
-
-        <span> {{ $moment(item.cost_at).format("DD/MM/YYYY LT") }} </span>
-      </v-tooltip>
-
-      <div v-else class="d-inline-block text-truncate">
-        {{
-          parseFloat(item.cost || 0).toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          })
-        }}
-      </div>
+    <template #item.cost="{ item }">
+      <ProductTemplatesCost :cost="item.cost" :cost_at="item.cost_at" />
     </template>
 
-    <template #item.gross_margin="{ props: { item } }">
-      <span>{{
-        parseFloat(calculeteGrossMargin(item)).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        })
-      }}</span>
+    <template #item.gross_margin="{ item }">
+      <ProductTemplatesGrossMargin :cost="item.cost" :price="item.price" />
     </template>
 
-    <template #item.price_table_id="{ props: { item } }">
+    <template #item.price_table_id="{ item }">
       <span>{{ item.TablePrice?.name }}</span>
     </template>
 
-    <template #item.counter_price="{ props: { item } }">
-      <span class="text-truncate">{{
-        parseFloat(item.counter_price || 0).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        })
-      }}</span>
+    <template #item.counter_price="{ item }">
+      <ProductTemplatesCounterPrice :counter_price="item.counter_price" />
     </template>
 
-    <template #item.promotion_price="{ props: { item } }">
-      <span class="text-truncate">{{
-        parseFloat(item.promotion_price || 0).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        })
-      }}</span>
+    <template #item.promotion_price="{ item }">
+      <ProductTemplatesPromotionPrice :promotion_price="item.promotion_price" />
     </template>
 
-    <template #item.supplier_preference_id="{ props: { item } }">
-      <span>
-        {{ item.SupplierPreference?.name?.toUpperCase() }}
-      </span>
+    <template #item.supplier_preference_id="{ item }">
+      <span> {{ item.SupplierPreference?.name.toUpperCase() }} </span>
     </template>
 
-    <template #item.package_id="{ props: { item } }">
-      <span>{{ findPackage(item.package_id)?.name }}</span>
+    <template #item.package_id="{ item }">
+      <span>{{ item.Package?.name }}</span>
     </template>
 
-    <template #item.gross_weight="{ props: { item } }">
-      <span>{{ formatWeight(item.gross_weight) }}</span>
+    <template #item.gross_weight="{ item }">
+      <span>{{ Math.ceil(parseFloat(item.gross_weight ?? 0.0) * 1000) }}</span>
     </template>
 
-    <template #item.weight="{ props: { item } }">
-      <span>{{ formatWeight(item.weight) }}</span>
+    <template #item.weight="{ item }">
+      <span>{{ Math.ceil(parseFloat(item.weight ?? 0.0) * 1000) }}</span>
     </template>
 
-    <template #item.weight_cubic="{ props: { item } }">
-      <span>{{ formatWeight(item.weight_cubic) }}</span>
-    </template> -->
+    <template #item.weight_cubic="{ item }">
+      <span>{{ Math.ceil(parseFloat(item.weight_cubic ?? 0.0) * 1000) }}</span>
+    </template>
   </Table>
 </template>

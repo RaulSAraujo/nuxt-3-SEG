@@ -47,7 +47,8 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "@pinia/nuxt",
     'dayjs-nuxt',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    '@nuxt/test-utils'
   ],
 
   css: ['@/assets/style.css'],

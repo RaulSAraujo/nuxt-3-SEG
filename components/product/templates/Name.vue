@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ name: string; observation_cod_fab: string }>();
+defineProps<{ name: string | null; observation_cod_fab: string | null }>();
 </script>
 
 <template>

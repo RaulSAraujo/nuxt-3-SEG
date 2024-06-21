@@ -43,22 +43,21 @@ const availabilityToColorMap = ref<Record<number, string>>({
       <!-- @dblclick="redirectQuotation(item.id, index)" -->
     </template>
     <template #default>
-      <span>ATUAL: {{ availabilityToTextMap[availability] }}</span>
-      <br />
+      <span class="text-body-2">ATUAL: {{ availabilityToTextMap[availability] }}</span>
       <div v-if="PAvailabilityHistories">
         <span
           v-for="(PAvailability, i) in PAvailabilityHistories?.slice().reverse()"
           :key="i"
+          class="text-caption"
         >
-          <span v-if="i < 5">
+          <p v-if="i < 5">
             {{ availabilityToTextMap[PAvailability.availability_id] }} -
             {{
               $dayjs(PAvailability.availability_at).isValid()
                 ? $dayjs(PAvailability.availability_at).format("DD/MM/YYYY HH:mm:ss")
                 : ""
             }}
-          </span>
-          <br v-if="i < 5" />
+          </p>
         </span>
       </div>
     </template>

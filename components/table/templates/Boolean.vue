@@ -5,7 +5,7 @@ defineProps<{ value: boolean | null }>();
 <template>
   <v-icon
     size="20px"
-    :icon="value == true ? 'mdi-check-bold' : 'mdi-close-thick'"
-    :color="value == true ? 'green' : 'red'"
+    :icon="value ? 'mdi-check-bold' : 'mdi-close-thick'"
+    :color="value ? 'green' : 'red'"
   />
 </template>

@@ -1,5 +1,4 @@
 <script setup>
-const emits = defineEmits(["message", "active"]);
 const { handleSubmit } = useForm({
   validationSchema: {
     username(value) {
@@ -29,9 +28,7 @@ const submit = handleSubmit(async (values) => {
       password: values.password,
     });
   } catch (error) {
-    console.log(error);
-    emits("message", "Ocorreu um erro. Não foi possivel fazer o login.");
-    emits("active", true);
+    $toast().error("Ocorreu um erro. Não foi possivel fazer o login.");
   }
 });
 </script>
@@ -45,6 +42,7 @@ const submit = handleSubmit(async (values) => {
       :error-messages="username.errorMessage.value"
       required
       dark
+      color="primary"
     />
 
     <v-text-field
@@ -54,6 +52,7 @@ const submit = handleSubmit(async (values) => {
       :error-messages="password.errorMessage.value"
       required
       dark
+      color="primary"
       :type="showPassaword ? 'text' : 'password'"
       :append-inner-icon="showPassaword ? 'mdi-eye' : 'mdi-eye-off'"
       @click:append-inner="showPassaword = !showPassaword"

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
   layout: "login",
   name: "LoginPage",
@@ -11,11 +11,6 @@ definePageMeta({
 useHead({
   titleTemplate: `Login - %s`,
 });
-
-const overlay = reactive({
-  message: "",
-  active: false,
-});
 </script>
 
 <template>
@@ -27,17 +22,8 @@ const overlay = reactive({
       <div class="w-75">
         <LoginLogo />
 
-        <LoginForm
-          @active="overlay.active = $event"
-          @message="overlay.message = $event"
-        />
+        <LoginForm />
       </div>
     </v-col>
   </v-row>
-
-  <LoginOverlay
-    :active="overlay.active"
-    :message="overlay.message"
-    @close="overlay.active = $event"
-  />
 </template>
