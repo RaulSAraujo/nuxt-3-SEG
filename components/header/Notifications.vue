@@ -14,7 +14,9 @@ const { data } = useAuthState();
 const user = data.value as User;
 
 let ws: WebSocket | undefined;
-const notifications = useState<{ id: number; author: string; message: string; date: string }[]>(() => []);
+const notifications = useState<
+  { id: number; author: string; message: string; date: string }[]
+>(() => []);
 
 const connect = async () => {
   const url = `ws://http://192.168.1.10:2001/api/chat-ws?user_id=${user.id}&group_id=${user.group_id}`;
@@ -53,7 +55,7 @@ onMounted(() => {
     transition="slide-y-transition"
     :close-on-content-click="false"
   >
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-badge color="blue" bordered :content="notifications.length">
         <v-btn v-bind="props" icon="mdi-bell" variant="plain" density="compact" />
       </v-badge>
@@ -75,7 +77,7 @@ onMounted(() => {
         <!-- @click="readAll()" -->
       </v-row>
 
-      <v-divider></v-divider>
+      <v-divider />
 
       <v-virtual-scroll
         :items="notifications"
@@ -90,10 +92,14 @@ onMounted(() => {
           --track-color-hover: #808080a3;
         "
       >
-        <template v-slot:default="{ item }">
+        <template #default="{ item }">
           <v-list-item color="grey-darken-3" :value="item">
-            <v-list-item-title v-text="item.author" class="text-body-2" />
-            <v-list-item-subtitle v-text="item.message" class="text-caption" />
+            <v-list-item-title class="text-body-2">
+              {{ item.author }}
+            </v-list-item-title>
+            <v-list-item-subtitle class="text-caption">
+              {{ item.message }}
+            </v-list-item-subtitle>
 
             <template #append="{ isActive }">
               <v-list-item-action start>
@@ -103,7 +109,7 @@ onMounted(() => {
                   color="blue"
                   style="position: absolute; top: 5px; right: 10px"
                 />
-                <div v-else></div>
+                <div v-else />
 
                 <span class="text-overline font-italic">
                   {{ dayjs(now).diff(item.date, "minutes") }} Min
@@ -112,7 +118,7 @@ onMounted(() => {
             </template>
           </v-list-item>
 
-          <v-divider></v-divider>
+          <v-divider />
         </template>
       </v-virtual-scroll>
     </v-list>

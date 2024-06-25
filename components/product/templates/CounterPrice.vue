@@ -1,13 +1,13 @@
 <script setup lang="ts">
 defineProps<{
-  counter_price: number | string | null;
+  counterPrice: number | string | null;
 }>();
 </script>
 
 <template>
   <span>
     {{
-      parseFloat(`${counter_price}` ?? 0.0).toLocaleString("pt-BR", {
+      parseFloat(`${counterPrice}` ?? 0.0).toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL",
       })

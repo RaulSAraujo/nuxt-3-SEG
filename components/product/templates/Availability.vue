@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   availability: number;
-  PAvailabilityHistories: Record<string | number | symbol, any>;
+  pavailabilityHistories: Record<string | number | symbol, any>;
 }>();
 
 const availabilityToTextMap = ref<Record<number, string>>({
@@ -44,9 +44,9 @@ const availabilityToColorMap = ref<Record<number, string>>({
     </template>
     <template #default>
       <span class="text-body-2">ATUAL: {{ availabilityToTextMap[availability] }}</span>
-      <div v-if="PAvailabilityHistories">
+      <div v-if="pavailabilityHistories">
         <span
-          v-for="(PAvailability, i) in PAvailabilityHistories?.slice().reverse()"
+          v-for="(PAvailability, i) in pavailabilityHistories.slice().reverse()"
           :key="i"
           class="text-caption"
         >

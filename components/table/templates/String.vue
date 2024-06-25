@@ -24,7 +24,7 @@ const widthColumnText = (label: string | null) => {
       --v-theme-on-surface-variant: 255, 255, 255;
     "
   >
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <div
         style="
           white-space: nowrap !important;

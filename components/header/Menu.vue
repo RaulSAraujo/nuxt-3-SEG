@@ -24,7 +24,7 @@ const { data: pages } = useAsyncData(
     offset="5 50"
     width="250px"
   >
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-btn
         v-bind="props"
         variant="plain"
@@ -43,11 +43,13 @@ const { data: pages } = useAsyncData(
         color="primary"
         :to="{ name: item.name }"
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <v-icon :icon="item.icon" />
         </template>
 
-        <v-list-item-title v-text="item.title" class="text-uppercase" />
+        <v-list-item-title class="text-uppercase">
+          {{ item.title }}
+        </v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>

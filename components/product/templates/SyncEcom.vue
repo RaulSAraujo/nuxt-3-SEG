@@ -1,13 +1,13 @@
-<script setup>
-defineProps({
-  item: { type: Object, default: {} },
-});
+<script setup lang="ts">
+defineProps<{
+  synceEcom: boolean;
+}>();
 </script>
 
 <template>
   <v-icon
     size="20px"
-    :icon="item.ProductSell.syncecom == true ? 'mdi-check-bold' : 'mdi-close-thick'"
-    :color="item.ProductSell.syncecom == true ? 'green' : 'red'"
+    :icon="synceEcom ? 'mdi-check-bold' : 'mdi-close-thick'"
+    :color="synceEcom ? 'green' : 'red'"
   />
 </template>

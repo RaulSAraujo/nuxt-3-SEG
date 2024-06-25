@@ -1,12 +1,14 @@
 <script setup lang="ts">
-defineProps({
-  item: { type: Object, default: {} },
-});
+defineProps<{
+  id: number | string
+  productId: number | string | null
+  buyPreferenceId: number | string | null
+}>();
 </script>
 
 <template>
   <div class="d-flex flex-row justify-center align-center">
-    <div v-if="item.Family.product_id == item.id">
+    <div v-if="productId == id">
       <v-tooltip
         location="bottom"
         text="Pref. Venda"
@@ -20,7 +22,7 @@ defineProps({
         </template>
       </v-tooltip>
     </div>
-    <div v-if="item.Family.buy_preference_id == item.id">
+    <div v-if="buyPreferenceId == id">
       <v-tooltip
         location="bottom"
         text="Pref. Compra"

@@ -36,7 +36,7 @@ async function toggleTheme() {
   });
 
   if (res.error.value) {
-    return $toast().error(`${res.error.value.cause}` ?? res.error.value.message);
+    return $toast().error(`${res.error.value.cause ?? res.error.value.message}`);
   }
 
   $fetch("/api/auth/session", {

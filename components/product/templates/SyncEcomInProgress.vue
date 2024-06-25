@@ -1,13 +1,13 @@
-<script setup>
-defineProps({
-  item: { type: Object, default: {} },
-});
+<script setup lang="ts">
+defineProps<{
+  syncEcomInProgress: boolean;
+}>();
 </script>
 
 <template>
   <v-icon
     size="20px"
-    :icon="item.ProductSell.syncecominprogress == true ? 'mdi-check-bold' : 'mdi-close-thick'"
-    :color="item.ProductSell.syncecominprogress == true ? 'green' : 'red'"
+    :icon="syncEcomInProgress ? 'mdi-check-bold' : 'mdi-close-thick'"
+    :color="syncEcomInProgress ? 'green' : 'red'"
   />
 </template>

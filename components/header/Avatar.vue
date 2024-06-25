@@ -17,23 +17,23 @@ const user = data.value as User;
     <v-list lines="one" density="compact" nav class="rounded-xl">
       <v-list-item>
         <!-- :to="{ name: 'profile' }" -->
-        <template v-slot:prepend>
+        <template #prepend>
           <v-icon icon="mdi-account-box" />
         </template>
 
-        <v-list-item-title v-text="'PERFIL'" class="text-uppercase" />
+        <v-list-item-title class="text-uppercase"> PERFIL </v-list-item-title>
       </v-list-item>
       <v-list-item>
         <!-- :to="{ name: 'option-index' }" -->
 
-        <template v-slot:prepend>
+        <template #prepend>
           <v-icon icon="mdi-cog" />
         </template>
 
-        <v-list-item-title v-text="'OPÇÕES'" class="text-uppercase" />
+        <v-list-item-title class="text-uppercase"> OPÇÕES </v-list-item-title>
       </v-list-item>
       <v-list-item @click="signOut({ callbackUrl: '/' })">
-        <template v-slot:prepend>
+        <template #prepend>
           <v-icon icon="mdi-exit-to-app" />
         </template>
 

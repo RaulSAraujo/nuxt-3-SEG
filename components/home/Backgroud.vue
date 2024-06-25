@@ -2,7 +2,7 @@
 const img = useImage();
 
 const props = defineProps({
-  height: { type: [Number, String], default: "93vh" },
+  height: { type: [Number, String], default: "100vh" },
   src: {
     type: String,
     default: "/img/background.jpg",
@@ -29,6 +29,6 @@ const _srcset = computed(() => {
     cover
     gradient="to top, rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)"
   >
-    <slot></slot>
+    <slot/>
   </v-img>
 </template>

@@ -55,6 +55,9 @@ export default defineNuxtConfig({
 
   vuetify: {
     vuetifyOptions: {
+      icons: {
+        defaultSet: 'mdi'
+      },
       theme: {
         defaultTheme: 'dark',
         themes: {
@@ -68,18 +71,28 @@ export default defineNuxtConfig({
               warning: colors.amber.base,
               error: colors.deepOrange.accent4,
               success: colors.green.accent3,
+              surface: colors.grey.darken4,
+              'surface-bright': '#272727',
+              'surface-light': '#272727',
+              'surface-variant': colors.grey.darken3,
+              'on-surface-variant': colors.grey.lighten3,
             }
           },
           light: {
             dark: false,
             colors: {
-              primary: colors.blue.darken2,
+              primary: '#1867C0',
               accent: colors.grey.darken3,
-              secondary: colors.amber.darken3,
+              secondary: '#48A9A6',
               info: colors.teal.lighten1,
               warning: colors.amber.base,
               error: colors.deepOrange.accent4,
               success: colors.green.accent3,
+              surface: colors.grey.lighten5,
+              'surface-bright': colors.grey.lighten5,
+              'surface-light': colors.grey.lighten4,
+              'surface-variant': colors.grey.darken3,
+              'on-surface-variant': colors.grey.lighten3,
             }
           },
         }

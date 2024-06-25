@@ -1,12 +1,14 @@
-<script setup>
-defineProps({
-  item: { type: Object, default: {} },
-});
+<script setup lang="ts">
+defineProps<{
+  pstatuses: {
+    name: string;
+  }[];
+}>();
 </script>
 
 <template>
   <v-tooltip
-    v-if="item.Pstatuses"
+    v-if="pstatuses"
     location="top"
     style="
       --v-theme-surface-variant: 25, 118, 210;
@@ -14,11 +16,11 @@ defineProps({
     "
   >
     <template #activator="{ props }">
-      <span v-if="item.Pstatuses[0]" v-bind="props">
-        {{ item.Pstatuses[0].name }}
+      <span v-if="pstatuses[0]" v-bind="props">
+        {{ pstatuses[0].name }}
       </span>
     </template>
-    <span v-for="(status, index) in item.Pstatuses" :key="index">
+    <span v-for="(status, index) in pstatuses" :key="index">
       <span>
         {{ status.name }}
         <br />

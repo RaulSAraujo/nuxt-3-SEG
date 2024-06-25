@@ -1,15 +1,12 @@
-<script setup>
-const props = defineProps({
-  title: { type: String, default: "" },
-  disabledMenu: { type: Boolean, default: false },
-});
+<script setup lang="ts">
+defineProps<{ title: string; disabledMenu: boolean }>();
 </script>
 
 <template>
   <v-toolbar flat density="compact">
-    <v-toolbar-title>{{ props.title }}</v-toolbar-title>
+    <v-toolbar-title>{{ title }}</v-toolbar-title>
 
-    <v-spacer></v-spacer>
+    <v-spacer />
 
     <slot name="toolbarExtend" />
 

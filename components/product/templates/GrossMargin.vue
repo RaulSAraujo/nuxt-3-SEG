@@ -6,7 +6,7 @@ const props = defineProps<{
 
 const calculeteGrossMargin = () => {
   return props.price !== "0.000"
-    ? (parseFloat(`${props.price}` ?? 0.0) * 100) / parseFloat(`${props.cost}` ?? 0.0) -
+    ? (parseFloat(`${props.price ?? 0.0}`) * 100) / parseFloat(`${props.cost ?? 0.0}`) -
         100
     : "0.00";
 };

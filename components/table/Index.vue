@@ -2,12 +2,12 @@
 import type { User } from "~/interfaces/User";
 import type { GridData } from "~/interfaces/Grid.js";
 
-const props = defineProps({
-  title: { type: String, default: "" },
-  url: { type: String, default: "" },
-  model: { type: String, default: "" },
-  disabledMenu: { type: Boolean, default: false },
-});
+const props = defineProps<{
+  title: string;
+  url: string;
+  model: string;
+  disabledMenu: boolean;
+}>();
 
 /**
  * Argumentos usados na tabela
@@ -15,7 +15,7 @@ const props = defineProps({
  * @argument totalItems Total de registros.
  * @argument loading usado para indicar o carregamento na tela.
  */
-const items = ref<{}[]>([]);
+const items = ref<object[]>([]);
 const totalItems = ref(0);
 const loading = ref(false);
 
@@ -34,6 +34,9 @@ const parentSlots = computed(() => Object.keys(ctx));
 const { data } = useAuth();
 const user = data.value as User;
 
+const store = useGridStore();
+const { availableGrid } = storeToRefs(store);
+
 /**
  * Request para obter a grid do usuario de acordo com a pagina
  * @param user.id Identificador do usuario
@@ -42,16 +45,6 @@ const user = data.value as User;
  * @constant headers Novo array colocando em sequencia
  */
 let grid: GridData;
-let headers: ComputedRef<
-  {
-    title: string;
-    align: string;
-    sortable: boolean;
-    key: string;
-    maxWidth: string | number | null;
-    type: string;
-  }[]
->;
 $api(`grid-configurations?user_id=${user.id}&model=${props.model}`, {
   priority: "high",
   key: "Grid-product",
@@ -60,30 +53,14 @@ $api(`grid-configurations?user_id=${user.id}&model=${props.model}`, {
   },
 })
   .then((res) => {
-    if (res.error.value) throw res
+    if (res.error.value) throw res;
 
     grid = res.data.value as GridData;
 
-    const sorted = useSorted(grid.rows[0].available_columns, (a, b) => {
-      if (a.sequence_grid == null) return 1;
-      if (b.sequence_grid == null) return -1;
-
-      if (a.sequence_grid < b.sequence_grid) return -1;
-      if (a.sequence_grid > b.sequence_grid) return 1;
-      return 0;
-    });
-
-    headers = useArrayMap(sorted, ({ text, align, sortable, value, width, type }) => ({
-      title: text,
-      key: value,
-      maxWidth: width,
-      align,
-      sortable,
-      type,
-    }));
+    store.setData(grid);
   })
   .catch((err) => {
-    $toast().error(`${err.error.value.cause}` ?? err.error.value.message);
+    $toast().error(err.error.value.cause ?? err.error.value.message);
   });
 
 /**
@@ -114,13 +91,13 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
       priority: "low",
     })
     .then((res) => {
-      const data = res as { resultCount: number; rows: {}[]; totalRecords: number };
+      const data = res as { resultCount: number; rows: object[]; totalRecords: number };
 
       items.value = data.rows;
       totalItems.value = data.totalRecords;
     })
     .catch((error) => {
-      $toast().error(`${error.cause}` ?? `${error.message}`);
+      $toast().error(error.cause ?? error.message);
     })
     .finally(() => {
       loading.value = false;
@@ -133,7 +110,7 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
     <!-- @vue-ignore -->
     <v-data-table-server
       v-bind="$attrs"
-      :headers="headers"
+      :headers="availableGrid"
       :items="items"
       :items-length="totalItems"
       :loading="loading"
@@ -146,7 +123,7 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
       </template>
 
       <template
-        v-for="header in headers"
+        v-for="header in availableGrid"
         :key="header.key"
         #[`item.${header.key}`]="{ item }: Record<string, any>"
       >
@@ -161,7 +138,10 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
           <template
             v-if="header.type === 'STRING' && typeof item[header.key] === 'string'"
           >
-            <TableTemplatesString :value="item[header.key]" :maxWidth="header.maxWidth" />
+            <TableTemplatesString
+              :value="item[header.key]"
+              :max-width="header.maxWidth"
+            />
           </template>
 
           <span v-else>{{ item[header.key] }}</span>
@@ -174,4 +154,8 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
       </template>
     </v-data-table-server>
   </ClientOnly>
+
+  <TableMenuFilterDrawer />
+  
+  <TableMenuGridDrawer />
 </template>

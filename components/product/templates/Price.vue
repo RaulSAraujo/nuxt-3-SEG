@@ -1,15 +1,15 @@
 <script setup lang="ts">
-const props = defineProps<{
+const useProps = defineProps<{
   price: string | number | null;
-  promotion_price: string | number | null;
-  promotion_starts_at: string | Date | null;
-  promotion_ends_at: string | Date | null;
+  promotionPrice: string | number | null;
+  promotionStartsAt: string | Date | null;
+  promotionEndsAt: string | Date | null;
 }>();
 
 const percentageDiscount = () => {
   const percentage =
-    (parseFloat(`${props.price ?? 0.0}`) * 100) /
-      parseFloat(`${props.promotion_price ?? 0.0}`) -
+    (parseFloat(`${useProps.price ?? 0.0}`) * 100) /
+      parseFloat(`${useProps.promotionPrice ?? 0.0}`) -
     100;
   return percentage.toFixed(2);
 };
@@ -18,9 +18,9 @@ const percentageDiscount = () => {
 <template>
   <span
     v-if="
-      promotion_price == 0 ||
-      promotion_price == null ||
-      (promotion_ends_at && promotion_ends_at < new Date().toISOString())
+      promotionPrice == 0 ||
+      promotionPrice == null ||
+      (promotionEndsAt && promotionEndsAt < new Date().toISOString())
     "
   >
     {{
@@ -40,15 +40,15 @@ const percentageDiscount = () => {
     <template #activator="{ props }">
       <span
         v-if="
-          promotion_price != 0 &&
-          promotion_ends_at &&
-          promotion_ends_at > $dayjs().toISOString()
+          promotionPrice != 0 &&
+          promotionEndsAt &&
+          promotionEndsAt > $dayjs().toISOString()
         "
         v-bind="props"
         class="text-red"
       >
         {{
-          parseFloat(`${promotion_price}`).toLocaleString("pt-BR", {
+          parseFloat(`${promotionPrice}`).toLocaleString("pt-BR", {
             style: "currency",
             currency: "BRL",
           })
@@ -64,11 +64,11 @@ const percentageDiscount = () => {
         })
       }}
     </span>
-    <br />
+    <br >
     <span> Desconto: {{ percentageDiscount() }}% </span>
-    <br />
-    <span> Inicio: {{ $dayjs(`${promotion_starts_at}`).format("DD/MM/YYYY") }} </span>
-    <br />
-    <span> Final: {{ $dayjs(promotion_ends_at).format("DD/MM/YYYY") }} </span>
+    <br >
+    <span> Inicio: {{ $dayjs(`${promotionStartsAt}`).format("DD/MM/YYYY") }} </span>
+    <br >
+    <span> Final: {{ $dayjs(promotionEndsAt).format("DD/MM/YYYY") }} </span>
   </v-tooltip>
 </template>

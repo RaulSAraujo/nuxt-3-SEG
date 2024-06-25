@@ -1,9 +1,8 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <v-app-bar>
-    <template v-slot:prepend>
+    <template #prepend>
       <v-app-bar-nav-icon icon="mdi-home" to="/home" variant="plain" />
     </template>
 
@@ -11,7 +10,7 @@
       <HeaderMenu />
     </v-app-bar-title>
 
-    <template v-slot:append>
+    <template #append>
       <HeaderNotifications />
       <HeaderTheme />
       <HeaderAvatar />

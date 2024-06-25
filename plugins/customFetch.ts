@@ -8,8 +8,8 @@ export default defineNuxtPlugin({
 
     const $customFetch = $fetch.create({
       baseURL,
-      timeout: 3000,
-      async onRequest({ request, options, error }) {
+      timeout: 5000,
+      async onRequest({ options }) {
         // console.log("[fetch request]", request, options);
 
         options.headers = {
@@ -18,7 +18,7 @@ export default defineNuxtPlugin({
           Authorization: `${token.value}`,
         }
       },
-      async onResponseError({ request, response, options }) {
+      async onResponseError({ response }) {
         if (response.status === 401) {
           navigateTo('/')
         }

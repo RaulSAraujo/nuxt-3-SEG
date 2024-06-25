@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { RouteLocationNormalizedLoaded } from "#vue-router";
+
 useHead({
   titleTemplate: `Produto compra - %s`,
 });
@@ -18,8 +20,8 @@ useHead({
 // const user = data.value as User;
 
 const { findModelName } = useModelStore();
-const { name }: any = useRoute();
-const modelName = findModelName(name);
+const { name }: RouteLocationNormalizedLoaded = useRoute();
+const modelName = findModelName(name?.toString() ?? "");
 
 // const resFilter = await $api(`custom-filters-user?user_id=${user.id}&model=${modelName}`);
 
@@ -31,112 +33,131 @@ const modelName = findModelName(name);
 </script>
 
 <template>
-  <Table title="PRODUTO COMPRA" url="product" show-select multi-sort :model="modelName">
-    <template #item.action>
-      <v-btn icon="mdi-pencil" variant="plain" size="small" color="pink" />
-    </template>
+  <v-main>
+    <Filter />
 
-    <template #item.pref="{ item }">
-      <ProductTemplatesPref :item="item" />
-    </template>
+    <Table
+      title="PRODUTO COMPRA"
+      url="product"
+      :disabled-menu="false"
+      :show-select="true"
+      :multi-sort="true"
+      :model="modelName"
+    >
+      <template #item.action>
+        <v-btn icon="mdi-pencil" variant="plain" size="small" color="pink" />
+      </template>
 
-    <template #item.availability="{ item }">
-      <ProductTemplatesAvailability
-        :availability="item.availability"
-        :PAvailabilityHistories="item.PAvailabilityHistories"
-      />
-    </template>
+      <template #item.pref="{ item }">
+        <ProductTemplatesPref
+          :id="item.id"
+          :product-id="item.Family.product_id"
+          :buy-preference-id="item.Family.buy_preference_id"
+        />
+      </template>
 
-    <template #item.pstatuses="{ item }">
-      <ProductTemplatesStatus :item="item" />
-    </template>
+      <template #item.availability="{ item }">
+        <ProductTemplatesAvailability
+          :availability="item.availability"
+          :pavailability-histories="item.PAvailabilityHistories"
+        />
+      </template>
 
-    <template #item.name="{ item }">
-      <ProductTemplatesName
-        :name="item.name"
-        :observation_cod_fab="item.observation_cod_fab"
-      />
-    </template>
+      <template #item.pstatuses="{ item }">
+        <ProductTemplatesStatus :pstatuses="item.Pstatuses" />
+      </template>
 
-    <template #item.erp_syncecom="{ item }">
-      <ProductTemplatesSyncEcom :item="item" />
-    </template>
+      <template #item.name="{ item }">
+        <ProductTemplatesName
+          :name="item.name"
+          :observation-cod-fab="item.observation_cod_fab"
+        />
+      </template>
 
-    <template #item.syncedecom="{ item }">
-      <ProductTemplatesSyncedEcom :item="item" />
-    </template>
+      <template #item.erp_syncecom="{ item }">
+        <ProductTemplatesSyncEcom :synce-ecom="item.ProductSell.syncecom" />
+      </template>
 
-    <template #item.syncecominprogress="{ item }">
-      <ProductTemplatesSyncEcomInProgress :item="item" />
-    </template>
+      <template #item.syncedecom="{ item }">
+        <ProductTemplatesSyncedEcom :synced-ecom="item.ProductSell.syncedecom" />
+      </template>
 
-    <template #item.syncecomfailed="{ item }">
-      <ProductTemplatesSyncEcomFailed :item="item" />
-    </template>
+      <template #item.syncecominprogress="{ item }">
+        <ProductTemplatesSyncEcomInProgress
+          :sync-ecom-in-progress="item.ProductSell.syncecominprogress"
+        />
+      </template>
 
-    <template #item.quantity="{ item }">
-      <span>{{ item.type === "KIT" ? item.ProductSell.quantity : item.quantity }}</span>
-    </template>
+      <template #item.syncecomfailed="{ item }">
+        <ProductTemplatesSyncEcomFailed
+          :sync-ecom-failed="item.ProductSell.syncecomfailed"
+        />
+      </template>
 
-    <template #item.ProductSell.Ecommerces="{ item }">
-      <ProductTemplatesEcommerces
-        :erp_ecommerce_id="item.ProductSell.Ecommerces[0]?.erp_ecommerce_id ?? null"
-        :ecom_product_id_0="
-          item.ProductSell.Ecommerces[0]?.EcommerceProductSell.ecom_product_id ?? null
-        "
-        :ecom_product_id_1="
-          item.ProductSell.Ecommerces[1]?.EcommerceProductSell.ecom_product_id ?? null
-        "
-      />
-    </template>
+      <template #item.quantity="{ item }">
+        <span>{{ item.type === "KIT" ? item.ProductSell.quantity : item.quantity }}</span>
+      </template>
 
-    <template #item.price="{ item }">
-      <ProductTemplatesPrice
-        :price="item.price"
-        :promotion_price="item.promotion_price"
-        :promotion_starts_at="item.promotion_starts_at"
-        :promotion_ends_at="item.promotion_ends_at"
-      />
-    </template>
+      <template #item.ProductSell.Ecommerces="{ item }">
+        <ProductTemplatesEcommerces
+          :erp-ecommerce-id="item.ProductSell.Ecommerces[0]?.erp_ecommerce_id ?? null"
+          :ecom-product-id0="
+            item.ProductSell.Ecommerces[0]?.EcommerceProductSell.ecom_product_id ?? null
+          "
+          :ecom-product-id1="
+            item.ProductSell.Ecommerces[1]?.EcommerceProductSell.ecom_product_id ?? null
+          "
+        />
+      </template>
 
-    <template #item.cost="{ item }">
-      <ProductTemplatesCost :cost="item.cost" :cost_at="item.cost_at" />
-    </template>
+      <template #item.price="{ item }">
+        <ProductTemplatesPrice
+          :price="item.price"
+          :promotion-price="item.promotion_price"
+          :promotion-starts-at="item.promotion_starts_at"
+          :promotion-ends-at="item.promotion_ends_at"
+        />
+      </template>
 
-    <template #item.gross_margin="{ item }">
-      <ProductTemplatesGrossMargin :cost="item.cost" :price="item.price" />
-    </template>
+      <template #item.cost="{ item }">
+        <ProductTemplatesCost :cost="item.cost" :cost-at="item.cost_at" />
+      </template>
 
-    <template #item.price_table_id="{ item }">
-      <span>{{ item.TablePrice?.name }}</span>
-    </template>
+      <template #item.gross_margin="{ item }">
+        <ProductTemplatesGrossMargin :cost="item.cost" :price="item.price" />
+      </template>
 
-    <template #item.counter_price="{ item }">
-      <ProductTemplatesCounterPrice :counter_price="item.counter_price" />
-    </template>
+      <template #item.price_table_id="{ item }">
+        <span>{{ item.TablePrice?.name }}</span>
+      </template>
 
-    <template #item.promotion_price="{ item }">
-      <ProductTemplatesPromotionPrice :promotion_price="item.promotion_price" />
-    </template>
+      <template #item.counter_price="{ item }">
+        <ProductTemplatesCounterPrice :counter-price="item.counter_price" />
+      </template>
 
-    <template #item.supplier_preference_id="{ item }">
-      <span> {{ item.SupplierPreference?.name.toUpperCase() }} </span>
-    </template>
+      <template #item.promotion_price="{ item }">
+        <ProductTemplatesPromotionPrice :promotion-price="item.promotion_price" />
+      </template>
 
-    <template #item.package_id="{ item }">
-      <span>{{ item.Package?.name }}</span>
-    </template>
+      <template #item.supplier_preference_id="{ item }">
+        <span> {{ item.SupplierPreference?.name.toUpperCase() }} </span>
+      </template>
 
-    <template #item.gross_weight="{ item }">
-      <span>{{ Math.ceil(parseFloat(item.gross_weight ?? 0.0) * 1000) }}</span>
-    </template>
+      <template #item.package_id="{ item }">
+        <span>{{ item.Package?.name }}</span>
+      </template>
 
-    <template #item.weight="{ item }">
-      <span>{{ Math.ceil(parseFloat(item.weight ?? 0.0) * 1000) }}</span>
-    </template>
+      <template #item.gross_weight="{ item }">
+        <span>{{ Math.ceil(parseFloat(item.gross_weight ?? 0.0) * 1000) }}</span>
+      </template>
 
-    <template #item.weight_cubic="{ item }">
-      <span>{{ Math.ceil(parseFloat(item.weight_cubic ?? 0.0) * 1000) }}</span>
-    </template>
-  </Table>
+      <template #item.weight="{ item }">
+        <span>{{ Math.ceil(parseFloat(item.weight ?? 0.0) * 1000) }}</span>
+      </template>
+
+      <template #item.weight_cubic="{ item }">
+        <span>{{ Math.ceil(parseFloat(item.weight_cubic ?? 0.0) * 1000) }}</span>
+      </template>
+    </Table>
+  </v-main>
 </template>
