@@ -4,14 +4,15 @@ import { useSortable } from "@vueuse/integrations/useSortable";
 const store = useGridStore();
 const { availableGrid } = storeToRefs(store);
 
-const { option } = useSortable("#dv", availableGrid, {
+const el = ref<HTMLElement | null>(null);
+
+useSortable(el, availableGrid, {
   handle: ".handle",
 });
-option("animation", 200);
 </script>
 
 <template>
-  <v-list id="dv">
+  <v-list ref="el">
     <v-list-item v-for="item in availableGrid" :key="item.key" :title="item.title">
       <template #append>
         <v-icon class="handle" icon="mdi-arrow-all" color="blue" size="small" />

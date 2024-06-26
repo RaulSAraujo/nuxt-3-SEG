@@ -39,7 +39,7 @@
       --v-theme-on-surface-variant: 255, 255, 255;
     "
   >
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-btn v-bind="props" icon="mdi-microsoft-excel" style="color: green" />
     </template>
   </v-tooltip>

@@ -7,17 +7,9 @@ const props = defineProps<{
   url: string;
   model: string;
   disabledMenu: boolean;
+  showSelect: boolean;
+  multiSort: boolean;
 }>();
-
-/**
- * Argumentos usados na tabela
- * @argument items Itens da tabela.
- * @argument totalItems Total de registros.
- * @argument loading usado para indicar o carregamento na tela.
- */
-const items = ref<object[]>([]);
-const totalItems = ref(0);
-const loading = ref(false);
 
 /**
  * Argumentos slots obtidos no componente pai passados para o filho
@@ -41,8 +33,7 @@ const { availableGrid } = storeToRefs(store);
  * Request para obter a grid do usuario de acordo com a pagina
  * @param user.id Identificador do usuario
  * @param props.model Nome da model back-end
- * @constant grid Payload formatado
- * @constant headers Novo array colocando em sequencia
+ * @constant grid Payload
  */
 let grid: GridData;
 $api(`grid-configurations?user_id=${user.id}&model=${props.model}`, {
@@ -64,10 +55,22 @@ $api(`grid-configurations?user_id=${user.id}&model=${props.model}`, {
   });
 
 /**
+ * Argumentos usados na tabela
+ * @argument items Itens da tabela.
+ * @argument totalItems Total de registros.
+ * @argument loading usado para indicar o carregamento na tela.
+ */
+const items = ref<object[]>([]);
+const totalItems = ref(0);
+const loading = ref(false);
+
+/**
  * Função para obter os dados
  * @param options Informações de filtros da tabela
  */
 const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) => {
+  if (import.meta.server) return;
+
   loading.value = true;
 
   let sortField = undefined;
@@ -90,14 +93,14 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
       },
       priority: "low",
     })
-    .then((res) => {
+    .then(async (res) => {
       const data = res as { resultCount: number; rows: object[]; totalRecords: number };
 
       items.value = data.rows;
       totalItems.value = data.totalRecords;
     })
     .catch((error) => {
-      $toast().error(error.cause ?? error.message);
+      $toast().error(`${error.cause.message ?? error.message}`);
     })
     .finally(() => {
       loading.value = false;
@@ -106,56 +109,50 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
 </script>
 
 <template>
-  <ClientOnly>
-    <!-- @vue-ignore -->
-    <v-data-table-server
-      v-bind="$attrs"
-      :headers="availableGrid"
-      :items="items"
-      :items-length="totalItems"
-      :loading="loading"
-      loading-text="Loading... Please wait"
-      density="compact"
-      @update:options="loadItems"
+  <!-- @vue-ignore -->
+  <v-data-table-server
+    :headers="availableGrid"
+    :items="items"
+    :items-length="totalItems"
+    :loading="loading"
+    loading-text="Loading... Please wait"
+    density="compact"
+    :multi-sort="multiSort"
+    :show-select="showSelect"
+    @update:options="loadItems"
+  >
+    <template #top>
+      <TableToolbar :title="props.title" :disabled-menu="disabledMenu" />
+    </template>
+
+    <template
+      v-for="header in availableGrid"
+      :key="header.key"
+      #[`item.${header.key}`]="{ item }: Record<string, any>"
     >
-      <template #top>
-        <TableToolbar :title="props.title" :disabled-menu="disabledMenu" />
-      </template>
+      <TableTemplatesDate v-if="header.type === 'DATE'" :value="item[header.key]" />
 
-      <template
-        v-for="header in availableGrid"
-        :key="header.key"
-        #[`item.${header.key}`]="{ item }: Record<string, any>"
-      >
-        <TableTemplatesDate v-if="header.type === 'DATE'" :value="item[header.key]" />
+      <TableTemplatesBoolean
+        v-else-if="header.type === 'BOOLEAN'"
+        :value="item[header.key]"
+      />
 
-        <TableTemplatesBoolean
-          v-else-if="header.type === 'BOOLEAN'"
-          :value="item[header.key]"
-        />
-
-        <template v-else>
-          <template
-            v-if="header.type === 'STRING' && typeof item[header.key] === 'string'"
-          >
-            <TableTemplatesString
-              :value="item[header.key]"
-              :max-width="header.maxWidth"
-            />
-          </template>
-
-          <span v-else>{{ item[header.key] }}</span>
+      <template v-else>
+        <template v-if="header.type === 'STRING' && typeof item[header.key] === 'string'">
+          <TableTemplatesString :value="item[header.key]" :max-width="header.maxWidth" />
         </template>
-      </template>
 
-      <!-- @vue-skip -->
-      <template v-for="slot in parentSlots" :key="slot" #[slot]="props">
-        <slot :name="slot" v-bind="props" />
+        <span v-else>{{ item[header.key] }}</span>
       </template>
-    </v-data-table-server>
-  </ClientOnly>
+    </template>
+
+    <!-- @vue-skip -->
+    <template v-for="slot in parentSlots" :key="slot" #[slot]="props">
+      <slot :name="slot" v-bind="props" />
+    </template>
+  </v-data-table-server>
 
   <TableMenuFilterDrawer />
-  
+
   <TableMenuGridDrawer />
 </template>

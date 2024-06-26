@@ -12,7 +12,11 @@ option("animation", 200);
 
 <template>
   <v-list id="dv">
-    <v-list-item v-for="item in availableFilter" :key="item.key" :title="item.title">
+    <v-list-item
+      v-for="(item, index) in availableFilter"
+      :key="index"
+      :title="item.label"
+    >
       <template #append>
         <v-icon class="handle" icon="mdi-arrow-all" color="blue" size="small" />
         <v-btn icon="mdi-close" color="red" size="small" variant="text" />
