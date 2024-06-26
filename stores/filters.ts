@@ -1,4 +1,4 @@
-import type { GridData } from "~/interfaces/Grid";
+import type { FilterData } from "~/interfaces/Filter";
 
 export const useFilterStore = defineStore("filters", () => {
     const drawer = ref<boolean>(false)
@@ -7,56 +7,37 @@ export const useFilterStore = defineStore("filters", () => {
         drawer.value = !drawer.value
     }
 
-    const availableFilter = ref<{
-        title: string;
-        align: string;
-        sortable: boolean;
-        key: string;
-        maxWidth: string | number | null;
-        type: string;
-    }[]>([])
-
-    const hiddenFilter = ref<{
-        title: string;
-        align: string;
-        sortable: boolean;
-        key: string;
-        maxWidth: string | number | null;
-        type: string;
-    }[]>([])
-
-    function setData(value: GridData) {
-        const sortedAvailable = useSorted(value.rows[0].available_columns, (a, b) => {
-            if (a.sequence_grid == null) return 1;
-            if (b.sequence_grid == null) return -1;
-
-            if (a.sequence_grid < b.sequence_grid) return -1;
-            if (a.sequence_grid > b.sequence_grid) return 1;
-            return 0;
-        });
-
-        const available = useArrayMap(sortedAvailable, ({ text, align, sortable, value, width, type }) => ({
-            title: text,
-            key: value,
-            maxWidth: width,
-            align,
-            sortable,
-            type,
-        }))
-
-        const hidden = useArrayMap(value.rows[0].hidden_columns, ({ text, align, sortable, value, width, type }) => ({
-            title: text,
-            key: value,
-            maxWidth: width,
-            align,
-            sortable,
-            type,
-        }))
-
-        availableFilter.value = available.value
-        hiddenFilter.value = hidden.value
+    interface Filter {
+        association_data: {
+            rows: []
+        },
+        attribute: string,
+        initial_filter: boolean,
+        item_name: string,
+        item_value: string,
+        label: string,
+        length: number,
+        layout_filters: {
+            approximate: boolean | undefined,
+            placeHolder: boolean | undefined,
+            size: number | undefined,
+            clearable: boolean | undefined,
+            multiple: boolean | undefined,
+            comboBox: boolean | undefined,
+            lock: boolean | undefined,
+        },
+        type: string,
+        value: string | readonly string[] | null | undefined
     }
 
+    const availableFilter = ref<Filter[]>([])
+
+    const hiddenFilter = ref<Filter[]>([])
+
+    function setData(value: FilterData) {
+        availableFilter.value = value.rows[0].available_filters
+        hiddenFilter.value = value.rows[0].hidden_filters
+    }
 
     return { drawer, switchDrawer, availableFilter, hiddenFilter, setData };
 })
