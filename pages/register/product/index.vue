@@ -5,36 +5,14 @@ useHead({
   titleTemplate: `Produto compra - %s`,
 });
 
-// import type { User } from "~/interfaces/User";
-
-// interface FilterData {
-//   resultCount: number;
-//   rows: {
-//     available_filters: {}[];
-//     hidden_filters: {}[];
-//   }[];
-//   totalRecords: number;
-// }
-
-// const { data } = useAuth();
-// const user = data.value as User;
-
 const { findModelName } = useModelStore();
 const { name }: RouteLocationNormalizedLoaded = useRoute();
 const modelName = findModelName(name?.toString() ?? "");
-
-// const resFilter = await $api(`custom-filters-user?user_id=${user.id}&model=${modelName}`);
-
-// if (resFilter.error.value) {
-//   console.error(resFilter.error.value);
-// }
-
-// const filter = resFilter.data.value as FilterData;
 </script>
 
 <template>
   <v-main>
-    <Filter />
+    <Filter :model="modelName" />
 
     <Table
       title="PRODUTO COMPRA"
