@@ -1,3 +1,9 @@
+<script setup lang="ts">
+useHead({
+  titleTemplate: `Home - %s`,
+});
+</script>
+
 <template>
   <HomeBackgroud>
     <v-sheet
@@ -15,13 +21,3 @@
     <HomeWeather />
   </HomeBackgroud>
 </template>
-
-<script setup>
-definePageMeta({
-  name: "HomePage"
-});
-
-useHead({
-  titleTemplate: `Home - %s`,
-});
-</script>

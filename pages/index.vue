@@ -1,7 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "login",
-  name: "LoginPage",
   auth: {
     unauthenticatedOnly: true,
     navigateAuthenticatedTo: "/home",
