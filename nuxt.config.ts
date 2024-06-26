@@ -1,7 +1,17 @@
 import colors from 'vuetify/lib/util/colors.mjs'
 
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  components: [
+    '~/components'
+  ],
+
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true
+    }
+  },
 
   typescript: {
     typeCheck: true
@@ -20,6 +30,14 @@ export default defineNuxtConfig({
       ],
       link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }]
     },
+    pageTransition: {
+      name: 'fade',
+      mode: 'out-in' // default
+    },
+    layoutTransition: {
+      name: 'fade',
+      mode: 'out-in' // default
+    }
   },
 
   nitro: {
