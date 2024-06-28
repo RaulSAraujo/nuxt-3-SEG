@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   label: string;
-  value: string | readonly string[] | null | undefined;
+  value: string | [] | null | undefined;
   clearable: boolean | undefined;
   items: [];
   itemTitle: string;
@@ -13,16 +13,15 @@ defineProps<{
 <template>
   <v-combobox
     density="compact"
-    variant="outlined"
     color="primary"
-    hide-details
+    variant="outlined"
     :label="label"
     :clearable="clearable"
     :items="items"
     :item-title="itemTitle"
     :item-value="itemValue"
     :multiple="multiple"
-    small-chips
+    hide-details="auto"
   >
     <template v-if="multiple" #selection="{ item, index }">
       <span

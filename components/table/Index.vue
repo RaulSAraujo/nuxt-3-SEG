@@ -109,48 +109,60 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
 </script>
 
 <template>
-  <!-- @vue-ignore -->
-  <v-data-table-server
-    :headers="availableGrid"
-    :items="items"
-    :items-length="totalItems"
-    :loading="loading"
-    loading-text="Loading... Please wait"
-    density="compact"
-    :multi-sort="multiSort"
-    :show-select="showSelect"
-    @update:options="loadItems"
-  >
-    <template #top>
-      <TableToolbar :title="props.title" :disabled-menu="disabledMenu" />
-    </template>
-
-    <template
-      v-for="header in availableGrid"
-      :key="header.key"
-      #[`item.${header.key}`]="{ item }: Record<string, any>"
+  <ClientOnly fallback-tag="div">
+    <!-- @vue-ignore -->
+    <v-data-table-server
+      :headers="availableGrid"
+      :items="items"
+      :items-length="totalItems"
+      :loading="loading"
+      loading-text="Loading... Please wait"
+      density="compact"
+      :multi-sort="multiSort"
+      :show-select="showSelect"
+      @update:options="loadItems"
     >
-      <TableTemplatesDate v-if="header.type === 'DATE'" :value="item[header.key]" />
-
-      <TableTemplatesBoolean
-        v-else-if="header.type === 'BOOLEAN'"
-        :value="item[header.key]"
-      />
-
-      <template v-else>
-        <template v-if="header.type === 'STRING' && typeof item[header.key] === 'string'">
-          <TableTemplatesString :value="item[header.key]" :max-width="header.maxWidth" />
-        </template>
-
-        <span v-else>{{ item[header.key] }}</span>
+      <template #top>
+        <TableToolbar :title="props.title" :disabled-menu="disabledMenu" />
       </template>
-    </template>
 
-    <!-- @vue-skip -->
-    <template v-for="slot in parentSlots" :key="slot" #[slot]="props">
-      <slot :name="slot" v-bind="props" />
+      <template
+        v-for="header in availableGrid"
+        :key="header.key"
+        #[`item.${header.key}`]="{ item }: Record<string, any>"
+      >
+        <TableTemplatesDate v-if="header.type === 'DATE'" :value="item[header.key]" />
+
+        <TableTemplatesBoolean
+          v-else-if="header.type === 'BOOLEAN'"
+          :value="item[header.key]"
+        />
+
+        <template v-else>
+          <template
+            v-if="header.type === 'STRING' && typeof item[header.key] === 'string'"
+          >
+            <TableTemplatesString
+              :value="item[header.key]"
+              :max-width="header.maxWidth"
+            />
+          </template>
+
+          <span v-else>{{ item[header.key] }}</span>
+        </template>
+      </template>
+
+      <!-- @vue-skip -->
+      <template v-for="slot in parentSlots" :key="slot" #[slot]="props">
+        <slot :name="slot" v-bind="props" />
+      </template>
+    </v-data-table-server>
+
+    <template #fallback>
+      <!-- this will be rendered on server side -->
+      <v-skeleton-loader type="table" />
     </template>
-  </v-data-table-server>
+  </ClientOnly>
 
   <TableMenuFilterDrawer />
 

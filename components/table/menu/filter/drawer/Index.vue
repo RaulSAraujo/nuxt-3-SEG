@@ -4,20 +4,22 @@ const { drawer } = storeToRefs(store);
 </script>
 
 <template>
-  <v-navigation-drawer
-    v-model="drawer"
-    :location="$vuetify.display.mobile ? 'bottom' : undefined"
-    :width="300"
-    temporary
-  >
-    <template #prepend>
-      <TableMenuFilterDrawerPrepend />
-    </template>
+  <LazyClientOnly>
+    <v-navigation-drawer
+      v-model="drawer"
+      :location="$vuetify.display.mobile ? 'bottom' : undefined"
+      :width="300"
+      temporary
+    >
+      <template #prepend>
+        <TableMenuFilterDrawerPrepend />
+      </template>
 
-    <TableMenuFilterDrawerDefault />
+      <TableMenuFilterDrawerDefault />
 
-    <template #append>
-      <TableMenuFilterDrawerAppend />
-    </template>
-  </v-navigation-drawer>
+      <template #append>
+        <TableMenuFilterDrawerAppend />
+      </template>
+    </v-navigation-drawer>
+  </LazyClientOnly>
 </template>

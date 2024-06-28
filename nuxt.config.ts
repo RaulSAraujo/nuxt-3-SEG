@@ -1,10 +1,8 @@
 import colors from 'vuetify/lib/util/colors.mjs'
+import { pt } from 'vuetify/locale'
+
 
 export default defineNuxtConfig({
-  components: [
-    '~/components'
-  ],
-
   devtools: {
     enabled: true,
 
@@ -75,6 +73,10 @@ export default defineNuxtConfig({
     vuetifyOptions: {
       icons: {
         defaultSet: 'mdi'
+      },
+      locale: {
+        locale: 'pt',
+        messages: { pt }
       },
       theme: {
         defaultTheme: 'dark',
@@ -150,7 +152,7 @@ export default defineNuxtConfig({
 
   dayjs: {
     locales: ['pt-br'],
-    plugins: ['relativeTime', 'utc', 'timezone'],
+    plugins: ['relativeTime', 'utc', 'timezone', 'customParseFormat'],
     defaultLocale: 'pt-br',
     defaultTimezone: 'America/Sao_Paulo',
   },

@@ -11,12 +11,12 @@ defineEmits(["enter"]);
 <template>
   <v-text-field
     density="compact"
-    variant="outlined"
-    hide-details="auto"
     color="primary"
+    variant="outlined"
     :label="label"
     :clearable="clearable"
-    :hint="approximate ? 'Filtro aproximado' : 'Filtro exato'"
+    hide-details
+    :placeholder="approximate ? 'Digite o valor aproximado' : 'Digite o valor exato'"
     @keypress.enter="$emit('enter')"
   />
 </template>

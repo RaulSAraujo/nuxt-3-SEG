@@ -24,10 +24,12 @@ export const useFilterStore = defineStore("filters", () => {
             clearable: boolean | undefined,
             multiple: boolean | undefined,
             comboBox: boolean | undefined,
+            range: boolean | undefined,
+            checkBox: boolean | undefined,
             lock: boolean | undefined,
         },
         type: string,
-        value: string | readonly string[] | null | undefined
+        value: string | [] | number | boolean | null | undefined
     }
 
     const availableFilter = ref<Filter[]>([])

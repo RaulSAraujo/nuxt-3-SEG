@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import dayjs from "dayjs";
 import type { User } from "~/interfaces/User";
 
 const now = useNow({ interval: 1000 });
@@ -112,7 +111,7 @@ onMounted(() => {
                 <div v-else />
 
                 <span class="text-overline font-italic">
-                  {{ dayjs(now).diff(item.date, "minutes") }} Min
+                  {{ $dayjs(now).diff(item.date, "minutes") }} Min
                 </span>
               </v-list-item-action>
             </template>

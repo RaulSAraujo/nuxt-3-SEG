@@ -18,10 +18,12 @@ export interface FilterData {
                 clearable: boolean | undefined,
                 comboBox: boolean | undefined,
                 multiple: boolean | undefined,
+                range: boolean | undefined,
+                checkBox: boolean | undefined,
                 lock: boolean | undefined,
             },
             type: string,
-            value: string | readonly string[] | null | undefined
+            value: string | [] | number | boolean | null | undefined
         }[];
         hidden_filters: {
             association_data: {
@@ -40,6 +42,8 @@ export interface FilterData {
                 clearable: boolean | undefined,
                 comboBox: boolean | undefined,
                 multiple: boolean | undefined,
+                range: boolean | undefined,
+                checkBox: boolean | undefined,
                 lock: boolean | undefined,
             },
             type: string,

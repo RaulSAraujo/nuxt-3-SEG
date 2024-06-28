@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   label: string;
-  value: string | readonly string[] | null | undefined;
+  value: string | [] | null | undefined;
   clearable: boolean | undefined;
   items: [];
   itemTitle: string;
@@ -26,15 +26,16 @@ const toggle = () => {
 <template>
   <v-select
     density="compact"
-    variant="outlined"
     color="primary"
-    hide-details
+    variant="outlined"
+
     :label="label"
     :multiple="multiple"
     :clearable="clearable"
     :items="items"
     :item-title="itemTitle"
     :item-value="itemValue"
+    hide-details="auto"
   >
     <template v-if="multiple" #prepend-item>
       <v-list-item title="Select All" @click="toggle">
