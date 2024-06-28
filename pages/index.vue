@@ -6,7 +6,7 @@ definePageMeta({
     navigateAuthenticatedTo: "/home",
   },
 });
-console.log('teste')
+
 useHead({
   titleTemplate: `Login - %s`,
 });
