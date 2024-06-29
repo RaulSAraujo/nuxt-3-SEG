@@ -41,5 +41,44 @@ export const useFilterStore = defineStore("filters", () => {
         hiddenFilter.value = value.rows[0].hidden_filters
     }
 
-    return { drawer, switchDrawer, availableFilter, hiddenFilter, setData };
+    async function searchData(options: { page: number, itemsPerPage: number, sortBy: never[] }, url: string) {
+        if (import.meta.server) return;
+
+        type AccValue = string | number | boolean | null | undefined | AccValue[];
+        const validateValue = (value: AccValue) => {
+            if (value === null || value === undefined) {
+                return false;
+            }
+
+            if (typeof value === "string" && value.trim() === "") {
+                return false;
+            }
+
+            return true;
+        };
+
+        const params = availableFilter.value.reduce(
+            (acc: Record<string, AccValue>, { attribute, value }) => {
+                if (validateValue(value)) {
+                    acc[attribute] = value;
+                }
+
+                return acc;
+            },
+            {}
+        );
+
+        return useNuxtApp().$customFetch(url, {
+            method: "GET",
+            params: {
+                page: options.page,
+                perPage: options.itemsPerPage,
+                ...params,
+            },
+            priority: "low",
+        })
+    };
+
+
+    return { drawer, switchDrawer, availableFilter, hiddenFilter, setData, searchData };
 })

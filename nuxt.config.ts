@@ -1,7 +1,6 @@
 import colors from 'vuetify/lib/util/colors.mjs'
 import { pt } from 'vuetify/locale'
 
-
 export default defineNuxtConfig({
   devtools: {
     enabled: true,

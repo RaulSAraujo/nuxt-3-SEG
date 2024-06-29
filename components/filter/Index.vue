@@ -7,6 +7,8 @@ const props = defineProps<{
   modeCreate: boolean;
 }>();
 
+defineEmits(["search", "create", "clear"]);
+
 const { data } = useAuth();
 const user = data.value as User;
 
@@ -58,6 +60,16 @@ const sizeCamp = (layoutSize: number | undefined) => {
 
   return size;
 };
+
+const dayjs = useDayjs();
+
+const saveDate = (event: string, multiple: boolean | string) => {
+  if (!multiple) return dayjs(event).format("DD/MM/YYYY");
+
+  return `${dayjs(event[1]).format("DD/MM/YYYY")} - ${dayjs(event[event.length]).format(
+    "DD/MM/YYYY"
+  )}`;
+};
 </script>
 
 <template>
@@ -107,12 +119,14 @@ const sizeCamp = (layoutSize: number | undefined) => {
         />
 
         <FilterInputDatePicker
-          v-if="item.type == 'DATE' && !item.layout_filters.range"
+          v-if="item.type == 'DATE'"
           v-model="item.value"
           :label="item.label"
+          :multiple="item.layout_filters.range ? 'range' : false"
           :clearable="item.layout_filters.clearable"
-          :disabled="false"
-          @save="item.value = $dayjs($event).format('DD/MM/YYYY')"
+          @save="
+            item.value = saveDate($event, item.layout_filters.range ? 'range' : false)
+          "
         />
 
         <FilterInputSwitch
@@ -121,7 +135,6 @@ const sizeCamp = (layoutSize: number | undefined) => {
           :value="!!item.value"
           :label="item.label"
           @switch="item.value = ''"
-          @update:model-value="console.log(item.value)"
         />
       </v-col>
     </v-row>
@@ -132,17 +145,19 @@ const sizeCamp = (layoutSize: number | undefined) => {
     </template>
   </ClientOnly>
 
-  <div class="d-flex justify-end mr-5 mb-3">
+  <div class="d-flex justify-end mr-5 mb-5">
     <v-btn-toggle v-if="modeCreate" variant="outlined" density="comfortable" divided>
-      <v-btn> CRIAR </v-btn>
-      <v-btn> BUSCAR </v-btn>
-      <v-btn>Limpar Filtros</v-btn>
+      <v-btn class="text-success" @click="$emit('create')"> CRIAR </v-btn>
+
+      <v-btn class="text-primary" @click="$emit('search')"> BUSCAR </v-btn>
+
+      <v-btn class="text-error" @click="$emit('clear')">Limpar Filtros</v-btn>
     </v-btn-toggle>
 
     <v-btn-toggle v-else variant="outlined" density="comfortable" divided>
-      <v-btn> BUSCAR </v-btn>
+      <v-btn class="text-primary" @click="$emit('search')"> BUSCAR </v-btn>
 
-      <v-btn>Limpar Filtros</v-btn>
+      <v-btn class="text-error" @click="$emit('clear')">Limpar Filtros</v-btn>
     </v-btn-toggle>
   </div>
 </template>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   label: string;
   clearable: boolean | undefined;
-  disabled: boolean | undefined;
+  multiple: boolean | string | undefined;
 }>();
 
 const emit = defineEmits(["enter", "save"]);
 
 const menu = ref<boolean>(false);
-const date = ref<string | Date>(new Date());
+const date = ref<string | Date | null>(!props.multiple ? new Date() : null);
 
 const save = () => {
   emit("save", date.value);
@@ -16,10 +16,18 @@ const save = () => {
 };
 
 const change = (event: string) => {
+  if (props.multiple == "range") return;
+
   const dayjs = useDayjs();
 
   if (dayjs(event, "DD/MM/YYYY").isValid()) {
     date.value = dayjs(event, "DD/MM/YYYY").toDate();
+  }
+};
+
+const activeMenuRange = () => {
+  if (props.multiple == "range") {
+    menu.value = true;
   }
 };
 </script>
@@ -33,9 +41,9 @@ const change = (event: string) => {
     :clearable="clearable"
     hide-details="auto"
     @keypress.enter="$emit('enter')"
+    @click="activeMenuRange"
     @update:model-value="change($event)"
   >
-    <!-- @change="change($event.target.value)" -->
     <template #prepend-inner>
       <v-menu v-model="menu" :close-on-content-click="false">
         <template #activator="{ props }">
@@ -44,7 +52,7 @@ const change = (event: string) => {
 
         <v-confirm-edit v-model="date" @save="save">
           <template #default="{ model: proxyModel, actions }">
-            <v-date-picker v-model="proxyModel.value" rounded="xl">
+            <v-date-picker v-model="proxyModel.value" rounded="xl" :multiple="multiple">
               <template #actions>
                 <component :is="actions" />
               </template>

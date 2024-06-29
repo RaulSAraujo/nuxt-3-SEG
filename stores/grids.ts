@@ -7,23 +7,18 @@ export const useGridStore = defineStore("grids", () => {
         drawer.value = !drawer.value
     }
 
-    const availableGrid = ref<{
+    interface Grid {
         title: string;
         align: string;
         sortable: boolean;
         key: string;
         maxWidth: string | number | null;
         type: string;
-    }[]>([])
+    }
 
-    const hiddenGrid = ref<{
-        title: string;
-        align: string;
-        sortable: boolean;
-        key: string;
-        maxWidth: string | number | null;
-        type: string;
-    }[]>([])
+    const availableGrid = ref<Grid[]>([])
+
+    const hiddenGrid = ref<Grid[]>([])
 
     function setData(value: GridData) {
         const sortedAvailable = useSorted(value.rows[0].available_columns, (a, b) => {

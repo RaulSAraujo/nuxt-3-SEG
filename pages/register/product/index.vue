@@ -8,20 +8,74 @@ useHead({
 const { findModelName } = useModelStore();
 const { name }: RouteLocationNormalizedLoaded = useRoute();
 const modelName = findModelName(name?.toString() ?? "");
+
+const filterStore = useFilterStore();
+
+/**
+ * Argumentos usados na tabela
+ * @argument items Itens da tabela.
+ * @argument totalItems Total de registros.
+ * @argument loading usado para indicar o carregamento na tela.
+ */
+const items = ref<object[]>([]);
+const totalItems = ref(0);
+const loading = ref(false);
+const page = ref(1);
+const itemsPerPage = ref(10);
+const itemsPerPageoptions = ref([
+  { value: 10, title: "10" },
+  { value: 25, title: "25" },
+  { value: 50, title: "50" },
+  { value: 100, title: "100" },
+  { value: -1, title: "Todos" },
+]);
+const pageCount = computed(() => Math.ceil(totalItems.value / itemsPerPage.value));
+
+/**
+ * Função para obter os dados
+ * @param options Informações de filtros da tabela
+ */
+const loadItems = async (
+  options = { page: page.value, itemsPerPage: itemsPerPage.value, sortBy: [] }
+) => {
+  if (import.meta.server) return;
+
+  loading.value = true;
+
+  filterStore
+    .searchData(options, "product")
+    .then(async (res) => {
+      const data = res as { resultCount: number; rows: object[]; totalRecords: number };
+
+      items.value = data.rows;
+      totalItems.value = data.totalRecords;
+    })
+    .catch((error) => {
+      $toast().error(`${error.cause.message ?? error.message}`);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
 </script>
 
 <template>
   <v-main>
-    <v-sheet class="mt-8" rounded="t-xl" elevation="5" >
-      <Filter :model="modelName" :mode-create="false" />
+    <v-sheet class="mt-5" rounded="t-xl" elevation="5">
+      <Filter :model="modelName" :mode-create="false" @search="loadItems" />
 
       <Table
         title="PRODUTO COMPRA"
-        url="product"
+        :items="items"
+        :total-items="totalItems"
+        :page="page"
+        :items-per-page="itemsPerPage"
+        :loading="loading"
         :disabled-menu="false"
         :show-select="true"
         :multi-sort="true"
         :model="modelName"
+        @load-items="loadItems"
       >
         <template #item.action>
           <v-btn icon="mdi-pencil" variant="plain" size="small" color="pink" />
@@ -140,6 +194,25 @@ const modelName = findModelName(name?.toString() ?? "");
           <span>{{ Math.ceil(parseFloat(item.weight_cubic ?? 0.0) * 1000) }}</span>
         </template>
       </Table>
+
+      <div class="d-flex flex-rows justify-end align-center">
+        <span class="mr-2 text-caption">Itens por página: </span>
+
+        <v-select
+          v-model="itemsPerPage"
+          density="compact"
+          color="primary"
+          variant="outlined"
+          :items="itemsPerPageoptions"
+          item-title="title"
+          item-value="value"
+          max-width="90px"
+          hide-details
+          class="align-self-center"
+        />
+
+        <v-pagination v-model="page" :length="pageCount" :total-visible="7" />
+      </div>
     </v-sheet>
   </v-main>
 </template>

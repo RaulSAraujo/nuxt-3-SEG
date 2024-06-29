@@ -4,12 +4,18 @@ import type { GridData } from "~/interfaces/Grid.js";
 
 const props = defineProps<{
   title: string;
-  url: string;
+  items: object[];
+  totalItems: number;
+  page: number;
+  itemsPerPage: number;
+  loading: boolean;
   model: string;
   disabledMenu: boolean;
   showSelect: boolean;
   multiSort: boolean;
 }>();
+
+defineEmits(["loadItems"]);
 
 /**
  * Argumentos slots obtidos no componente pai passados para o filho
@@ -26,8 +32,8 @@ const parentSlots = computed(() => Object.keys(ctx));
 const { data } = useAuth();
 const user = data.value as User;
 
-const store = useGridStore();
-const { availableGrid } = storeToRefs(store);
+const gridStore = useGridStore();
+const { availableGrid } = storeToRefs(gridStore);
 
 /**
  * Request para obter a grid do usuario de acordo com a pagina
@@ -48,64 +54,11 @@ $api(`grid-configurations?user_id=${user.id}&model=${props.model}`, {
 
     grid = res.data.value as GridData;
 
-    store.setData(grid);
+    gridStore.setData(grid);
   })
   .catch((err) => {
     $toast().error(err.error.value.cause ?? err.error.value.message);
   });
-
-/**
- * Argumentos usados na tabela
- * @argument items Itens da tabela.
- * @argument totalItems Total de registros.
- * @argument loading usado para indicar o carregamento na tela.
- */
-const items = ref<object[]>([]);
-const totalItems = ref(0);
-const loading = ref(false);
-
-/**
- * Função para obter os dados
- * @param options Informações de filtros da tabela
- */
-const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) => {
-  if (import.meta.server) return;
-
-  loading.value = true;
-
-  let sortField = undefined;
-  let sortType = undefined;
-  if (options.sortBy.length > 0) {
-    sortField = options.sortBy.map(({ key }) => key).join(",");
-    sortType = options.sortBy.map(({ order }) => order).join(",");
-  }
-
-  useNuxtApp()
-    .$customFetch(props.url, {
-      method: "GET",
-      params: {
-        page: options.page,
-        perPage: options.itemsPerPage,
-      },
-      query: {
-        "sort-field[]": sortField,
-        "sort-type[]": sortType,
-      },
-      priority: "low",
-    })
-    .then(async (res) => {
-      const data = res as { resultCount: number; rows: object[]; totalRecords: number };
-
-      items.value = data.rows;
-      totalItems.value = data.totalRecords;
-    })
-    .catch((error) => {
-      $toast().error(`${error.cause.message ?? error.message}`);
-    })
-    .finally(() => {
-      loading.value = false;
-    });
-};
 </script>
 
 <template>
@@ -114,13 +67,19 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
     <v-data-table-server
       :headers="availableGrid"
       :items="items"
+      :page="page"
+      :items-per-page="itemsPerPage"
       :items-length="totalItems"
       :loading="loading"
       loading-text="Loading... Please wait"
       density="compact"
       :multi-sort="multiSort"
       :show-select="showSelect"
-      @update:options="loadItems"
+      height="52vh"
+      fixed-footer
+      fixed-header
+      hide-default-footer
+      @update:options="$emit('loadItems', $event)"
     >
       <template #top>
         <TableToolbar :title="props.title" :disabled-menu="disabledMenu" />
@@ -167,4 +126,6 @@ const loadItems = async (options = { page: 1, itemsPerPage: 10, sortBy: [] }) =>
   <TableMenuFilterDrawer />
 
   <TableMenuGridDrawer />
+
+  <!-- <TableFloatingButton :length="items.length" /> -->
 </template>

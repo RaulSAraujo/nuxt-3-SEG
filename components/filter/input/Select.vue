@@ -28,7 +28,6 @@ const toggle = () => {
     density="compact"
     color="primary"
     variant="outlined"
-
     :label="label"
     :multiple="multiple"
     :clearable="clearable"

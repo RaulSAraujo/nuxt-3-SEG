@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <v-app-bar>
+  <v-app-bar scroll-behavior="hide elevate" scroll-threshold="200" elevation="5">
     <template #prepend>
       <v-app-bar-nav-icon icon="mdi-home" to="/home" variant="plain" />
     </template>

@@ -3,7 +3,7 @@ defineProps<{ title: string; disabledMenu: boolean }>();
 </script>
 
 <template>
-  <v-toolbar flat density="compact">
+  <v-toolbar :elevation="5">
     <v-toolbar-title>{{ title }}</v-toolbar-title>
 
     <v-spacer />
