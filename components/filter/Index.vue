@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import type { User } from "~/interfaces/User";
-import type { FilterData } from "~/interfaces/Filter";
+import type { Filter } from "~/interfaces/Filter";
 
-const props = defineProps<{
-  model: string;
+defineProps<{
   modeCreate: boolean;
 }>();
 
-defineEmits(["search", "create", "clear"]);
+defineEmits(["create"]);
 
 const { data } = useAuth();
 const user = data.value as User;
 
+const { model } = useModelStore();
+
 const store = useFilterStore();
 const { availableFilter } = storeToRefs(store);
+
+const tableStore = useTableStore();
 
 /**
  * Request para obter a grid do usuario de acordo com a pagina
@@ -22,8 +25,8 @@ const { availableFilter } = storeToRefs(store);
  * @constant filter Payload formatado
  * @constant headers Novo array colocando em sequencia
  */
-let filter: FilterData;
-$api(`custom-filters-user?user_id=${user.id}&model=${props.model}`, {
+let filter: Filter;
+$api(`custom-filters-user?user_id=${user.id}&model=${model}`, {
   priority: "high",
   key: "filter-product",
   getCachedData(key, nuxtApp) {
@@ -33,7 +36,7 @@ $api(`custom-filters-user?user_id=${user.id}&model=${props.model}`, {
   .then((res) => {
     if (res.error.value) throw res;
 
-    filter = res.data.value as FilterData;
+    filter = res.data.value as Filter;
 
     store.setData(filter);
   })
@@ -66,9 +69,9 @@ const dayjs = useDayjs();
 const saveDate = (event: string, multiple: boolean | string) => {
   if (!multiple) return dayjs(event).format("DD/MM/YYYY");
 
-  return `${dayjs(event[1]).format("DD/MM/YYYY")} - ${dayjs(event[event.length]).format(
-    "DD/MM/YYYY"
-  )}`;
+  return `${dayjs(event[0]).format("DD/MM/YYYY")} - ${dayjs(
+    event[event.length - 1]
+  ).format("DD/MM/YYYY")}`;
 };
 </script>
 
@@ -81,12 +84,7 @@ const saveDate = (event: string, multiple: boolean | string) => {
         :sm="sizeCamp(item.layout_filters.size)"
       >
         <FilterInputTextField
-          v-if="
-            item.type == 'TEXT' ||
-            item.type == 'STRING' ||
-            item.type == 'FLOAT' ||
-            item.type == 'INTEGER'
-          "
+          v-if="item.type == 'STRING' || item.type == 'FLOAT' || item.type == 'INTEGER'"
           v-model="item.value"
           :label="item.label"
           :clearable="item.layout_filters.clearable"
@@ -132,7 +130,7 @@ const saveDate = (event: string, multiple: boolean | string) => {
         <FilterInputSwitch
           v-if="item.type == 'BOOLEAN'"
           v-model="item.value"
-          :value="!!item.value"
+          :value="item.value == null ? null : !!item.value"
           :label="item.label"
           @switch="item.value = ''"
         />
@@ -145,19 +143,21 @@ const saveDate = (event: string, multiple: boolean | string) => {
     </template>
   </ClientOnly>
 
-  <div class="d-flex justify-end mr-5 mb-5">
-    <v-btn-toggle v-if="modeCreate" variant="outlined" density="comfortable" divided>
-      <v-btn class="text-success" @click="$emit('create')"> CRIAR </v-btn>
+  <ClientOnly>
+    <div class="d-flex justify-end mr-5 mb-5">
+      <v-btn-toggle v-if="modeCreate" variant="outlined" density="compact" divided>
+        <v-btn class="text-success" @click="$emit('create')"> CRIAR </v-btn>
 
-      <v-btn class="text-primary" @click="$emit('search')"> BUSCAR </v-btn>
+        <v-btn class="text-primary" @click="tableStore.searchData"> BUSCAR </v-btn>
 
-      <v-btn class="text-error" @click="$emit('clear')">Limpar Filtros</v-btn>
-    </v-btn-toggle>
+        <v-btn class="text-error" @click="store.clearValues">Limpar Filtros</v-btn>
+      </v-btn-toggle>
 
-    <v-btn-toggle v-else variant="outlined" density="comfortable" divided>
-      <v-btn class="text-primary" @click="$emit('search')"> BUSCAR </v-btn>
+      <v-btn-toggle v-else variant="outlined" density="compact" divided>
+        <v-btn class="text-primary" @click="tableStore.searchData"> BUSCAR </v-btn>
 
-      <v-btn class="text-error" @click="$emit('clear')">Limpar Filtros</v-btn>
-    </v-btn-toggle>
-  </div>
+        <v-btn class="text-error" @click="store.clearValues">Limpar Filtros</v-btn>
+      </v-btn-toggle>
+    </div>
+  </ClientOnly>
 </template>

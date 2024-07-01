@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const store = useGridStore();
 const { drawer } = storeToRefs(store);
+
+const availableOrHidden = ref<boolean>(false);
 </script>
 
 <template>
@@ -15,10 +17,13 @@ const { drawer } = storeToRefs(store);
         <TableMenuGridDrawerPrepend />
       </template>
 
-      <TableMenuGridDrawerDefault />
+      <TableMenuGridDrawerDefault :available-or-hidden="availableOrHidden" />
 
       <template #append>
-        <TableMenuGridDrawerAppend />
+        <TableMenuGridDrawerAppend
+          :available-or-hidden="availableOrHidden"
+          @switch="availableOrHidden = !availableOrHidden"
+        />
       </template>
     </v-navigation-drawer>
   </LazyClientOnly>

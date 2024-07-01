@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import type { PurpleRow } from "~/interfaces/Filter";
+
 defineProps<{
   label: string;
   value: string | [] | null | undefined;
   clearable: boolean | undefined;
-  items: [];
-  itemTitle: string;
-  itemValue: string;
+  items: PurpleRow[];
+  itemTitle: null | string;
+  itemValue: null | string;
   multiple: boolean | undefined;
 }>();
 </script>
@@ -21,7 +23,7 @@ defineProps<{
     :item-title="itemTitle"
     :item-value="itemValue"
     :multiple="multiple"
-    hide-details="auto"
+    hide-details
   >
     <template v-if="multiple" #selection="{ item, index }">
       <span

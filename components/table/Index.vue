@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import type { User } from "~/interfaces/User";
-import type { GridData } from "~/interfaces/Grid.js";
+import type { Grid } from "~/interfaces/Grid.js";
+import { useTableStore } from "~/stores/table";
 
 const props = defineProps<{
   title: string;
-  items: object[];
-  totalItems: number;
-  page: number;
-  itemsPerPage: number;
-  loading: boolean;
-  model: string;
   disabledMenu: boolean;
   showSelect: boolean;
   multiSort: boolean;
@@ -32,8 +27,13 @@ const parentSlots = computed(() => Object.keys(ctx));
 const { data } = useAuth();
 const user = data.value as User;
 
+const { model } = useModelStore();
+
 const gridStore = useGridStore();
 const { availableGrid } = storeToRefs(gridStore);
+
+const tableStore = useTableStore();
+const { page, items, itemsPerPage, totalItems, loading } = storeToRefs(tableStore);
 
 /**
  * Request para obter a grid do usuario de acordo com a pagina
@@ -41,8 +41,8 @@ const { availableGrid } = storeToRefs(gridStore);
  * @param props.model Nome da model back-end
  * @constant grid Payload
  */
-let grid: GridData;
-$api(`grid-configurations?user_id=${user.id}&model=${props.model}`, {
+let grid: Grid;
+$api(`grid-configurations?user_id=${user.id}&model=${model}`, {
   priority: "high",
   key: "Grid-product",
   getCachedData(key, nuxtApp) {
@@ -52,7 +52,7 @@ $api(`grid-configurations?user_id=${user.id}&model=${props.model}`, {
   .then((res) => {
     if (res.error.value) throw res;
 
-    grid = res.data.value as GridData;
+    grid = res.data.value as Grid;
 
     gridStore.setData(grid);
   })
@@ -75,11 +75,8 @@ $api(`grid-configurations?user_id=${user.id}&model=${props.model}`, {
       density="compact"
       :multi-sort="multiSort"
       :show-select="showSelect"
-      height="52vh"
-      fixed-footer
-      fixed-header
       hide-default-footer
-      @update:options="$emit('loadItems', $event)"
+      @update:options="tableStore.searchData"
     >
       <template #top>
         <TableToolbar :title="props.title" :disabled-menu="disabledMenu" />
@@ -127,5 +124,5 @@ $api(`grid-configurations?user_id=${user.id}&model=${props.model}`, {
 
   <TableMenuGridDrawer />
 
-  <!-- <TableFloatingButton :length="items.length" /> -->
+  <TableFloatingButton :length="items.length" />
 </template>

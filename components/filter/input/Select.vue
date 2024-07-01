@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import type { PurpleRow } from "~/interfaces/Filter";
+
 const props = defineProps<{
   label: string;
   value: string | [] | null | undefined;
   clearable: boolean | undefined;
-  items: [];
-  itemTitle: string;
-  itemValue: string;
+  items: PurpleRow[];
+  itemTitle: null | string;
+  itemValue: null | string;
   multiple: boolean | undefined;
 }>();
 
@@ -34,7 +36,7 @@ const toggle = () => {
     :items="items"
     :item-title="itemTitle"
     :item-value="itemValue"
-    hide-details="auto"
+    hide-details
   >
     <template v-if="multiple" #prepend-item>
       <v-list-item title="Select All" @click="toggle">

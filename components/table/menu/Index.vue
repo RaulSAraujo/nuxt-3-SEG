@@ -5,12 +5,12 @@ defineProps({
 </script>
 
 <template>
-  <v-menu location="start" offset="5 -5" transition="scale-transition">
+  <v-menu location="start" offset="0 0">
     <template #activator="{ props }">
       <v-btn v-if="!disabled" icon="mdi-dots-vertical" variant="plain" v-bind="props" />
     </template>
 
-    <v-btn-toggle variant="plain" density="comfortable" divided rounded="lg">
+    <v-btn-toggle divided variant="outlined" rounded="lg">
       <slot name="menu" />
 
       <TableMenuExcelButton />

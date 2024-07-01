@@ -39,7 +39,7 @@ const activeMenuRange = () => {
     variant="outlined"
     :label="label"
     :clearable="clearable"
-    hide-details="auto"
+    hide-details
     @keypress.enter="$emit('enter')"
     @click="activeMenuRange"
     @update:model-value="change($event)"

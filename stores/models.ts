@@ -1,4 +1,6 @@
 export const useModelStore = defineStore("models", () => {
+    const model = ref<string>('')
+
     const modelMap = ref<{ [key: string]: string }>({
         "register-warehouse": 'ErpWarehouse',
         'register-product': 'Product',
@@ -59,8 +61,8 @@ export const useModelStore = defineStore("models", () => {
     });
 
     function findModelName(name: string) {
-        return modelMap.value[name];
+        model.value = modelMap.value[name];
     };
 
-    return { findModelName };
+    return { model, findModelName };
 })

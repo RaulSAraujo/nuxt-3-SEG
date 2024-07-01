@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   label: string;
-  value: boolean;
+  value: boolean | null;
 }>();
 
 const emit = defineEmits(["switch"]);
@@ -19,6 +19,10 @@ const propRef = toRef(props, "value");
 watch(propRef, (newValue) => {
     if(newValue === true){
         lock.value = false
+    }
+
+    if(newValue === null){
+        lock.value = true
     }
 });
 </script>

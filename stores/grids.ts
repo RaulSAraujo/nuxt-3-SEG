@@ -1,4 +1,5 @@
-import type { GridData } from "~/interfaces/Grid";
+import type { Grid, NewColumn } from "~/interfaces/Grid";
+import type { CustomFilterGrid } from '~/interfaces/CustomFilter&Grid.js'
 
 export const useGridStore = defineStore("grids", () => {
     const drawer = ref<boolean>(false)
@@ -7,20 +8,11 @@ export const useGridStore = defineStore("grids", () => {
         drawer.value = !drawer.value
     }
 
-    interface Grid {
-        title: string;
-        align: string;
-        sortable: boolean;
-        key: string;
-        maxWidth: string | number | null;
-        type: string;
-    }
+    const availableGrid = ref<NewColumn[]>([])
 
-    const availableGrid = ref<Grid[]>([])
+    const hiddenGrid = ref<NewColumn[]>([])
 
-    const hiddenGrid = ref<Grid[]>([])
-
-    function setData(value: GridData) {
+    function setData(value: Grid) {
         const sortedAvailable = useSorted(value.rows[0].available_columns, (a, b) => {
             if (a.sequence_grid == null) return 1;
             if (b.sequence_grid == null) return -1;
@@ -52,5 +44,67 @@ export const useGridStore = defineStore("grids", () => {
         hiddenGrid.value = hidden.value
     }
 
-    return { drawer, switchDrawer, availableGrid, hiddenGrid, setData };
+    async function updateData() {
+        const { model } = useModelStore();
+
+        const { data } = await $api(`custom-filters?model=${model}`)
+
+        const defaultGrid = data.value as CustomFilterGrid
+        const mapDefaultGrid = useArrayMap(defaultGrid.rows, ({ label, align, sortable, attribute, width, type }) => ({
+            title: label,
+            key: attribute,
+            maxWidth: width,
+            align,
+            sortable,
+            type,
+        }))
+
+        const availableAndHiddenGrid = ref<NewColumn[]>([]);
+        availableAndHiddenGrid.value.push(...availableGrid.value, ...hiddenGrid.value)
+
+        const result = useArrayDifference(availableAndHiddenGrid, mapDefaultGrid, (a, b) => a.key === b.key)
+
+        if (result.value.length > 1) {
+            for (const res of result.value) {
+                if (!useArrayIncludes(availableAndHiddenGrid, res)) {
+                    hiddenGrid.value.push(res)
+                } else {
+                    const availableIndex = useArrayFindIndex(availableGrid, (item) => item.key === res.key)
+                    if (availableIndex.value > -1) {
+                        availableGrid.value.splice(availableIndex.value, 1)
+                        continue
+                    }
+
+                    const hiddenIndex = useArrayFindIndex(hiddenGrid, (item) => item.key === res.key)
+                    if (hiddenIndex.value > -1) {
+                        hiddenGrid.value.splice(hiddenIndex.value, 1)
+                        continue
+                    }
+                }
+
+            }
+        }
+    }
+
+    function add(index: number, item: NewColumn) {
+        availableGrid.value.push(item)
+        hiddenGrid.value.splice(index, 1)
+    }
+
+
+    function remove(index: number, item: NewColumn) {
+        availableGrid.value.splice(index, 1)
+        hiddenGrid.value.push(item)
+    }
+
+    return {
+        drawer,
+        switchDrawer,
+        availableGrid,
+        hiddenGrid,
+        setData,
+        updateData,
+        add,
+        remove
+    };
 })

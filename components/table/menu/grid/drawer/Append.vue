@@ -1,11 +1,17 @@
 <script setup lang="ts">
-const switchFilter = ref<boolean>(false);
+defineProps<{
+  availableOrHidden: boolean;
+}>();
 
-const items = ref<{ title: string; icon: string; action: Function }[]>([
+defineEmits(["switch"]);
+
+const { updateData } = useGridStore();
+
+const items = ref<{ title: string; icon: string; action: VoidFunction }[]>([
   {
     title: "ATUALIZAR",
     icon: "mdi-reload",
-    action: () => {},
+    action: () => updateData(),
   },
   {
     title: "REDEFINIR",
@@ -37,15 +43,17 @@ const items = ref<{ title: string; icon: string; action: Function }[]>([
 
     <v-tooltip
       position="start"
-      :text="switchFilter ? 'VISUALIZAR FILTROS OCULTOS' : 'VISUALIZAR FILTROS ATIVOS'"
+      :text="
+        availableOrHidden ? 'VISUALIZAR FILTROS ATIVOS' : 'VISUALIZAR FILTROS OCULTOS'
+      "
     >
       <template #activator="{ props }">
         <v-btn
           v-bind="props"
-          :icon="switchFilter ? 'mdi-view-grid-plus' : 'mdi-view-grid'"
+          :icon="availableOrHidden ? 'mdi-view-grid-plus' : 'mdi-view-grid'"
           color="cyan"
           variant="plain"
-          @click="switchFilter = !switchFilter"
+          @click="$emit('switch')"
         />
       </template>
     </v-tooltip>
