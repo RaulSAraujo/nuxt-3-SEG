@@ -1,5 +1,8 @@
 <script setup lang="ts">
-defineProps<{ value: string | null; maxWidth: string | number | null }>();
+defineProps<{
+  text: string | null | undefined;
+  vw: number;
+}>();
 
 const widthColumnText = (label: string | null) => {
   if (typeof label === "string" && label.length > 0) {
@@ -11,13 +14,18 @@ const widthColumnText = (label: string | null) => {
   }
   return 0;
 };
+
+const convertVwToPx = (vw: number) => {
+  const viewportWidth = window.innerWidth;
+  return (vw / 100) * viewportWidth;
+};
 </script>
 
 <template>
   <v-tooltip
-    v-if="widthColumnText(value ?? '') > parseFloat(`${maxWidth ?? 0.0}`)"
+    v-if="widthColumnText(text ?? '') > convertVwToPx(vw)"
     location="top"
-    :text="value ?? ''"
+    :text="text?.toUpperCase()"
     style="
       --v-theme-surface-variant: 25, 118, 210;
       --v-theme-on-surface-variant: 255, 255, 255;
@@ -25,18 +33,17 @@ const widthColumnText = (label: string | null) => {
   >
     <template #activator="{ props }">
       <div
-        style="
-          white-space: nowrap !important;
+        :style="`white-space: nowrap !important;
           overflow: hidden !important;
           text-overflow: ellipsis !important;
-        "
+          width: ${vw}vw;`"
       >
-        <span v-bind="props">
-          {{ value ?? '' }}
-        </span>
+        <span v-bind="props"> {{ text?.toUpperCase() }} </span>
       </div>
     </template>
   </v-tooltip>
 
-  <span v-else>{{ value ?? '' }}</span>
+  <span v-else>
+    {{ text?.toUpperCase() }}
+  </span>
 </template>

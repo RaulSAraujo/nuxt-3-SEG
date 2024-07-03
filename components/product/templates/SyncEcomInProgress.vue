@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  syncEcomInProgress: boolean;
+  syncEcomInProgress: boolean | undefined;
 }>();
 </script>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  syncEcomFailed: boolean;
+  syncEcomFailed: boolean | undefined;
 }>();
 </script>
 

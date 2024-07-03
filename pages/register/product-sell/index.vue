@@ -30,8 +30,6 @@ activeCreateButton.value = false;
         :show-select="true"
         :multi-sort="true"
       />
-
-      <TableFooter />
     </v-sheet>
   </v-main>
 </template>

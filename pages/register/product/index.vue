@@ -147,8 +147,6 @@ activeCreateButton.value = false;
           <span>{{ Math.ceil(parseFloat(item.weight_cubic ?? 0.0) * 1000) }}</span>
         </template>
       </Table>
-
-      <TableFooter />
     </v-sheet>
   </v-main>
 </template>

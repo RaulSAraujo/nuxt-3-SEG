@@ -21,7 +21,7 @@ onBeforeUnmount(() => {
   totalItems.value = 0;
 
   loading.value = true;
-})
+});
 
 /**
  * Argumentos slots obtidos no componente pai passados para o filho
@@ -127,13 +127,19 @@ $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
       <template v-for="slot in parentSlots" :key="slot" #[slot]="props">
         <slot :name="slot" v-bind="props" />
       </template>
-    </v-data-table-server>
 
+      <template #loading>
+        <v-skeleton-loader :type="`table-row@${itemsPerPage}`" />
+      </template>
+    </v-data-table-server>
+    
     <template #fallback>
       <!-- this will be rendered on server side -->
       <v-skeleton-loader type="table" />
     </template>
   </ClientOnly>
+
+  <TableFooter />
 
   <TableMenuFilterDrawer />
 
