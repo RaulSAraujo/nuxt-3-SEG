@@ -12,6 +12,17 @@ const props = defineProps<{
 
 defineEmits(["loadItems"]);
 
+// Resetar props antes de desmontar o component
+onBeforeUnmount(() => {
+  page.value = 1;
+  itemsPerPage.value = 10;
+
+  items.value = [];
+  totalItems.value = 0;
+
+  loading.value = true;
+})
+
 /**
  * Argumentos slots obtidos no componente pai passados para o filho
  * @constant ctx Obter os slots
@@ -57,7 +68,7 @@ $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
     if (grid.resultCount > 0) {
       gridStore.set(grid);
     } else {
-      gridStore.create()
+      gridStore.create();
     }
   })
   .catch((err) => {

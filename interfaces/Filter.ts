@@ -42,36 +42,32 @@ export interface Column {
 }
 
 export interface AssociationData {
-    rows: Row[];
+    rows: [];
     count: number;
 }
 
-export interface Row {
-    id?: number;
-    erp_id?: number;
-    created_at?: Date;
-    deleted_at?: null;
-    updated_at?: Date;
-    apparatus_name?: string;
-    classification_apparatus_id?: number | null;
-    color?: string;
-    title?: string;
-    value?: number;
-    name?: string;
-    active?: boolean;
-    lead_time?: number | null;
-    virtual_quantity?: number | null;
-    text?: string;
+export interface ModelAssociation {
+    attribute: string;
+    type: Type;
+    label: string;
+    length: number | null;
+    item_value: null | string;
+    item_name: null | string;
+    layout_filters: LayoutFilters;
+    association_data: AssociationData | null;
+    initial_filter: boolean;
+    sequence_filter: number | null;
+    value?: string | [] | number | boolean | null | undefined;
 }
 
 export interface LayoutFilters {
-    size?:              number;
-    clearable?:         boolean;
-    range?:             boolean;
-    comboBox?:          boolean;
-    multiple?:          boolean;
-    approximate?:       boolean;
-    sizeCamp?:          number;
+    size?: number;
+    clearable?: boolean;
+    range?: boolean;
+    comboBox?: boolean;
+    multiple?: boolean;
+    approximate?: boolean;
+    sizeCamp?: number;
 }
 
 export enum Type {

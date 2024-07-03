@@ -1,4 +1,4 @@
-import type { Filter, Column, User } from "~/interfaces/Filter";
+import type { Filter, Column, User, ModelAssociation } from "~/interfaces/Filter";
 import type { CustomFilterGrid } from "~/interfaces/CustomFilter&Grid";
 
 export const useFilterStore = defineStore("filters", () => {
@@ -27,14 +27,46 @@ export const useFilterStore = defineStore("filters", () => {
 
         const defaultGrid = await useNuxtApp().$customFetch<CustomFilterGrid>(`custom-filters?model=${model}`)
 
-        return defaultGrid;
+        const active = useArrayFilter(defaultGrid.rows, (f) => f.active === true)
+
+        const defaultGridWithAssociation = await useNuxtApp().$customFetch<ModelAssociation[]>(`custom-filters/model-association?model=${model}`, {
+            method: 'POST',
+            body: active.value
+        })
+
+        for (const item of defaultGridWithAssociation) {
+            if (item.type === 'ARRAY') {
+                item.value = [];
+                continue
+            }
+
+            if (item.type === 'BOOLEAN') {
+                item.value = null;
+                continue
+            }
+
+            if (!item.layout_filters.size) {
+                item.layout_filters.size = 2
+            }
+
+            item.value = ''
+        }
+
+        return defaultGridWithAssociation;
     }
 
     async function reset() {
-        const defaultGrid = await loadCustomGrids();
+        let defaultGrid: ModelAssociation[] = []
+        try {
+            defaultGrid = await loadCustomGrids();
+        } catch (error) {
+            const err = error as { statusText: string; message: string };
 
-        const initial = useArrayFilter(defaultGrid.rows, (f) => f.initial_filter === true)
-        const hidden = useArrayFilter(defaultGrid.rows, (f) => f.initial_filter === false)
+            return $toast().error(`${err.statusText ?? 'Erro ao resetar os filtros'}`);
+        }
+
+        const initial = useArrayFilter(defaultGrid, (f) => f.initial_filter === true)
+        const hidden = useArrayFilter(defaultGrid, (f) => f.initial_filter === false)
 
         const sortedAvailable = useSorted(initial, (a, b) => {
             if (a.sequence_filter == null) return 1;
@@ -55,7 +87,7 @@ export const useFilterStore = defineStore("filters", () => {
         const availableAndHiddenGrid = ref<Column[]>([]);
         availableAndHiddenGrid.value.push(...availableFilter.value, ...availableFilter.value)
 
-        const result = useArrayDifference(availableAndHiddenGrid, defaultGrid.rows, (a, b) => a.attribute === b.attribute)
+        const result = useArrayDifference(availableAndHiddenGrid, defaultGrid, (a, b) => a.attribute === b.attribute)
 
         if (result.value.length > 1) {
             for (const res of result.value) {
@@ -79,7 +111,7 @@ export const useFilterStore = defineStore("filters", () => {
         }
 
         for (const item of availableFilter.value) {
-            const find = useArrayFind(defaultGrid.rows, (f) => f.attribute === item.attribute)
+            const find = useArrayFind(defaultGrid, (f) => f.attribute === item.attribute)
 
             if (find.value) {
                 item.label = find.value.label;
@@ -99,7 +131,7 @@ export const useFilterStore = defineStore("filters", () => {
             const defaultGrid = await loadCustomGrids();
 
             availableFilter.value = []
-            hiddenFilter.value = defaultGrid.rows
+            hiddenFilter.value = defaultGrid
 
             const reader = new FileReader()
             await reader.readAsText(file)
@@ -143,8 +175,8 @@ export const useFilterStore = defineStore("filters", () => {
 
         const defaultGrid = await loadCustomGrids();
 
-        const initial = useArrayFilter(defaultGrid.rows, (f) => f.initial_filter === true)
-        const hidden = useArrayFilter(defaultGrid.rows, (f) => f.initial_filter === false)
+        const initial = useArrayFilter(defaultGrid, (f) => f.initial_filter === true)
+        const hidden = useArrayFilter(defaultGrid, (f) => f.initial_filter === false)
 
         const sortedAvailable = useSorted(initial, (a, b) => {
             if (a.sequence_filter == null) return 1;
