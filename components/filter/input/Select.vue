@@ -1,26 +1,25 @@
 <script setup lang="ts">
-import type { Row } from "~/interfaces/Filter";
-
 const props = defineProps<{
   label: string;
-  value: string | [] | null | undefined;
+  value: [];
+  items: [];
+  itemTitle: string;
+  itemValue: string;
   clearable: boolean | undefined;
-  items: Row[];
-  itemTitle: null | string;
-  itemValue: null | string;
   multiple: boolean | undefined;
 }>();
 
-const likesAll = computed(() => (props.value?.length ?? 0) === props.items.length);
-const likesSome = computed(() => (props.value?.length ?? 0) > 0);
+const likesAll = computed(() => props.value.length === props.items.length);
+const likesSome = computed(() => props.value.length > 0);
 
-const emit = defineEmits(["change"]);
+const emit = defineEmits(["like"]);
 
 const toggle = () => {
   if (likesAll.value) {
-    emit("change", []);
+    emit("like", []);
   } else {
-    emit("change", props.items.slice());
+    const map = useArrayMap(props.items, (item) => item[props.itemValue]);
+    emit("like", map.value);
   }
 };
 </script>

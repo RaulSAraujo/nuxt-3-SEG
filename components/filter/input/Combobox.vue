@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import type { Row } from "~/interfaces/Filter";
-
 defineProps<{
   label: string;
-  value: string | [] | null | undefined;
+  value: [];
+  items: [];
+  itemTitle: string;
+  itemValue: string;
   clearable: boolean | undefined;
-  items: Row[];
-  itemTitle: null | string;
-  itemValue: null | string;
   multiple: boolean | undefined;
 }>();
 </script>
