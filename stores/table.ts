@@ -58,11 +58,15 @@ export const useTableStore = defineStore("table", () => {
                 ...params,
             },
             priority: "low",
+            retry: 3,
+            retryDelay: 100,
         }).then(async (res) => {
             const data = res as { resultCount: number; rows: object[]; totalRecords: number };
 
             items.value = data.rows;
             totalItems.value = data.totalRecords;
+
+            changeValuesFilter.value = false;
         })
             .catch((error) => {
                 $toast().error(`${error.cause.message ?? error.message}`);

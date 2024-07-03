@@ -1,8 +1,7 @@
 <script setup lang="ts">
-
 onBeforeUnmount(() => {
-  filterStore.clearValues()
-})
+  filterStore.clearValues();
+});
 
 const filterStore = useFilterStore();
 const { availableFilter, changeValuesFilter } = storeToRefs(filterStore);
@@ -53,18 +52,14 @@ const saveDate = (event: string, multiple: boolean | string) => {
         :label="item.label"
         :clearable="item.layout_filters?.clearable"
         :approximate="item.layout_filters?.approximate"
-        @change="changeValuesFilter = true"
+        @update:model-value="changeValuesFilter = true"
         @enter="searchData"
       />
 
       <FilterInputSelect
-        v-if="
-          item.type == 'ARRAY' &&
-          typeof item.value == 'object' &&
-          !item.layout_filters?.comboBox
-        "
+        v-if="item.type == 'ARRAY' && !item.layout_filters?.comboBox"
         v-model="item.value"
-        :value="item.value ?? []"
+        :value="typeof item.value == 'object' ? item.value ?? [] : []"
         :label="item.label"
         :items="item.association_data?.rows ?? []"
         :item-title="item.item_name ?? ''"
@@ -76,13 +71,9 @@ const saveDate = (event: string, multiple: boolean | string) => {
       />
 
       <FilterInputCombobox
-        v-if="
-          item.type == 'ARRAY' &&
-          typeof item.value == 'object' &&
-          item.layout_filters?.comboBox
-        "
+        v-if="item.type == 'ARRAY' && item.layout_filters?.comboBox"
         v-model="item.value"
-        :value="item.value ?? []"
+        :value="typeof item.value == 'object' ? item.value ?? [] : []"
         :label="item.label"
         :items="item.association_data?.rows ?? []"
         :item-title="item.item_name ?? ''"

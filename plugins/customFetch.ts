@@ -8,10 +8,7 @@ export default defineNuxtPlugin({
 
     const $customFetch = $fetch.create({
       baseURL,
-      timeout: 5000,
       async onRequest({ options }) {
-        // console.log("[fetch request]", request, options);
-
         options.headers = {
           ...options.headers,
           'Content-Type': 'application/json',
@@ -22,7 +19,7 @@ export default defineNuxtPlugin({
         if (response.status === 401) {
           navigateTo('/')
         }
-      },
+      }
     })
 
     return {

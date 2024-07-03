@@ -2,7 +2,7 @@
 defineEmits(["create"]);
 
 const filterStore = useFilterStore();
-const { activeCreateButton, changeValuesFilter } = storeToRefs(filterStore);
+const { activeCreateButton } = storeToRefs(filterStore);
 
 const tableStore = useTableStore();
 const { page } = storeToRefs(tableStore);
@@ -13,9 +13,7 @@ const clear = () => {
   if (page.value > 1) {
     page.value = 1;
   } else {
-    if (changeValuesFilter.value) {
-      tableStore.searchData();
-    }
+    tableStore.searchData();
   }
 };
 </script>
