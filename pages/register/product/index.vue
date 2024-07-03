@@ -11,15 +11,18 @@ findModelName(name?.toString() ?? "");
 
 const tableStore = useTableStore();
 const { url } = storeToRefs(tableStore);
-
 url.value = "product";
+
+const filterStore = useFilterStore();
+const { activeCreateButton } = storeToRefs(filterStore);
+activeCreateButton.value = false;
 
 </script>
 
 <template>
   <v-main>
     <v-sheet class="mt-5" rounded="t-xl" elevation="5">
-      <Filter :mode-create="false" />
+      <Filter />
 
       <Table
         title="PRODUTO COMPRA"

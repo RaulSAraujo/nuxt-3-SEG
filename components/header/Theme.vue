@@ -23,20 +23,22 @@ onMounted(() => {
 });
 
 async function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? "light" : "dark";
+  try {
+    await useNuxtApp().$customFetch("/user", {
+      method: "PUT",
+      body: {
+        id: user.id,
+        theme: theme.global.current.value.dark,
+      },
+    });
 
-  user.theme = theme.global.name.value === "dark" ? false : true;
+    theme.global.name.value = theme.global.current.value.dark ? "light" : "dark";
 
-  const res = await $api("/user", {
-    method: "PUT",
-    body: {
-      id: user.id,
-      theme: theme.global.name.value === "dark" ? false : true,
-    },
-  });
+    user.theme = theme.global.name.value === "dark" ? false : true;
+  } catch (error) {
+    const err = error as { statusText: string; message: string };
 
-  if (res.error.value) {
-    return $toast().error(`${res.error.value.cause ?? res.error.value.message}`);
+    return $toast().error(`${err.statusText ?? err.message}`);
   }
 
   $fetch("/api/auth/session", {

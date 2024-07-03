@@ -26,5 +26,7 @@ const availableOrHidden = ref<boolean>(false);
         />
       </template>
     </v-navigation-drawer>
+
+    <TableMenuGridDrawerImport />
   </LazyClientOnly>
 </template>

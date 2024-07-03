@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const store = useFilterStore();
 const { drawer } = storeToRefs(store);
+
+const availableOrHidden = ref<boolean>(false);
 </script>
 
 <template>
@@ -15,11 +17,16 @@ const { drawer } = storeToRefs(store);
         <TableMenuFilterDrawerPrepend />
       </template>
 
-      <TableMenuFilterDrawerDefault />
+      <TableMenuFilterDrawerDefault :available-or-hidden="availableOrHidden" />
 
       <template #append>
-        <TableMenuFilterDrawerAppend />
+        <TableMenuFilterDrawerAppend
+          :available-or-hidden="availableOrHidden"
+          @switch="availableOrHidden = !availableOrHidden"
+        />
       </template>
     </v-navigation-drawer>
+    
+    <TableMenuFilterDrawerImport />
   </LazyClientOnly>
 </template>

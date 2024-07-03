@@ -16,13 +16,13 @@ export interface Row {
 }
 
 export interface Column {
-    text: string;
-    type: Type;
-    align: Align;
-    value: string;
-    width: number | null;
+    title: string;
+    align: string;
     sortable: boolean;
-    initial_grid?: boolean;
+    key: string;
+    maxWidth: string | number | null;
+    type: string;
+    initial_grid: boolean;
     sequence_grid?: number | null;
 }
 
@@ -40,14 +40,4 @@ export enum Type {
     Integer = "INTEGER",
     JSON = "JSON",
     String = "STRING",
-}
-
-
-export interface NewColumn {
-    title: string;
-    align: string;
-    sortable: boolean;
-    key: string;
-    maxWidth: string | number | null;
-    type: string;
 }

@@ -1,5 +1,6 @@
 import type { User } from '~/interfaces/User';
-import { eventHandler, H3Event } from 'h3';
+import type { H3Event } from 'h3';
+import { eventHandler } from 'h3';
 
 export default eventHandler(async (event: H3Event) => {
     const session = await useStorage().getItem('data:session') as User

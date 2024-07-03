@@ -5,28 +5,29 @@ defineProps<{
 
 defineEmits(["switch"]);
 
-const { updateData } = useGridStore();
+const gridStore = useGridStore();
+const { dialogImport } = storeToRefs(gridStore);
 
 const items = ref<{ title: string; icon: string; action: VoidFunction }[]>([
   {
     title: "ATUALIZAR",
     icon: "mdi-reload",
-    action: () => updateData(),
+    action: () => gridStore.update(),
   },
   {
     title: "REDEFINIR",
     icon: "mdi-lock-reset",
-    action: () => {},
+    action: () => gridStore.reset(),
   },
   {
     title: "IMPORTAR",
     icon: "mdi-table-arrow-left",
-    action: () => {},
+    action: () => (dialogImport.value = true),
   },
   {
     title: "EXPORTAR",
     icon: "mdi-table-arrow-right",
-    action: () => {},
+    action: () => gridStore.exportGrid(),
   },
 ]);
 </script>
@@ -35,7 +36,12 @@ const items = ref<{ title: string; icon: string; action: VoidFunction }[]>([
   <v-divider />
 
   <v-row no-gutters class="pa-2">
-    <v-btn prepend-icon="mdi-content-save" variant="plain" class="text-caption">
+    <v-btn
+      prepend-icon="mdi-content-save"
+      variant="plain"
+      class="text-caption"
+      @click="gridStore.save()"
+    >
       SALVAR ALTERAÇÕES
     </v-btn>
 
@@ -43,14 +49,12 @@ const items = ref<{ title: string; icon: string; action: VoidFunction }[]>([
 
     <v-tooltip
       position="start"
-      :text="
-        availableOrHidden ? 'VISUALIZAR FILTROS ATIVOS' : 'VISUALIZAR FILTROS OCULTOS'
-      "
+      :text="availableOrHidden ? 'VISUALIZAR GRIDS ATIVAS' : 'VISUALIZAR GRIDS OCULTAS'"
     >
       <template #activator="{ props }">
         <v-btn
           v-bind="props"
-          :icon="availableOrHidden ? 'mdi-view-grid-plus' : 'mdi-view-grid'"
+          :icon="availableOrHidden ? 'mdi-view-grid' : ' mdi-view-grid-plus'"
           color="cyan"
           variant="plain"
           @click="$emit('switch')"

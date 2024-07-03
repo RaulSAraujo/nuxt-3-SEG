@@ -44,7 +44,7 @@ const { page, items, itemsPerPage, totalItems, loading } = storeToRefs(tableStor
 let grid: Grid;
 $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
   priority: "high",
-  key: "Grid-product",
+  key: `Grid-product${model}`,
   getCachedData(key, nuxtApp) {
     return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
   },
@@ -54,7 +54,11 @@ $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
 
     grid = res.data.value as Grid;
 
-    gridStore.setData(grid);
+    if (grid.resultCount > 0) {
+      gridStore.set(grid);
+    } else {
+      gridStore.create()
+    }
   })
   .catch((err) => {
     $toast().error(err.error.value.cause ?? err.error.value.message);

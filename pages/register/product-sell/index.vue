@@ -1,24 +1,37 @@
 <script setup lang="ts">
-// import type { RouteLocationNormalizedLoaded } from "#vue-router";
+import type { RouteLocationNormalizedLoaded } from "#vue-router";
 
 useHead({
   titleTemplate: `Produto venda - %s`,
 });
 
-// const { findModelName } = useModelStore();
-// const { name }: RouteLocationNormalizedLoaded = useRoute();
-// const modelName = findModelName(name?.toString() ?? "");
+const { findModelName } = useModelStore();
+const { name }: RouteLocationNormalizedLoaded = useRoute();
+findModelName(name?.toString() ?? "");
+
+const tableStore = useTableStore();
+const { url } = storeToRefs(tableStore);
+url.value = "product-sell";
+
+const filterStore = useFilterStore();
+const { activeCreateButton } = storeToRefs(filterStore);
+activeCreateButton.value = false;
+
 </script>
 
 <template>
   <v-main>
-    <!-- <Table
-      title="PRODUTO VENDA"
-      url="product-sell"
-      :disabled-menu="false"
-      :show-select="true"
-      :multi-sort="true"
-      :model="modelName"
-    /> -->
+    <v-sheet class="mt-5" rounded="t-xl" elevation="5">
+      <Filter />
+
+      <Table
+        title="PRODUTO VENDA"
+        :disabled-menu="false"
+        :show-select="true"
+        :multi-sort="true"
+      />
+
+      <TableFooter />
+    </v-sheet>
   </v-main>
 </template>

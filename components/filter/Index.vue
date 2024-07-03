@@ -2,21 +2,12 @@
 import type { User } from "~/interfaces/User";
 import type { Filter } from "~/interfaces/Filter";
 
-defineProps<{
-  modeCreate: boolean;
-}>();
-
-defineEmits(["create"]);
-
 const { data } = useAuth();
 const user = data.value as User;
 
 const { model } = useModelStore();
 
-const store = useFilterStore();
-const { availableFilter } = storeToRefs(store);
-
-const tableStore = useTableStore();
+const filterStore = useFilterStore();
 
 /**
  * Request para obter a grid do usuario de acordo com a pagina
@@ -28,7 +19,7 @@ const tableStore = useTableStore();
 let filter: Filter;
 $api(`custom-filters-user?user_id=${user.id}&model=${model}`, {
   priority: "high",
-  key: "filter-product",
+  key: `filter-product${model}`,
   getCachedData(key, nuxtApp) {
     return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
   },
@@ -38,126 +29,19 @@ $api(`custom-filters-user?user_id=${user.id}&model=${model}`, {
 
     filter = res.data.value as Filter;
 
-    store.setData(filter);
+    if (filter.resultCount > 0) {
+      filterStore.set(filter);
+    } else {
+      filterStore.create();
+    }
   })
   .catch((err) => {
     $toast().error(err.error.value.cause ?? err.error.value.message);
   });
-
-const sizeCamp = (layoutSize: number | undefined) => {
-  let size = layoutSize !== undefined ? layoutSize : 2;
-
-  const app = useNuxtApp();
-
-  if (app.$vuetify.display.smAndDown.value) {
-    size = 12;
-  }
-
-  if (app.$vuetify.display.md.value) {
-    size = size + 4;
-  }
-
-  if (app.$vuetify.display.lg.value) {
-    size = size + 1;
-  }
-
-  return size;
-};
-
-const dayjs = useDayjs();
-
-const saveDate = (event: string, multiple: boolean | string) => {
-  if (!multiple) return dayjs(event).format("DD/MM/YYYY");
-
-  return `${dayjs(event[0]).format("DD/MM/YYYY")} - ${dayjs(
-    event[event.length - 1]
-  ).format("DD/MM/YYYY")}`;
-};
 </script>
 
 <template>
-  <ClientOnly fallback-tag="div">
-    <v-row dense class="pa-5">
-      <v-col
-        v-for="(item, index) in availableFilter"
-        :key="index"
-        :sm="sizeCamp(item.layout_filters.size)"
-      >
-        <FilterInputTextField
-          v-if="item.type == 'STRING' || item.type == 'FLOAT' || item.type == 'INTEGER'"
-          v-model="item.value"
-          :label="item.label"
-          :clearable="item.layout_filters.clearable"
-          :approximate="item.layout_filters.approximate"
-        />
+  <FilterGroup />
 
-        <FilterInputSelect
-          v-if="item.type == 'ARRAY' && !item.layout_filters.comboBox"
-          v-model="item.value"
-          :value="item.value?.toString()"
-          :label="item.label"
-          :items="item.association_data.rows"
-          :item-title="item.item_name"
-          :item-value="item.item_value"
-          :clearable="item.layout_filters.clearable"
-          :multiple="item.layout_filters.multiple"
-          @change="item.value = $event"
-        />
-
-        <FilterInputCombobox
-          v-if="item.type == 'ARRAY' && item.layout_filters.comboBox"
-          v-model="item.value"
-          :value="item.value?.toString()"
-          :label="item.label"
-          :items="item.association_data.rows"
-          :item-title="item.item_name"
-          :item-value="item.item_value"
-          :clearable="item.layout_filters.clearable"
-          :multiple="item.layout_filters.multiple"
-        />
-
-        <FilterInputDatePicker
-          v-if="item.type == 'DATE'"
-          v-model="item.value"
-          :label="item.label"
-          :multiple="item.layout_filters.range ? 'range' : false"
-          :clearable="item.layout_filters.clearable"
-          @save="
-            item.value = saveDate($event, item.layout_filters.range ? 'range' : false)
-          "
-        />
-
-        <FilterInputSwitch
-          v-if="item.type == 'BOOLEAN'"
-          v-model="item.value"
-          :value="item.value == null ? null : !!item.value"
-          :label="item.label"
-          @switch="item.value = ''"
-        />
-      </v-col>
-    </v-row>
-
-    <template #fallback>
-      <!-- this will be rendered on server side -->
-      <v-skeleton-loader class="pa-5" type="image" />
-    </template>
-  </ClientOnly>
-
-  <ClientOnly>
-    <div class="d-flex justify-end mr-5 mb-5">
-      <v-btn-toggle v-if="modeCreate" variant="outlined" density="compact" divided>
-        <v-btn class="text-success" @click="$emit('create')"> CRIAR </v-btn>
-
-        <v-btn class="text-primary" @click="tableStore.searchData"> BUSCAR </v-btn>
-
-        <v-btn class="text-error" @click="store.clearValues">Limpar Filtros</v-btn>
-      </v-btn-toggle>
-
-      <v-btn-toggle v-else variant="outlined" density="compact" divided>
-        <v-btn class="text-primary" @click="tableStore.searchData"> BUSCAR </v-btn>
-
-        <v-btn class="text-error" @click="store.clearValues">Limpar Filtros</v-btn>
-      </v-btn-toggle>
-    </div>
-  </ClientOnly>
+  <FilterButtons />
 </template>

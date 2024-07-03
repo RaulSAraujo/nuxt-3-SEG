@@ -1,26 +1,33 @@
 <script setup lang="ts">
-const switchFilter = ref<boolean>(false);
+defineProps<{
+  availableOrHidden: boolean;
+}>();
 
-const items = ref<{ title: string; icon: string; action: Function }[]>([
+defineEmits(["switch"]);
+
+const filterStore = useFilterStore();
+const { dialogImport } = storeToRefs(filterStore);
+
+const items = ref<{ title: string; icon: string; action: VoidFunction }[]>([
   {
     title: "ATUALIZAR",
     icon: "mdi-reload",
-    action: () => {},
+    action: () => filterStore.update(),
   },
   {
     title: "REDEFINIR",
     icon: "mdi-lock-reset",
-    action: () => {},
+    action: () => filterStore.reset(),
   },
   {
     title: "IMPORTAR",
     icon: "mdi-table-arrow-left",
-    action: () => {},
+    action: () => (dialogImport.value = true),
   },
   {
     title: "EXPORTAR",
     icon: "mdi-table-arrow-right",
-    action: () => {},
+    action: () => filterStore.exportGrid(),
   },
 ]);
 </script>
@@ -29,7 +36,12 @@ const items = ref<{ title: string; icon: string; action: Function }[]>([
   <v-divider />
 
   <v-row no-gutters class="pa-2">
-    <v-btn prepend-icon="mdi-content-save" variant="plain" class="text-caption">
+    <v-btn
+      prepend-icon="mdi-content-save"
+      variant="plain"
+      class="text-caption"
+      @click="filterStore.save()"
+    >
       SALVAR ALTERAÇÕES
     </v-btn>
 
@@ -37,15 +49,17 @@ const items = ref<{ title: string; icon: string; action: Function }[]>([
 
     <v-tooltip
       position="start"
-      :text="switchFilter ? 'VISUALIZAR FILTROS OCULTOS' : 'VISUALIZAR FILTROS ATIVOS'"
+      :text="
+        availableOrHidden ? 'VISUALIZAR FILTROS ATIVOS' : 'VISUALIZAR FILTROS OCULTOS'
+      "
     >
       <template #activator="{ props }">
         <v-btn
           v-bind="props"
-          :icon="switchFilter ? 'mdi-view-grid-plus' : 'mdi-view-grid'"
+          :icon="availableOrHidden ? 'mdi-view-grid' : 'mdi-view-grid-plus'"
           color="cyan"
           variant="plain"
-          @click="switchFilter = !switchFilter"
+          @click="$emit('switch')"
         />
       </template>
     </v-tooltip>

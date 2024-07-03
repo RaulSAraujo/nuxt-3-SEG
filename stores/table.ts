@@ -15,7 +15,7 @@ export const useTableStore = defineStore("table", () => {
     const pageCount = computed(() => Math.ceil(totalItems.value / itemsPerPage.value));
 
     const filterStore = useFilterStore()
-    const { availableFilter } = storeToRefs(filterStore)
+    const { availableFilter, changeValuesFilter } = storeToRefs(filterStore)
 
     async function searchData() {
         if (import.meta.server) return;
@@ -45,6 +45,10 @@ export const useTableStore = defineStore("table", () => {
         );
 
         loading.value = true;
+
+        if (changeValuesFilter.value) {
+            page.value = 1
+        }
 
         useNuxtApp().$customFetch(url.value, {
             method: "GET",

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { PurpleRow } from "~/interfaces/Filter";
+import type { Row } from "~/interfaces/Filter";
 
 const props = defineProps<{
   label: string;
   value: string | [] | null | undefined;
   clearable: boolean | undefined;
-  items: PurpleRow[];
+  items: Row[];
   itemTitle: null | string;
   itemValue: null | string;
   multiple: boolean | undefined;
