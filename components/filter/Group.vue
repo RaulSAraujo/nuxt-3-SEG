@@ -40,69 +40,71 @@ const saveDate = (event: string, multiple: boolean | string) => {
 </script>
 
 <template>
-  <v-row dense class="pa-5">
-    <v-col
-      v-for="(item, index) in availableFilter"
-      :key="index"
-      :cols="sizeCamp(item.layout_filters?.size)"
-    >
-      <FilterInputTextField
-        v-if="item.type == 'STRING' || item.type == 'FLOAT' || item.type == 'INTEGER'"
-        v-model="item.value"
-        :label="item.label"
-        :clearable="item.layout_filters?.clearable"
-        :approximate="item.layout_filters?.approximate"
-        @update:model-value="changeValuesFilter = true"
-        @enter="searchData"
-      />
+  <ClientOnly>
+    <v-row dense class="pa-5">
+      <v-col
+        v-for="(item, index) in availableFilter"
+        :key="index"
+        :cols="sizeCamp(item.layout_filters?.size)"
+      >
+        <FilterInputTextField
+          v-if="item.type == 'STRING' || item.type == 'FLOAT' || item.type == 'INTEGER'"
+          v-model="item.value"
+          :label="item.label"
+          :clearable="item.layout_filters?.clearable"
+          :approximate="item.layout_filters?.approximate"
+          @update:model-value="changeValuesFilter = true"
+          @enter="searchData"
+        />
 
-      <FilterInputSelect
-        v-if="item.type == 'ARRAY' && !item.layout_filters?.comboBox"
-        v-model="item.value"
-        :value="typeof item.value == 'object' ? item.value ?? [] : []"
-        :label="item.label"
-        :items="item.association_data?.rows ?? []"
-        :item-title="item.item_name ?? ''"
-        :item-value="item.item_value ?? ''"
-        :clearable="item.layout_filters?.clearable"
-        :multiple="item.layout_filters?.multiple"
-        @change="changeValuesFilter = true"
-        @like="item.value = $event"
-      />
+        <FilterInputSelect
+          v-if="item.type == 'ARRAY' && !item.layout_filters?.comboBox"
+          v-model="item.value"
+          :value="typeof item.value == 'object' ? item.value ?? [] : []"
+          :label="item.label"
+          :items="item.association_data?.rows ?? []"
+          :item-title="item.item_name ?? ''"
+          :item-value="item.item_value ?? ''"
+          :clearable="item.layout_filters?.clearable"
+          :multiple="item.layout_filters?.multiple"
+          @change="changeValuesFilter = true"
+          @like="item.value = $event"
+        />
 
-      <FilterInputCombobox
-        v-if="item.type == 'ARRAY' && item.layout_filters?.comboBox"
-        v-model="item.value"
-        :value="typeof item.value == 'object' ? item.value ?? [] : []"
-        :label="item.label"
-        :items="item.association_data?.rows ?? []"
-        :item-title="item.item_name ?? ''"
-        :item-value="item.item_value ?? ''"
-        :clearable="item.layout_filters?.clearable"
-        :multiple="item.layout_filters?.multiple"
-        @change="changeValuesFilter = true"
-      />
+        <FilterInputCombobox
+          v-if="item.type == 'ARRAY' && item.layout_filters?.comboBox"
+          v-model="item.value"
+          :value="typeof item.value == 'object' ? item.value ?? [] : []"
+          :label="item.label"
+          :items="item.association_data?.rows ?? []"
+          :item-title="item.item_name ?? ''"
+          :item-value="item.item_value ?? ''"
+          :clearable="item.layout_filters?.clearable"
+          :multiple="item.layout_filters?.multiple"
+          @change="changeValuesFilter = true"
+        />
 
-      <FilterInputDatePicker
-        v-if="item.type == 'DATE'"
-        v-model="item.value"
-        :label="item.label"
-        :multiple="item.layout_filters?.range ? 'range' : false"
-        :clearable="item.layout_filters?.clearable"
-        @save="
-          item.value = saveDate($event, item.layout_filters?.range ? 'range' : false)
-        "
-        @change="changeValuesFilter = true"
-      />
+        <FilterInputDatePicker
+          v-if="item.type == 'DATE'"
+          v-model="item.value"
+          :label="item.label"
+          :multiple="item.layout_filters?.range ? 'range' : false"
+          :clearable="item.layout_filters?.clearable"
+          @save="
+            item.value = saveDate($event, item.layout_filters?.range ? 'range' : false)
+          "
+          @change="changeValuesFilter = true"
+        />
 
-      <FilterInputSwitch
-        v-if="item.type == 'BOOLEAN'"
-        v-model="item.value"
-        :value="item.value == null ? null : !!item.value"
-        :label="item.label"
-        @switch="item.value = ''"
-        @change="changeValuesFilter = true"
-      />
-    </v-col>
-  </v-row>
+        <FilterInputSwitch
+          v-if="item.type == 'BOOLEAN'"
+          v-model="item.value"
+          :value="item.value == null ? null : !!item.value"
+          :label="item.label"
+          @switch="item.value = ''"
+          @change="changeValuesFilter = true"
+        />
+      </v-col>
+    </v-row>
+  </ClientOnly>
 </template>

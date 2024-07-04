@@ -33,6 +33,13 @@ activeCreateButton.value = true;
           <v-btn icon="mdi-delete" variant="plain" size="small" color="pink" />
         </template>
 
+        <template #item.status="{ item }">
+          <ValidateImageTemplatesStatus
+            :status="item.status"
+            @save="item.status = $event"
+          />
+        </template>
+
         <template #item.supplier="{ item }">
           <span>{{ item.Product?.brand }}</span>
         </template>
@@ -42,17 +49,18 @@ activeCreateButton.value = true;
         </template>
 
         <template #item.description="{ item }">
-          <UtilsTooltip :text="item.Product?.description" :vw="12" />
+          <UtilsTooltip :text="item.Product?.description" :vw="15" />
         </template>
 
         <template #item.user_id="{ item }">
-          <UtilsTooltip :text="item.User.name" :vw="5" />
+          <UtilsTooltip :text="item.User?.name" :vw="8" />
         </template>
 
         <template #item.observation="{ item }">
-          <ValidateImageTemplatesObservation
-            :observation="item.observation"
-            @confirm="item.observation = $event"
+          <UtilsEditDialogTextField
+            :text="item.observation"
+            :vw="5"
+            @save="item.observation = $event"
           />
         </template>
       </Table>

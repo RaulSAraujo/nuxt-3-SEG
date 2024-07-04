@@ -127,10 +127,6 @@ $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
       <template v-for="slot in parentSlots" :key="slot" #[slot]="props">
         <slot :name="slot" v-bind="props" />
       </template>
-
-      <template #loading>
-        <v-skeleton-loader :type="`table-row@${itemsPerPage}`" />
-      </template>
     </v-data-table-server>
     
     <template #fallback>

@@ -16,7 +16,6 @@ url.value = "product";
 const filterStore = useFilterStore();
 const { activeCreateButton } = storeToRefs(filterStore);
 activeCreateButton.value = false;
-
 </script>
 
 <template>
@@ -61,29 +60,25 @@ activeCreateButton.value = false;
         </template>
 
         <template #item.erp_syncecom="{ item }">
-          <ProductTemplatesSyncEcom :synce-ecom="item.ProductSell.syncecom" />
+          <UtilsCheckIcon :value="item.ProductSell?.erp_syncecom ?? false" />
         </template>
 
         <template #item.syncedecom="{ item }">
-          <ProductTemplatesSyncedEcom :synced-ecom="item.ProductSell.syncedecom" />
+          <UtilsCheckIcon :value="item.ProductSell?.syncedecom ?? false" />
         </template>
 
         <template #item.syncecominprogress="{ item }">
-          <ProductTemplatesSyncEcomInProgress
-            :sync-ecom-in-progress="item.ProductSell.syncecominprogress"
-          />
+          <UtilsCheckIcon :value="item.ProductSell?.syncecominprogress ?? false" />
         </template>
 
         <template #item.syncecomfailed="{ item }">
-          <ProductTemplatesSyncEcomFailed
-            :sync-ecom-failed="item.ProductSell.syncecomfailed"
-          />
+          <UtilsCheckIcon :value="item.ProductSell?.syncecomfailed ?? false" />
         </template>
 
         <template #item.quantity="{ item }">
-          <span>{{
-            item.type === "KIT" ? item.ProductSell.quantity : item.quantity
-          }}</span>
+          <span>
+            {{ item.type === "KIT" ? (item.ProductSell?.quantity ?? 0) : item.quantity }}
+          </span>
         </template>
 
         <template #item.ProductSell.Ecommerces="{ item }">

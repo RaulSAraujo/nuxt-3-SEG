@@ -2,10 +2,14 @@
 import { mergeProps } from "vue";
 
 const props = defineProps<{
-  observation?: string | null;
+  text: string | null | undefined;
+  vw: number;
+  items: string[];
+  itemTitle: string;
+  itemValue: string;
 }>();
 
-const emit = defineEmits(["confirm"]);
+const emit = defineEmits(["save"]);
 
 const widthColumnText = (label: string | null) => {
   if (typeof label === "string" && label.length > 0) {
@@ -21,17 +25,18 @@ const widthColumnText = (label: string | null) => {
 const convertVwToPx = (vw: number) => {
   const viewportWidth = window.innerWidth;
   return (vw / 100) * viewportWidth;
-}
-
-const comp = computed({
-  get: () => props.observation,
-  set: (value) => {
-    menu.value = false;
-    emit("confirm", value);
-  },
-});
+};
 
 const menu = ref<boolean>(false);
+
+const comp = computed({
+  get: () => props.text,
+  set: (value) => {
+    menu.value = false;
+
+    emit("save", value);
+  },
+});
 </script>
 
 <template>
@@ -44,9 +49,9 @@ const menu = ref<boolean>(false);
   >
     <template #activator="{ props: menuProp }">
       <v-tooltip
-        v-if="widthColumnText(observation ?? '') > convertVwToPx(5)"
+        v-if="widthColumnText(text ?? '') > convertVwToPx(vw)"
         location="top"
-        :text="observation?.toUpperCase()"
+        :text="text?.toUpperCase()"
         style="
           --v-theme-surface-variant: 25, 118, 210;
           --v-theme-on-surface-variant: 255, 255, 255;
@@ -55,29 +60,27 @@ const menu = ref<boolean>(false);
         <template #activator="{ props: tooltip }">
           <div
             v-bind="mergeProps(menuProp, tooltip)"
-            style="
-              cursor: pointer;
+            :style="` cursor: pointer;
               white-space: nowrap !important;
               overflow: hidden !important;
               text-overflow: ellipsis !important;
-              width: 5vw;
-            "
+              width: ${vw}vw;`"
           >
-            <span>{{ observation?.toUpperCase() }}</span>
+            <span>{{ text?.toUpperCase() }}</span>
           </div>
         </template>
       </v-tooltip>
 
       <div
-        v-else-if="widthColumnText(observation ?? '') < 100 && !observation"
+        v-else-if="widthColumnText(text ?? '') < convertVwToPx(vw) && !text"
         v-bind="menuProp"
-        style="cursor: pointer; width: 100%"
+        :style="`cursor: pointer; width: ${vw}vw`"
       >
-        <v-label/>
+        <v-label />
       </div>
 
       <span v-else v-bind="menuProp" style="cursor: pointer">
-        {{ observation?.toUpperCase() }}
+        {{ text?.toUpperCase() }}
       </span>
     </template>
 
@@ -85,11 +88,14 @@ const menu = ref<boolean>(false);
       <template #default="{ model: proxyModel, actions }">
         <v-card class="mx-auto" width="250px">
           <template #text>
-            <v-text-field
+            <v-select
               v-model="proxyModel.value"
               density="compact"
               color="primary"
               :clearable="true"
+              :items="items"
+              item-title="itemTitle"
+              item-value="itemValue"
               hide-details
             />
           </template>
