@@ -1,6 +1,16 @@
 <script setup lang="ts">
 const store = useTableStore();
 const { page, pageCount, itemsPerPage, itemsPerPageoptions } = storeToRefs(store);
+
+const { y } = useWindowScroll();
+
+const scrollToTop = () => {
+  y.value = 0;
+};
+
+watch(itemsPerPage, () => {
+  scrollToTop();
+});
 </script>
 
 <template>
