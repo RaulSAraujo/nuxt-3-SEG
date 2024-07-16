@@ -2,11 +2,17 @@
 import { mergeProps } from "vue";
 
 const props = defineProps<{
-  text: string | null | undefined;
+  id: number;
+  attr: string;
+  text: string;
   vw: number;
 }>();
 
-const emit = defineEmits(["save"]);
+const emit = defineEmits(["updateText", "enter"]);
+
+const { url } = useTableStore();
+
+const menu = ref<boolean>(false);
 
 const widthColumnText = (label: string | null) => {
   if (typeof label === "string" && label.length > 0) {
@@ -26,14 +32,31 @@ const convertVwToPx = (vw: number) => {
 
 const comp = computed({
   get: () => props.text,
-  set: (value) => {
+  set: async (value) => {
+    const res = await update(value);
+    if (!res.success) return $toast().error(res.message);
+
     menu.value = false;
-    
-    emit("save", value);
+
+    emit("updateText", value);
   },
 });
 
-const menu = ref<boolean>(false);
+const update = (value: string) => {
+  interface Response {
+    message: string;
+    result: [];
+    success: boolean;
+  }
+
+  return useNuxtApp().$customFetch<Response>(url, {
+    method: "PUT",
+    body: {
+      id: props.id,
+      [props.attr]: value,
+    },
+  });
+};
 </script>
 
 <template>
@@ -44,7 +67,6 @@ const menu = ref<boolean>(false);
     offset="0 20"
     :close-on-content-click="false"
   >
-    
     <template #activator="{ props: menuProp }">
       <v-tooltip
         v-if="widthColumnText(text ?? '') > convertVwToPx(vw)"
