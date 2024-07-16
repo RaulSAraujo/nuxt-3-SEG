@@ -2,7 +2,8 @@
 import { mergeProps } from "vue";
 
 const props = defineProps<{
-  status: string | null | undefined;
+  id: number;
+  status: string;
 }>();
 
 const emit = defineEmits(["save"]);
@@ -11,12 +12,31 @@ const menu = ref<boolean>(false);
 
 const comp = computed({
   get: () => props.status,
-  set: (value) => {
+  set: async (value) => {
+    const res = await update(value);
+    if (!res.success) return $toast().error(res.message);
+
     menu.value = false;
 
     emit("save", value);
   },
 });
+
+const update = (value: string) => {
+  interface Response {
+    message: string;
+    result: [];
+    success: boolean;
+  }
+
+  return useNuxtApp().$customFetch<Response>("validate-products-image", {
+    method: "PUT",
+    body: {
+      id: props.id,
+      status: value,
+    },
+  });
+};
 
 const radioList = ref<{ color: string; value: string }[]>([
   {

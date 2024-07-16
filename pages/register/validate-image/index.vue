@@ -16,12 +16,14 @@ url.value = "validate-products-image";
 const filterStore = useFilterStore();
 const { activeCreateButton } = storeToRefs(filterStore);
 activeCreateButton.value = true;
+
+const dialog = ref<boolean>(false);
 </script>
 
 <template>
   <v-main>
     <v-sheet class="mt-5" rounded="t-xl" elevation="5">
-      <Filter />
+      <Filter @create="dialog = true" />
 
       <Table
         title="VALIDAÇÃO DE IMAGENS"
@@ -29,27 +31,30 @@ activeCreateButton.value = true;
         :show-select="true"
         :multi-sort="true"
       >
-        <template #item.action>
-          <v-btn icon="mdi-delete" variant="plain" size="small" color="pink" />
+        <template #item.action="{ item }">
+          <UtilsDelete :id="item.id" />
         </template>
 
         <template #item.status="{ item }">
           <ValidateImageTemplatesStatus
+            :id="item.id"
             :status="item.status"
             @save="item.status = $event"
           />
         </template>
 
         <template #item.supplier="{ item }">
-          <span>{{ item.Product?.brand }}</span>
+          <span>
+            {{ item.Product?.brand ?? "" }}
+          </span>
         </template>
 
         <template #item.produto_chave="{ item }">
-          <span>{{ item.Product?.produto_chave }}</span>
+          <span>{{ item.Product?.produto_chave ?? "" }}</span>
         </template>
 
         <template #item.description="{ item }">
-          <UtilsTooltip :text="item.Product?.description" :vw="15" />
+          <UtilsTooltip :text="item.Product?.description ?? ''" :vw="15" />
         </template>
 
         <template #item.user_id="{ item }">
@@ -58,12 +63,16 @@ activeCreateButton.value = true;
 
         <template #item.observation="{ item }">
           <UtilsEditDialogTextField
-            :text="item.observation"
+            :id="item.id"
+            :text="item.observation ?? ''"
+            attr="observation"
             :vw="5"
-            @save="item.observation = $event"
+            @update-text="item.observation = $event"
           />
         </template>
       </Table>
+
+      <ValidateImageNew v-model="dialog" @push="" @close="dialog = false" />
     </v-sheet>
   </v-main>
 </template>
