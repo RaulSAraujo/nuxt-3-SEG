@@ -33,9 +33,22 @@ export const useTableStore = defineStore("table", () => {
             return true;
         };
 
+        const dayjs = useDayjs();
+
         const params = availableFilter.value.reduce(
             (acc: Record<string, AccValue>, { attribute, value }) => {
                 if (validateValue(value)) {
+                    // Formatação do input array data.
+                    if (typeof value === 'string' && value.split(' - ').length === 2) {
+                        const array = value.split(' - ');
+
+                        for (let i = 0; i < array.length; i++) {
+                            array[i] = dayjs(array[i], 'DD/MM/YYYY').format("YYYY-MM-DD")
+                        }
+
+                        value = array.join(',');
+                    }
+
                     acc[attribute] = value;
                 }
 

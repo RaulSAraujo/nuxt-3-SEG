@@ -2,6 +2,8 @@
 import type { User } from "~/interfaces/User";
 import type { Filter } from "~/interfaces/Filter";
 
+defineEmits(["create"]);
+
 const { data } = useAuth();
 const user = data.value as User;
 
@@ -43,5 +45,5 @@ $api(`custom-filters-user?user_id=${user.id}&model=${model}`, {
 <template>
   <FilterGroup />
 
-  <FilterButtons />
+  <FilterButtons @create="$emit('create')" />
 </template>
