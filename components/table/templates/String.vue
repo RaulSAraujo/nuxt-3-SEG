@@ -32,11 +32,11 @@ const widthColumnText = (label: string | null) => {
         "
       >
         <span v-bind="props">
-          {{ value ?? '' }}
+          {{ value ?? "" }}
         </span>
       </div>
     </template>
   </v-tooltip>
 
-  <span v-else>{{ value ?? '' }}</span>
+  <span v-else style="white-space: nowrap !important">{{ value ?? "" }}</span>
 </template>

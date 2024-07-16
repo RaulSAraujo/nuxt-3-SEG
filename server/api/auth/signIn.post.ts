@@ -44,37 +44,30 @@ const auth_pages_options = (pages: Page[]) => {
 export default defineEventHandler(async (event) => {
     const { username, password } = await readBody(event)
 
-    try {
-        const response = await $fetch(`${useRuntimeConfig().public.base_url_external}/login`, {
-            method: 'POST',
-            body: JSON.stringify({
-                username,
-                password
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }) as SignIn
-
-        const operations = response.operations as Operation[]
-        const pages = await useStorage('assets:server').getItem(`pages.json`) as Page[]
-        for (const operation of operations) {
-            if (operation.name === "Ver") {
-                pages.forEach(menu => {
-                    const findMenu = menu.items.find(subMenu => operation.back_url === subMenu.backUrl)
-                    if (findMenu) findMenu.auth = true
-                })
-            }
+    const response = await $fetch(`${useRuntimeConfig().public.base_url_external}/login`, {
+        method: 'POST',
+        body: JSON.stringify({
+            username,
+            password
+        }),
+        headers: {
+            'Content-Type': 'application/json'
         }
+    }) as SignIn
 
-        auth_pages(pages);
-        auth_pages_options(pages);
-
-        // useStorage('data').setItem('pages', pages)
-
-        return response
-    } catch (err) {
-        console.error('Error fetching login data:', err)
-        return null
+    const operations = response.operations as Operation[]
+    const pages = await useStorage('assets:server').getItem(`pages.json`) as Page[]
+    for (const operation of operations) {
+        if (operation.name === "Ver") {
+            pages.forEach(menu => {
+                const findMenu = menu.items.find(subMenu => operation.back_url === subMenu.backUrl)
+                if (findMenu) findMenu.auth = true
+            })
+        }
     }
+
+    auth_pages(pages);
+    auth_pages_options(pages);
+
+    return response
 })
