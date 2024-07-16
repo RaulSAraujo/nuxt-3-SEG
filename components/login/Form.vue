@@ -28,7 +28,7 @@ const submit = handleSubmit(async (values) => {
       password: values.password,
     });
   } catch (error) {
-    $toast().error("Ocorreu um erro. Não foi possivel fazer o login.");
+    $toast().error(error.statusMessage ?? 'OCorreu um erro.');
   }
 });
 </script>
