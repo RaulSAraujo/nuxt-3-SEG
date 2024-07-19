@@ -1,14 +1,14 @@
 export interface Weather {
-    name: String;
+    name: string;
     main: {
-        temp: Number;
-        humidity: Number;
+        temp: number;
+        humidity: number;
     };
     weather: {
-        icon: String;
-        description: String;
+        icon: string;
+        description: string;
     }[];
     wind: {
-        speed: Number;
+        speed: number;
     };
 }

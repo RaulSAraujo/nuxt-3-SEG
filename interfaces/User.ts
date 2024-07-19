@@ -1,15 +1,15 @@
 export interface User {
-    id: number,
-    name: string,
-    username: string,
-    active: boolean,
-    is_admin: boolean,
-    group_id: number,
-    theme: boolean,
-    top_menu: boolean,
-    lateral_menu: boolean,
-    created_at: Date | null,
-    updated_at: Date | null,
-    deleted_at: Date | null,
-    profile_image: Buffer | null,
+    id: number;
+    name: string;
+    username: string;
+    active: boolean;
+    is_admin: boolean;
+    group_id: number;
+    theme: boolean;
+    top_menu: boolean;
+    lateral_menu: boolean;
+    created_at: Date | null;
+    updated_at: Date | null;
+    deleted_at: Date | null;
+    profile_image: Buffer | null;
 }

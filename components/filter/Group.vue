@@ -47,17 +47,18 @@ const saveDate = (event: string, multiple: boolean | string) => {
         :key="index"
         :cols="sizeCamp(item.layout_filters?.size)"
       >
-        <FilterInputTextField
+        <TextField
           v-if="item.type == 'STRING' || item.type == 'FLOAT' || item.type == 'INTEGER'"
           v-model="item.value"
           :label="item.label"
           :clearable="item.layout_filters?.clearable"
-          :approximate="item.layout_filters?.approximate"
+          :placeholder="item.layout_filters?.approximate ? 'Digite o valor aproximado' : 'Digite o valor exato'"
+          :hide-details="true"
           @update:model-value="changeValuesFilter = true"
           @enter="searchData"
         />
 
-        <FilterInputSelect
+        <Select
           v-if="item.type == 'ARRAY' && !item.layout_filters?.comboBox"
           v-model="item.value"
           :value="typeof item.value == 'object' ? item.value ?? [] : []"
@@ -71,7 +72,7 @@ const saveDate = (event: string, multiple: boolean | string) => {
           @like="item.value = $event"
         />
 
-        <FilterInputCombobox
+        <Combobox
           v-if="item.type == 'ARRAY' && item.layout_filters?.comboBox"
           v-model="item.value"
           :value="typeof item.value == 'object' ? item.value ?? [] : []"
@@ -84,7 +85,7 @@ const saveDate = (event: string, multiple: boolean | string) => {
           @change="changeValuesFilter = true"
         />
 
-        <FilterInputDatePicker
+        <DatePicker
           v-if="item.type == 'DATE'"
           v-model="item.value"
           :label="item.label"
@@ -96,7 +97,7 @@ const saveDate = (event: string, multiple: boolean | string) => {
           @change="changeValuesFilter = true"
         />
 
-        <FilterInputSwitch
+        <SwitchLock
           v-if="item.type == 'BOOLEAN'"
           v-model="item.value"
           :value="item.value == null ? null : !!item.value"

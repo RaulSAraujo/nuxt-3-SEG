@@ -16,6 +16,10 @@ url.value = "product";
 const filterStore = useFilterStore();
 const { activeCreateButton } = storeToRefs(filterStore);
 activeCreateButton.value = false;
+
+const productStore = useProductStore();
+const { product } = storeToRefs(productStore);
+
 </script>
 
 <template>
@@ -29,8 +33,18 @@ activeCreateButton.value = false;
         :show-select="true"
         :multi-sort="true"
       >
-        <template #item.action>
-          <v-btn icon="mdi-pencil" variant="plain" size="small" color="pink" />
+        <template #item.action="{ item }">
+          <v-btn
+            icon="mdi-pencil"
+            variant="plain"
+            size="small"
+            color="pink"
+            :to="{
+              name: 'register-product-name',
+              params: { name: item.name.toLowerCase() },
+            }"
+            @click="product = item"
+          />
         </template>
 
         <template #item.pref="{ item }">
@@ -60,24 +74,24 @@ activeCreateButton.value = false;
         </template>
 
         <template #item.erp_syncecom="{ item }">
-          <UtilsCheckIcon :value="item.ProductSell?.erp_syncecom ?? false" />
+          <CheckIcon :value="item.ProductSell?.erp_syncecom ?? false" />
         </template>
 
         <template #item.syncedecom="{ item }">
-          <UtilsCheckIcon :value="item.ProductSell?.syncedecom ?? false" />
+          <CheckIcon :value="item.ProductSell?.syncedecom ?? false" />
         </template>
 
         <template #item.syncecominprogress="{ item }">
-          <UtilsCheckIcon :value="item.ProductSell?.syncecominprogress ?? false" />
+          <CheckIcon :value="item.ProductSell?.syncecominprogress ?? false" />
         </template>
 
         <template #item.syncecomfailed="{ item }">
-          <UtilsCheckIcon :value="item.ProductSell?.syncecomfailed ?? false" />
+          <CheckIcon :value="item.ProductSell?.syncecomfailed ?? false" />
         </template>
 
         <template #item.quantity="{ item }">
           <span>
-            {{ item.type === "KIT" ? (item.ProductSell?.quantity ?? 0) : item.quantity }}
+            {{ item.type === "KIT" ? item.ProductSell?.quantity ?? 0 : item.quantity }}
           </span>
         </template>
 
@@ -115,11 +129,11 @@ activeCreateButton.value = false;
         </template>
 
         <template #item.counter_price="{ item }">
-          <ProductTemplatesCounterPrice :counter-price="item.counter_price" />
+          <ToLocaleString :value="item.counter_price" />
         </template>
 
         <template #item.promotion_price="{ item }">
-          <ProductTemplatesPromotionPrice :promotion-price="item.promotion_price" />
+          <ToLocaleString :value="item.promotion_price" />
         </template>
 
         <template #item.supplier_preference_id="{ item }">

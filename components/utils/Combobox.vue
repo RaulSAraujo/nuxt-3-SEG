@@ -1,11 +1,12 @@
 <script setup lang="ts">
 defineProps<{
   label: string;
-  value: [];
-  items: [];
+  value?: [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  items: Array<any>;
   itemTitle: string;
   itemValue: string;
-  clearable: boolean | undefined;
+  clearable?: boolean | undefined;
   multiple: boolean | undefined;
 }>();
 </script>

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 defineProps<{
   label: string;
-  clearable: boolean | undefined;
-  approximate: boolean | undefined;
+  clearable?: boolean | undefined;
+  placeholder?: string | undefined;
+  disabled?: boolean | undefined;
+  hideDetails?: boolean | "auto" | undefined;
 }>();
 
 defineEmits(["enter"]);
@@ -15,8 +17,9 @@ defineEmits(["enter"]);
     variant="outlined"
     :label="label"
     :clearable="clearable"
-    hide-details
-    :placeholder="approximate ? 'Digite o valor aproximado' : 'Digite o valor exato'"
+    :disabled="disabled"
+    :hide-details="hideDetails"
+    :placeholder="placeholder"
     @keypress.enter="$emit('enter')"
   />
 </template>

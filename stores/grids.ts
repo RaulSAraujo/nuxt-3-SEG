@@ -1,5 +1,5 @@
 import type { Grid, Column } from "~/interfaces/Grid";
-import type { CustomFilterGrid } from '~/interfaces/CustomFilter&Grid.js'
+import type { CustomFilterGrid } from '~/interfaces/CustomFilterGrid.js'
 import type { User } from "~/interfaces/User";
 
 export const useGridStore = defineStore("grids", () => {

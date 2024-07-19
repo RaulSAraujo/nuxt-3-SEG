@@ -68,6 +68,13 @@ export default defineNuxtConfig({
 
   css: ['@/assets/style.css'],
 
+  components: [
+    
+    { path: '~/components/utils', pathPrefix: false, global: true },
+
+    '~/components'
+  ],
+
   vuetify: {
     vuetifyOptions: {
       icons: {

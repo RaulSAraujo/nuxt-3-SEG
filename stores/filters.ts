@@ -1,5 +1,5 @@
 import type { Filter, Column, User, ModelAssociation } from "~/interfaces/Filter";
-import type { CustomFilterGrid } from "~/interfaces/CustomFilter&Grid";
+import type { CustomFilterGrid } from "~/interfaces/CustomFilterGrid";
 
 export const useFilterStore = defineStore("filters", () => {
     const drawer = ref<boolean>(false)

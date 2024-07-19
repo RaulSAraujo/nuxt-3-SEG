@@ -2,7 +2,6 @@
 <script setup lang="ts">
 defineProps<{
   availability: number;
-  pavailabilityHistories: Record<string | number | symbol, any>;
 }>();
 
 const availabilityToTextMap = ref<Record<number, string>>({
@@ -31,26 +30,9 @@ const availabilityToTextMap = ref<Record<number, string>>({
         :src="`/icons/disp${availability}.gif`"
         :alt="`disp-${availability}`"
       />
-      <!-- @dblclick="redirectQuotation(item.id, index)" -->
     </template>
     <template #default>
-      <span class="text-body-2">ATUAL: {{ availabilityToTextMap[availability] }}</span>
-      <div v-if="pavailabilityHistories">
-        <span
-          v-for="(PAvailability, i) in pavailabilityHistories.slice().reverse()"
-          :key="i"
-          class="text-caption"
-        >
-          <p v-if="i < 5">
-            {{ availabilityToTextMap[PAvailability.availability_id] }} -
-            {{
-              $dayjs(PAvailability.availability_at).isValid()
-                ? $dayjs(PAvailability.availability_at).format("DD/MM/YYYY HH:mm:ss")
-                : ""
-            }}
-          </p>
-        </span>
-      </div>
+      <span class="text-body-2">{{ availabilityToTextMap[availability] }}</span>
     </template>
   </v-tooltip>
 </template>

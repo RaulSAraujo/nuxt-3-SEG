@@ -1,16 +1,18 @@
 <script setup lang="ts">
 const props = defineProps<{
   label: string;
-  value: [];
-  items: [];
+  value?: [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  items: Array<any>;
   itemTitle: string;
   itemValue: string;
-  clearable: boolean | undefined;
+  clearable?: boolean | undefined;
   multiple: boolean | undefined;
+  returnObject?: boolean | undefined;
 }>();
 
-const likesAll = computed(() => props.value.length === props.items.length);
-const likesSome = computed(() => props.value.length > 0);
+const likesAll = computed(() => props.value!.length === props.items.length);
+const likesSome = computed(() => props.value!.length > 0);
 
 const emit = defineEmits(["like"]);
 
@@ -35,6 +37,7 @@ const toggle = () => {
     :items="items"
     :item-title="itemTitle"
     :item-value="itemValue"
+    :return-object="returnObject"
     hide-details
   >
     <template v-if="multiple" #prepend-item>

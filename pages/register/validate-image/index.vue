@@ -32,7 +32,7 @@ const dialog = ref<boolean>(false);
         :multi-sort="true"
       >
         <template #item.action="{ item }">
-          <UtilsDelete :id="item.id" />
+          <Delete :id="item.id" />
         </template>
 
         <template #item.status="{ item }">
@@ -54,15 +54,15 @@ const dialog = ref<boolean>(false);
         </template>
 
         <template #item.description="{ item }">
-          <UtilsTooltip :text="item.Product?.description ?? ''" :vw="15" />
+          <Tooltip :text="item.Product?.description ?? ''" :vw="15" />
         </template>
 
         <template #item.user_id="{ item }">
-          <UtilsTooltip :text="item.User?.name" :vw="8" />
+          <Tooltip :text="item.User?.name" :vw="8" />
         </template>
 
         <template #item.observation="{ item }">
-          <UtilsEditDialogTextField
+          <EditDialogTextField
             :id="item.id"
             :text="item.observation ?? ''"
             attr="observation"
@@ -72,7 +72,7 @@ const dialog = ref<boolean>(false);
         </template>
       </Table>
 
-      <ValidateImageNew v-model="dialog" @push="" @close="dialog = false" />
+      <ValidateImageNew v-model="dialog" @close="dialog = false" />
     </v-sheet>
   </v-main>
 </template>
