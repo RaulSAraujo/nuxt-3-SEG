@@ -18,8 +18,9 @@ const { activeCreateButton } = storeToRefs(filterStore);
 activeCreateButton.value = false;
 
 const productStore = useProductStore();
-const { product } = storeToRefs(productStore);
+const { product, costTableIndex } = storeToRefs(productStore);
 
+const activateDialogToEdit = ref<boolean>(false);
 </script>
 
 <template>
@@ -59,6 +60,11 @@ const { product } = storeToRefs(productStore);
           <ProductTemplatesAvailability
             :availability="item.availability"
             :pavailability-histories="item.PAvailabilityHistories"
+            @dblclick="
+              product = item;
+              costTableIndex = 0;
+              activateDialogToEdit = true;
+            "
           />
         </template>
 
@@ -157,5 +163,11 @@ const { product } = storeToRefs(productStore);
         </template>
       </Table>
     </v-sheet>
+
+    <ProductCostTableMyTableToEdit
+      v-if="activateDialogToEdit"
+      v-model="activateDialogToEdit"
+      @disable="activateDialogToEdit = false"
+    />
   </v-main>
 </template>

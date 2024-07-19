@@ -5,6 +5,8 @@ defineProps<{
   pavailabilityHistories: Record<string | number | symbol, any>;
 }>();
 
+defineEmits(["dblclick"]);
+
 const availabilityToTextMap = ref<Record<number, string>>({
   1: "Disponivel",
   2: "Disponivel(est)",
@@ -30,8 +32,8 @@ const availabilityToTextMap = ref<Record<number, string>>({
         class="mx-auto"
         :src="`/icons/disp${availability}.gif`"
         :alt="`disp-${availability}`"
+        @dblclick="$emit('dblclick')"
       />
-      <!-- @dblclick="redirectQuotation(item.id, index)" -->
     </template>
     <template #default>
       <span class="text-body-2">ATUAL: {{ availabilityToTextMap[availability] }}</span>
