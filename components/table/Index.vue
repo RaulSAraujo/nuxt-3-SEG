@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { User } from "~/interfaces/User";
 import type { Grid } from "~/interfaces/Grid.js";
-import { useTableStore } from "~/stores/table";
 
 const props = defineProps<{
   title: string;
@@ -12,15 +11,23 @@ const props = defineProps<{
 
 defineEmits(["loadItems"]);
 
-// Resetar props antes de desmontar o component
-onBeforeUnmount(() => {
-  page.value = 1;
-  itemsPerPage.value = 10;
+// Resetar props
+onBeforeRouteLeave((to, from, next) => {
+  if (Object.keys(to.params).length > 0) {
+    next();
+  } else {
+    page.value = 1;
+    itemsPerPage.value = 10;
 
-  items.value = [];
-  totalItems.value = 0;
+    items.value = [];
+    totalItems.value = 0;
 
-  loading.value = true;
+    gridStore.clearGridProps();
+
+    loading.value = true;
+
+    next();
+  }
 });
 
 /**
@@ -41,7 +48,10 @@ const user = data.value as User;
 const { model } = useModelStore();
 
 const gridStore = useGridStore();
-const { availableGrid } = storeToRefs(gridStore);
+const { availableGrid, drawer: drawerGrid } = storeToRefs(gridStore);
+
+const store = useFilterStore();
+const { drawer: drawerFilter } = storeToRefs(store);
 
 const tableStore = useTableStore();
 const { page, items, itemsPerPage, totalItems, loading } = storeToRefs(tableStore);
@@ -53,27 +63,29 @@ const { page, items, itemsPerPage, totalItems, loading } = storeToRefs(tableStor
  * @constant grid Payload
  */
 let grid: Grid;
-$api(`grid-configurations?user_id=${user.id}&model=${model}`, {
-  priority: "high",
-  key: `Grid-product${model}`,
-  getCachedData(key, nuxtApp) {
-    return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
-  },
-})
-  .then((res) => {
-    if (res.error.value) throw res;
-
-    grid = res.data.value as Grid;
-
-    if (grid.resultCount > 0) {
-      gridStore.set(grid);
-    } else {
-      gridStore.create();
-    }
+if (availableGrid.value.length == 0) {
+  $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
+    priority: "high",
+    key: `Grid-${model}`,
+    getCachedData(key, nuxtApp) {
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+    },
   })
-  .catch((err) => {
-    $toast().error(err.error.value.cause ?? err.error.value.message);
-  });
+    .then((res) => {
+      if (res.error.value) throw res;
+
+      grid = res.data.value as Grid;
+
+      if (grid.resultCount > 0) {
+        gridStore.set(grid);
+      } else {
+        gridStore.create();
+      }
+    })
+    .catch((err) => {
+      $toast().error(err.error.value.cause ?? err.error.value.message);
+    });
+}
 </script>
 
 <template>
@@ -128,7 +140,7 @@ $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
         <slot :name="slot" v-bind="props" />
       </template>
     </v-data-table-server>
-    
+
     <template #fallback>
       <!-- this will be rendered on server side -->
       <v-skeleton-loader type="table" />
@@ -137,9 +149,9 @@ $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
 
   <TableFooter />
 
-  <TableMenuFilterDrawer />
+  <TableMenuFilterDrawer v-if="drawerFilter" />
 
-  <TableMenuGridDrawer />
+  <TableMenuGridDrawer v-if="drawerGrid" />
 
   <TableFloatingButton :length="items.length" />
 </template>

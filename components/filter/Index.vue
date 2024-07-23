@@ -4,6 +4,17 @@ import type { Filter } from "~/interfaces/Filter";
 
 defineEmits(["create"]);
 
+// Resetar props
+onBeforeRouteLeave((to, from, next) => {
+  if (Object.keys(to.params).length > 0) {
+    next();
+  } else {
+    filterStore.clearFilterProps();
+
+    next();
+  }
+});
+
 const { data } = useAuth();
 const user = data.value as User;
 
@@ -19,27 +30,29 @@ const filterStore = useFilterStore();
  * @constant headers Novo array colocando em sequencia
  */
 let filter: Filter;
-$api(`custom-filters-user?user_id=${user.id}&model=${model}`, {
-  priority: "high",
-  key: `filter-product${model}`,
-  getCachedData(key, nuxtApp) {
-    return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
-  },
-})
-  .then((res) => {
-    if (res.error.value) throw res;
-
-    filter = res.data.value as Filter;
-
-    if (filter.resultCount > 0) {
-      filterStore.set(filter);
-    } else {
-      filterStore.create();
-    }
+if (filterStore.availableFilter.length == 0) {
+  $api(`custom-filters-user?user_id=${user.id}&model=${model}`, {
+    priority: "high",
+    key: `filter-${model}`,
+    getCachedData(key, nuxtApp) {
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+    },
   })
-  .catch((err) => {
-    $toast().error(err.error.value.cause ?? err.error.value.message);
-  });
+    .then((res) => {
+      if (res.error.value) throw res;
+
+      filter = res.data.value as Filter;
+
+      if (filter.resultCount > 0) {
+        filterStore.set(filter);
+      } else {
+        filterStore.create();
+      }
+    })
+    .catch((err) => {
+      $toast().error(err.error.value.cause ?? err.error.value.message);
+    });
+}
 </script>
 
 <template>

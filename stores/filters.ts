@@ -22,6 +22,12 @@ export const useFilterStore = defineStore("filters", () => {
         hiddenFilter.value = value.rows[0].hidden_filters
     }
 
+    function clearFilterProps(){
+        id.value = undefined;
+        availableFilter.value = [];
+        hiddenFilter.value = [];
+    }
+
     async function loadCustomGrids() {
         const { model } = useModelStore();
 
@@ -266,6 +272,7 @@ export const useFilterStore = defineStore("filters", () => {
         switchDrawer,
         availableFilter,
         hiddenFilter,
+        clearFilterProps,
         set,
         reset,
         create,

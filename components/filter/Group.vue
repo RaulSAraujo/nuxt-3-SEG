@@ -1,8 +1,4 @@
 <script setup lang="ts">
-onBeforeUnmount(() => {
-  filterStore.clearValues();
-});
-
 const filterStore = useFilterStore();
 const { availableFilter, changeValuesFilter } = storeToRefs(filterStore);
 

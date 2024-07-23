@@ -23,6 +23,12 @@ export const useGridStore = defineStore("grids", () => {
         hiddenGrid.value = value.rows[0].hidden_columns
     }
 
+    function clearGridProps() {
+        id.value = undefined;
+        availableGrid.value = [];
+        hiddenGrid.value = [];
+    }
+
     async function loadCustomGrids() {
         const { model } = useModelStore();
 
@@ -259,6 +265,7 @@ export const useGridStore = defineStore("grids", () => {
         switchDrawer,
         availableGrid,
         hiddenGrid,
+        clearGridProps,
         set,
         reset,
         create,
