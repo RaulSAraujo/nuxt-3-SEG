@@ -55,6 +55,7 @@ const destroy = async () => {
     variant="plain"
     size="small"
     color="pink"
+    density="comfortable"
     @click="snackbar = true"
   />
 
@@ -70,7 +71,9 @@ const destroy = async () => {
   >
     <div class="text-subtitle-1">Deletar dados</div>
 
-    <p class="text-caption text-grey-lighten-2">Não será possivel recuperar, deseja continuar ?</p>
+    <p class="text-caption text-grey-lighten-2">
+      Não será possivel recuperar, deseja continuar ?
+    </p>
 
     <template #actions>
       <v-btn color="white" variant="plain" @click="snackbar = false"> Não </v-btn>
