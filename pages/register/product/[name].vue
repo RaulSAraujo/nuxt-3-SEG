@@ -52,7 +52,7 @@ await supplierStore.get();
     </div>
 
     <v-sheet class="mx-2" rounded="t-xl" elevation="5">
-      <NuxtPage />
+      <NuxtPage :keepalive="true" />
     </v-sheet>
 
     <ProductFloatingSaveBtn />
