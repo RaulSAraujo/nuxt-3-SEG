@@ -23,8 +23,12 @@ const addStatus = () => {
   save(pstatuses);
 };
 
+const loading = useLoadingIndicator();
+
 const save = async (pstatuses?: number[]) => {
   snackbar.value = false;
+
+  loading.start()
 
   const details = { ...product.value };
 
@@ -71,6 +75,8 @@ const save = async (pstatuses?: number[]) => {
 
     $toast().error(`${err.statusText ?? err.name}`);
   }
+
+  loading.finish()
 };
 </script>
 
