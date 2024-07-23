@@ -36,7 +36,7 @@ const headers = ref([
     hide-default-footer
     disable-sort
   >
-    <template #item.action="{ index }">
+    <template #item.action="{ item, index }">
       <div class="d-flex flex-row">
         <v-btn
           icon="mdi-pencil"
@@ -44,16 +44,13 @@ const headers = ref([
           size="small"
           density="comfortable"
           color="blue"
-          @click="costTableIndex = index; activateDialogToEdit = true"
+          @click="
+            costTableIndex = index;
+            activateDialogToEdit = true;
+          "
         />
 
-        <v-btn
-          icon="mdi-delete"
-          variant="plain"
-          size="small"
-          density="comfortable"
-          color="pink"
-        />
+        <Delete :id="item.id" url-local="quotation" />
       </div>
     </template>
 
