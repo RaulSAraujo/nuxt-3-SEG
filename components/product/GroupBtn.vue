@@ -1,4 +1,7 @@
-1<script setup lang="ts"></script>
+<script setup lang="ts">
+const productStore = useProductStore();
+const { product } = storeToRefs(productStore);
+</script>
 
 <template>
   <v-btn-toggle variant="plain" color="primary">
@@ -6,16 +9,16 @@
       icon="mdi-home-edit"
       @click="
         $router.replace({
-          name: 'register-product-name',
-          params: { name: $route.params.name },
+          name: 'register-product-id',
+          params: { id: $route.params.id },
         })
       "
     />
 
     <v-btn
       :to="{
-        name: 'register-product-name-cost-table',
-        params: { name: $route.params.name },
+        name: 'register-product-id-cost-table',
+        params: { id: $route.params.id },
       }"
     >
       Tabela de custos
@@ -23,8 +26,8 @@
 
     <v-btn
       :to="{
-        name: 'register-product-name-status-table',
-        params: { name: $route.params.name },
+        name: 'register-product-id-status-table',
+        params: { id: $route.params.id },
       }"
     >
       Tabela de status
@@ -32,11 +35,11 @@
 
     <v-btn
       :to="{
-        name: 'register-product-name-type-type_id',
+        name: 'register-product-id-type-type_id',
         params: {
-          name: $route.params.name,
-          type: 'Family',
-          type_id: 1,
+          id: $route.params.id,
+          type: product?.type,
+          type_id: product?.type_id,
         },
       }"
     >
@@ -45,8 +48,8 @@
 
     <v-btn
       :to="{
-        name: 'register-product-name-imagens',
-        params: { name: $route.params.name },
+        name: 'register-product-id-imagens',
+        params: { id: $route.params.id },
       }"
     >
       Imagens
@@ -54,8 +57,8 @@
 
     <v-btn
       :to="{
-        name: 'register-product-name-storage-table',
-        params: { name: $route.params.name },
+        name: 'register-product-id-storage-table',
+        params: { id: $route.params.id },
       }"
     >
       Armazenagem
