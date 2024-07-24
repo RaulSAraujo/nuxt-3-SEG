@@ -7,7 +7,7 @@ const productStore = useProductStore();
 const { product } = storeToRefs(productStore);
 
 if (product.value == undefined) {
-  const { data, error } = await $api(`product?name=${params.name}&unique=true`);
+  const { data, error } = await $api(`product?id=${params.id}`);
 
   if (!error.value) {
     const val = data.value as Product;

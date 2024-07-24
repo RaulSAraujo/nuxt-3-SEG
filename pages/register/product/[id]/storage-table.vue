@@ -4,7 +4,7 @@ import type { ERPWarehouses } from "~/interfaces/ErpWarehouses.js";
 const { params } = useRoute();
 
 const [warehousesRes, erpWarehousesRes] = await Promise.all([
-  $api<Product>(`product?name=${params.name}&warehouses=true&unique=true`),
+  $api<Product>(`product?id=${params.id}&warehouses=true`),
   $api<ERPWarehouses>(`erp-warehouses`),
 ]);
 

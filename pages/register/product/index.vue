@@ -41,8 +41,8 @@ const activateDialogToEdit = ref<boolean>(false);
             size="small"
             color="pink"
             :to="{
-              name: 'register-product-name',
-              params: { name: item.name.toLowerCase() },
+              name: 'register-product-id',
+              params: { id: item.id },
             }"
             @click="product = item"
           />
