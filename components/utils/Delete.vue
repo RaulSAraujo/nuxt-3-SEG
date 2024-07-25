@@ -12,8 +12,12 @@ const currentTime = ref(0);
 const tableStore = useTableStore();
 const { items } = storeToRefs(tableStore);
 
+const loading = useLoadingIndicator();
+
 const destroy = async () => {
   snackbar.value = false;
+
+  loading.start();
 
   try {
     interface Response {
@@ -46,6 +50,8 @@ const destroy = async () => {
 
     $toast().error(`${err.statusText ?? err.message}`);
   }
+
+  loading.finish();
 };
 </script>
 
