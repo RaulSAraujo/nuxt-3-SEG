@@ -9,7 +9,7 @@ const update = async () => {
     useNuxtApp().$customFetch("product", {
       method: "PUT",
       body: {
-        id: product.value.Quotations[0].product_id,
+        id: product.value.Quotations![0].product_id,
         icms_percentage: product.value.icms_percentage,
         diff_icms_percentage: product.value.diff_icms_percentage,
         ipi_percentage: product.value.ipi_percentage,

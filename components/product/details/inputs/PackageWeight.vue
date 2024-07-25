@@ -2,7 +2,7 @@
 const productStore = useProductStore();
 const { product } = storeToRefs(productStore);
 
-const package_id = computed(() => product.value?.package_id);
+const package_id = computed(() => product.value?.package_id ?? 1);
 
 const height = computed(() => parseFloat(`${product.value?.height ?? 0}`));
 const length = computed(() => parseFloat(`${product.value?.length ?? 0}`));
@@ -25,7 +25,7 @@ const FormatFirstPackaging = () => {
   product.value!.Package!.package_weight = Math.ceil(mult * weight_cubic_kg.value * 1000);
 };
 
-if (package_id.value === 1) FormatFirstPackaging();
+if (package_id.value === 1) await FormatFirstPackaging();
 
 watch(
   () => package_id.value,
@@ -49,7 +49,8 @@ watch(
 
 <template>
   <TextField
-    v-model="product!.Package!.package_weight"
+    v-if="product && product.Package"
+    v-model="product.Package.package_weight"
     label="PESO EMBALAGEM (GRAMAS)"
     :disabled="true"
   />

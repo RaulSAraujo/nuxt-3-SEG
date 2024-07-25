@@ -30,6 +30,10 @@ export const useTableStore = defineStore("table", () => {
                 return false;
             }
 
+            if (typeof value === 'object' && value.length === 0) {
+                return false;
+            }
+
             return true;
         };
 
@@ -63,7 +67,7 @@ export const useTableStore = defineStore("table", () => {
             page.value = 1
         }
 
-        useNuxtApp().$customFetch(url.value, {
+        useNuxtApp().$customFetch<{ resultCount: number; rows: object[]; totalRecords: number }>(url.value, {
             method: "GET",
             params: {
                 page: page.value,
@@ -74,10 +78,9 @@ export const useTableStore = defineStore("table", () => {
             retry: 3,
             retryDelay: 100,
         }).then(async (res) => {
-            const data = res as { resultCount: number; rows: object[]; totalRecords: number };
 
-            items.value = data.rows;
-            totalItems.value = data.totalRecords;
+            items.value = res.rows;
+            totalItems.value = res.totalRecords;
 
             changeValuesFilter.value = false;
         })

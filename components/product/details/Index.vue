@@ -104,7 +104,7 @@ const { product } = storeToRefs(productStore);
   <v-row dense>
     <v-col class="d-flex flex-row justify-center border-sm rounded-lg mx-1">
       <Switch
-        v-model="product!.ProductSell.syncecom"
+        :model-value="product!.ProductSell!.syncecom ?? false"
         label="SINC ECOM"
         :readonly="true"
         :hide-details="true"
@@ -121,19 +121,11 @@ const { product } = storeToRefs(productStore);
     </v-col>
 
     <v-col class="d-flex flex-row justify-center border-sm rounded-lg mx-1">
-      <Switch
-        v-model="product!.image"
-        label="IMAGEM"
-        :hide-details="true"
-      />
+      <Switch v-model="product!.image" label="IMAGEM" :hide-details="true" />
     </v-col>
 
     <v-col class="d-flex flex-row justify-center border-sm rounded-lg mx-1">
-      <Switch
-        v-model="product!.support"
-        label="SUPORTE"
-        :hide-details="true"
-      />
+      <Switch v-model="product!.support" label="SUPORTE" :hide-details="true" />
     </v-col>
   </v-row>
 </template>

@@ -4,7 +4,7 @@ defineProps<{ name: string | null; observationCodFab: string | null }>();
 
 <template>
   <span v-if="!observationCodFab && name">
-    {{ name?.toUpperCase() }}
+    {{ name.toUpperCase() }}
   </span>
 
   <v-tooltip v-else location="top" :text="observationCodFab?.toUpperCase()">

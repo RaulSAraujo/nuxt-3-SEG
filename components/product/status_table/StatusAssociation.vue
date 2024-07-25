@@ -18,7 +18,7 @@ if (!error.value) {
   }).value;
 
   StatusItems.value!.forEach((element) => {
-    const find = product.value?.Pstatuses.find((item) => {
+    const find = product.value?.Pstatuses!.find((item) => {
       return element.id === item.id;
     });
 

@@ -30,9 +30,10 @@ const headers = ref([
 
 <template>
   <v-data-table
+    v-if="product && product.Quotations"
     class="rounded-xl border-sm pa-2"
     :headers="headers"
-    :items="product!.Quotations"
+    :items="product.Quotations"
     hide-default-footer
     disable-sort
   >

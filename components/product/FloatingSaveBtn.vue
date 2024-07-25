@@ -6,7 +6,7 @@ const productStore = useProductStore();
 const { product, productMeasurementsChanged } = storeToRefs(productStore);
 
 const removeStatus = () => {
-  const pstatuses = product.value!.Pstatuses.map((item) => item.id);
+  const pstatuses = product.value!.Pstatuses!.map((item) => item.id);
 
   const index = pstatuses.findIndex((item) => item === 3);
 
@@ -16,7 +16,7 @@ const removeStatus = () => {
 };
 
 const addStatus = () => {
-  const pstatuses = product.value!.Pstatuses.map((item) => item.id);
+  const pstatuses = product.value!.Pstatuses!.map((item) => item.id);
 
   pstatuses.push(3);
 
@@ -28,7 +28,7 @@ const loading = useLoadingIndicator();
 const save = async (pstatuses?: number[]) => {
   snackbar.value = false;
 
-  loading.start()
+  loading.start();
 
   const details = { ...product.value };
 
@@ -68,7 +68,7 @@ const save = async (pstatuses?: number[]) => {
     });
 
     $toast().success("Sucesso em atualizar.");
-    
+
     productMeasurementsChanged.value = false;
   } catch (error) {
     const err = error as { statusText: string; name: string };
@@ -76,7 +76,7 @@ const save = async (pstatuses?: number[]) => {
     $toast().error(`${err.statusText ?? err.name}`);
   }
 
-  loading.finish()
+  loading.finish();
 };
 </script>
 
