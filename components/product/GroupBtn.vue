@@ -16,6 +16,7 @@ const { product } = storeToRefs(productStore);
     />
 
     <v-btn
+      v-if="product?.type == 'FAMILY'"
       :to="{
         name: 'register-product-id-cost-table',
         params: { id: $route.params.id },

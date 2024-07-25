@@ -1,4 +1,6 @@
 import type { Row } from '~/interfaces/Product.js'
+import type { Family as FamilyProduct, Product } from "~/interfaces/Family.js";
+import type { Kit, Family as FamilyKit } from "~/interfaces/Kit.js";
 
 export const useProductStore = defineStore("product", () => {
     const product = ref<Row>();
@@ -12,15 +14,39 @@ export const useProductStore = defineStore("product", () => {
         { title: 'Bloqueado', value: 6 },
         { title: 'Não encontrado', value: 7 },
     ])
-    
+
     const productMeasurementsChanged = ref(false)
 
     const costTableIndex = ref(-1);
+
+    const family = ref<Product[] | null>();
+
+    const kit = ref<FamilyKit[] | null>();
+
+    async function getFamilyKit(type: string, type_id: string) {
+        const { data } = await $api<FamilyProduct | Kit>(`${type}?id=${type_id}`);
+
+        const productStore = useProductStore();
+        const { family, kit } = storeToRefs(productStore);
+
+        if (data != null && type == "family") {
+            const format = data.value as FamilyProduct;
+
+            family.value = format?.rows[0].Products ?? null;
+        } else {
+            const format = data.value as Kit;
+
+            kit.value = format?.rows[0].Families;
+        }
+    }
 
     return {
         product,
         costTableIndex,
         availabilityMap,
-        productMeasurementsChanged
+        productMeasurementsChanged,
+        family,
+        kit,
+        getFamilyKit
     }
 })
