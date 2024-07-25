@@ -1,8 +1,9 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
+import type { PAvailabilityHistory } from "~/interfaces/Product.js";
+
 defineProps<{
   availability: number;
-  pavailabilityHistories: Record<string | number | symbol, any>;
+  pavailabilityHistories: PAvailabilityHistory[];
 }>();
 
 defineEmits(["dblclick"]);
@@ -36,7 +37,14 @@ const availabilityToTextMap = ref<Record<number, string>>({
       />
     </template>
     <template #default>
-      <span class="text-body-2">ATUAL: {{ availabilityToTextMap[availability] }}</span>
+      <span class="text-body-2">
+        ATUAL:
+        {{
+          typeof availability == "number"
+            ? availabilityToTextMap[availability]
+            : "Não definido"
+        }}
+      </span>
       <div v-if="pavailabilityHistories">
         <span
           v-for="(PAvailability, i) in pavailabilityHistories.slice().reverse()"
