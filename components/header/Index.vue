@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import type { Page } from "~/interfaces/Page";
+
+const { data: pages, status } = useFetch<Page[]>("/api/pages");
 </script>
 
 <template>
@@ -8,7 +11,7 @@
     </template>
 
     <v-app-bar-title>
-      <HeaderMenu />
+      <HeaderMenu v-if="status == 'success'" :pages="pages!" />
     </v-app-bar-title>
 
     <template #append>

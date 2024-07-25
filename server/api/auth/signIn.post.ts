@@ -1,3 +1,4 @@
+import { useArrayFilter, useArrayMap } from "@vueuse/core"
 import type { Operation } from "~/interfaces/Operation"
 import type { Page } from "~/interfaces/Page"
 
@@ -22,23 +23,23 @@ interface SignIn {
 }
 
 const auth_pages = (pages: Page[]) => {
-    const filter = pages.filter((item) => item.title !== 'Options')
-    const auth_pages = filter.map((menu) => {
-        return {
-            ...menu,
-            items: menu.items.filter((item) => item.auth && !item.child),
+    const auth_pages = useArrayMap(pages, (menu) => {
+        const items = menu.items.filter((item) => item.auth && !item.child)
+
+        if (items.length > 1) {
+            return {
+                ...menu,
+                items: menu.items.filter((item) => item.auth && !item.child),
+            }
+
+        } else {
+            return null
         }
     })
 
-    useStorage('data').setItem('auth_pages', auth_pages)
-}
+    const removeNull = useArrayFilter(auth_pages, (f) => f != null)
 
-const auth_pages_options = (pages: Page[]) => {
-    const filter = pages.filter((item) => item.title === 'Options')
-
-    const auth_pages_options = filter.map((menu) => menu.items.filter((item) => item.auth && !item.child))[0]
-
-    useStorage('data').setItem('auth_pages_options', auth_pages_options)
+    return removeNull;
 }
 
 export default defineEventHandler(async (event) => {
@@ -59,15 +60,25 @@ export default defineEventHandler(async (event) => {
     const pages = await useStorage('assets:server').getItem(`pages.json`) as Page[]
     for (const operation of operations) {
         if (operation.name === "Ver") {
-            pages.forEach(menu => {
-                const findMenu = menu.items.find(subMenu => operation.back_url === subMenu.backUrl)
-                if (findMenu) findMenu.auth = true
-            })
+            for (const page of pages) {
+                const findMenu = page.items.find(subMenu => operation.back_url === subMenu.backUrl)
+
+                if (findMenu) {
+                    findMenu.auth = true
+                }
+            }
         }
     }
 
-    auth_pages(pages);
-    auth_pages_options(pages);
+    const AuthenticatedPages = auth_pages(pages);
+
+    const filterMenu = useArrayFilter(AuthenticatedPages, (f) => f!.title !== 'Options')
+    
+    useStorage('data').setItem('auth_pages', filterMenu.value)
+    
+    const filterOptions = useArrayFilter(AuthenticatedPages, (f) => f!.title === 'Options')
+
+    useStorage('data').setItem('auth_pages_options', filterOptions.value[0])
 
     return response
 })

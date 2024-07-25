@@ -1,5 +1,5 @@
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
     const pages = await useStorage().getItem('data:auth_pages') 
-  
+
     return pages
   })
