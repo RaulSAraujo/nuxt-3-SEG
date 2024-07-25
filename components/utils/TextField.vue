@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  label: string;
+  label?: string;
   clearable?: boolean | undefined;
   placeholder?: string | undefined;
   disabled?: boolean | undefined;

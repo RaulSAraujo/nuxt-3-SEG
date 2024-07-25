@@ -8,6 +8,8 @@ defineProps<{
   itemValue: string;
   clearable?: boolean | undefined;
   multiple: boolean | undefined;
+  menuOpenDefault?: boolean | undefined;
+  returnObject?: boolean | undefined;
 }>();
 </script>
 
@@ -22,6 +24,12 @@ defineProps<{
     :item-title="itemTitle"
     :item-value="itemValue"
     :multiple="multiple"
+    :menu="menuOpenDefault"
+    :return-object="returnObject"
+    :menu-props="{
+      // @ts-ignore
+      'max-height': '200',
+    }"
     hide-details
   >
     <template v-if="multiple" #selection="{ item, index }">

@@ -38,6 +38,10 @@ const toggle = () => {
     :item-title="itemTitle"
     :item-value="itemValue"
     :return-object="returnObject"
+    :menu-props="{
+      // @ts-ignore
+      'max-height': '200',
+    }"
     hide-details
   >
     <template v-if="multiple" #prepend-item>
