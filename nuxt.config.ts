@@ -69,7 +69,7 @@ export default defineNuxtConfig({
   css: ['@/assets/style.css'],
 
   components: [
-    
+
     { path: '~/components/utils', pathPrefix: false, global: true },
 
     '~/components'
@@ -122,8 +122,9 @@ export default defineNuxtConfig({
             }
           },
         }
-      }
-    }
+      },
+      labComponents: true
+    },
   },
 
   auth: {
