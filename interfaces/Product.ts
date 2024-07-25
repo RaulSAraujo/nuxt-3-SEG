@@ -190,8 +190,8 @@ export interface EcommerceProductSell {
 export interface Pstatus {
     id: number;
     name: string;
-    created_at: Date;
-    updated_at: Date;
+    created_at: Date | string;
+    updated_at: Date | string;
     ProductPstatus?: ProductPstatus;
 }
 
@@ -199,8 +199,8 @@ export interface ProductPstatus {
     id: number;
     product_id: number;
     pstatus_id: number;
-    created_at: Date;
-    updated_at: Date;
+    created_at: Date | string;
+    updated_at: Date | string;
 }
 
 export interface Quotation {

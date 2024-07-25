@@ -23,11 +23,19 @@ const headers = ref([
     </template>
 
     <template #item.created_at="{ item }">
-      <DateString :date="item.created_at" />
+      <DateString
+        :date="item.ProductPstatus?.created_at ?? null"
+        format-for="DD/MM/YYYY HH:mm:ss"
+        format-from="YYYY-MM-DDTHH:mm:ss"
+      />
     </template>
 
     <template #item.updated_at="{ item }">
-      <DateString :date="item.created_at" />
+      <DateString
+        :date="item.ProductPstatus?.updated_at ?? null"
+        format-for="DD/MM/YYYY HH:mm:ss"
+        format-from="YYYY-MM-DDTHH:mm:ss"
+      />
     </template>
   </v-data-table>
 </template>
