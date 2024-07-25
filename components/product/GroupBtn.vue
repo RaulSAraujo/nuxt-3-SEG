@@ -17,24 +17,23 @@ const { product } = storeToRefs(productStore);
 
     <v-btn
       v-if="product?.type == 'FAMILY'"
+      text="Tabela de custos"
       :to="{
         name: 'register-product-id-cost-table',
         params: { id: $route.params.id },
       }"
-    >
-      Tabela de custos
-    </v-btn>
+    />
 
     <v-btn
+      text="Tabela de status"
       :to="{
         name: 'register-product-id-status-table',
         params: { id: $route.params.id },
       }"
-    >
-      Tabela de status
-    </v-btn>
+    />
 
     <v-btn
+      text="Familia/Kit"
       :to="{
         name: 'register-product-id-type-type_id',
         params: {
@@ -43,26 +42,22 @@ const { product } = storeToRefs(productStore);
           type_id: product?.type_id,
         },
       }"
-    >
-      Familia/Kit
-    </v-btn>
+    />
 
     <v-btn
+      text="Imagens"
       :to="{
         name: 'register-product-id-imagens',
         params: { id: $route.params.id },
       }"
-    >
-      Imagens
-    </v-btn>
+    />
 
     <v-btn
+      text="Armazenagem"
       :to="{
         name: 'register-product-id-storage-table',
         params: { id: $route.params.id },
       }"
-    >
-      Armazenagem
-    </v-btn>
+    />
   </v-btn-toggle>
 </template>

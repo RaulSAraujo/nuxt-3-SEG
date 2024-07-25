@@ -38,12 +38,11 @@ await supplierStore.get();
       <v-btn
         variant="plain"
         prepend-icon="mdi-arrow-left"
+        text="Voltar para produtos"
         :to="{
           name: 'register-product',
         }"
-      >
-        Voltar para produtos
-      </v-btn>
+      />
 
       <v-spacer />
 
