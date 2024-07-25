@@ -30,7 +30,6 @@ await packageStore.get();
 
 const supplierStore = useSupplierStore();
 await supplierStore.get();
-
 </script>
 
 <template>
@@ -51,7 +50,7 @@ await supplierStore.get();
       <ProductGroupBtn />
     </div>
 
-    <v-sheet class="mx-2" rounded="t-xl" elevation="5">
+    <v-sheet class="mx-2" rounded="xl" elevation="5">
       <NuxtPage :keepalive="true" />
     </v-sheet>
 
