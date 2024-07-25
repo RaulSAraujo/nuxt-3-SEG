@@ -4,6 +4,15 @@ const { product } = storeToRefs(productStore);
 
 const dayjs = useDayjs();
 
+product.value!.virtual_stock_temporary_at = !dayjs(
+  product.value!.virtual_stock_temporary_at,
+  "DD/MM/YYYY HH:mm:ss"
+).isValid()
+  ? dayjs(product.value!.virtual_stock_temporary_at, "YYYY-MM-DDTHH:mm:ss").format(
+      "DD/MM/YYYY HH:mm:ss"
+    )
+  : product.value!.virtual_stock_temporary_at;
+
 watch(
   () => product.value!.virtual_stock_temporary,
   (newValue) => {
