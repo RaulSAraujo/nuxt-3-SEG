@@ -34,9 +34,8 @@ export interface Row {
     sync_comclick: boolean;
     sync_loja_do_tecnico: boolean;
     sync_viziotech: boolean;
-    created_at: Date;
-    updated_at: Date;
-    deleted_at: null;
+    created_at: Date | string;
+    updated_at: Date | string;
     Ecommerces: Ecommerce[];
     Family: Family;
     Kit: null;
@@ -61,9 +60,8 @@ export interface EcommerceProductSell {
     productsell_id: number;
     ecommerce_id: number;
     ecom_product_id: number;
-    created_at: Date;
-    updated_at: Date;
-    deleted_at: null;
+    created_at: Date | string;
+    updated_at: Date | string;
 }
 
 export interface Family {
@@ -73,9 +71,8 @@ export interface Family {
     quantity: null;
     model: null;
     replace_cost: null;
-    created_at: Date;
-    updated_at: Date;
-    deleted_at: null;
+    created_at: Date | string;
+    updated_at: Date | string;
     SellPreference: Product | null;
     Products: Product[];
 }
@@ -151,9 +148,8 @@ export interface Product {
     description_ecom: null;
     info: null;
     ean: string;
-    created_at: Date;
-    updated_at: Date;
-    deleted_at: null;
+    created_at: Date | string;
+    updated_at: Date | string;
     Pstatuses?: Pstatus[];
     PAvailabilityHistories?: PAvailabilityHistory[];
 }
@@ -164,17 +160,15 @@ export interface PAvailabilityHistory {
     product_id: number;
     name: string;
     availability_at: Date;
-    created_at: Date;
-    updated_at: Date;
-    deleted_at: null;
+    created_at: Date | string;
+    updated_at: Date | string;
 }
 
 export interface Pstatus {
     id: number;
     name: string;
-    created_at: Date;
-    updated_at: Date;
-    deleted_at: null;
+    created_at: Date | string;
+    updated_at: Date | string;
     ProductPstatus: ProductPstatus;
 }
 
@@ -182,7 +176,6 @@ export interface ProductPstatus {
     id: number;
     product_id: number;
     pstatus_id: number;
-    created_at: Date;
-    updated_at: Date;
-    deleted_at: null;
+    created_at: Date | string;
+    updated_at: Date | string;
 }
