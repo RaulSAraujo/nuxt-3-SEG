@@ -12,7 +12,12 @@ const headers = ref([
 </script>
 
 <template>
-  <v-data-table :items="product!.Pstatuses" :headers="headers" hide-default-footer>
+  <v-data-table
+    v-if="product && product.Pstatuses"
+    :items="product.Pstatuses"
+    :headers="headers"
+    hide-default-footer
+  >
     <template #item.pstatus_id="{ item }">
       <span>{{ item.name }}</span>
     </template>
