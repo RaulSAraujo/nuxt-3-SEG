@@ -106,7 +106,15 @@ if (availableGrid.value.length == 0) {
       @update:options="tableStore.searchData"
     >
       <template #top>
-        <TableToolbar :title="props.title" :disabled-menu="disabledMenu" />
+        <TableToolbar :title="props.title" :disabled-menu="disabledMenu">
+          <template #toolbarExtend>
+            <slot name="toolbarExtend" />
+          </template>
+
+          <template #menu>
+            <slot name="menu" />
+          </template>
+        </TableToolbar>
       </template>
 
       <template
@@ -149,9 +157,9 @@ if (availableGrid.value.length == 0) {
 
   <TableFooter />
 
-  <TableMenuFilterDrawer v-if="drawerFilter" />
+  <TableToolbarMenuFilterDrawer v-if="drawerFilter" />
 
-  <TableMenuGridDrawer v-if="drawerGrid" />
+  <TableToolbarMenuGridDrawer v-if="drawerGrid" />
 
   <TableFloatingButton :length="items.length" />
 </template>

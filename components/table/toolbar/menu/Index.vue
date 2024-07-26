@@ -13,11 +13,11 @@ defineProps({
     <v-btn-toggle divided variant="outlined" rounded="lg">
       <slot name="menu" />
 
-      <TableMenuExcelButton />
+      <TableToolbarMenuExcelButton />
 
-      <TableMenuFilterButton />
+      <TableToolbarMenuFilterButton />
 
-      <TableMenuGridButton />
+      <TableToolbarMenuGridButton />
     </v-btn-toggle>
   </v-menu>
 </template>

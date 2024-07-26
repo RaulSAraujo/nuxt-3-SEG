@@ -10,6 +10,10 @@ defineProps<{ title: string; disabledMenu: boolean }>();
 
     <slot name="toolbarExtend" />
 
-    <TableMenu :disabled="disabledMenu" />
+    <TableToolbarMenu :disabled="disabledMenu">
+      <template #menu>
+        <slot name="menu" />
+      </template>
+    </TableToolbarMenu>
   </v-toolbar>
 </template>
