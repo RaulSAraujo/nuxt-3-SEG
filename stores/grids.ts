@@ -54,17 +54,23 @@ export const useGridStore = defineStore("grids", () => {
         const initial = useArrayFilter(mapDefaultGrid, (f) => f.initial_grid === true)
         const hidden = useArrayFilter(mapDefaultGrid, (f) => f.initial_grid === false)
 
-        const sortedAvailable = useSorted(initial, (a, b) => {
-            if (a.sequence_grid == null) return 1;
-            if (b.sequence_grid == null) return -1;
+        if (initial.value.length > 0) {
+            const sortedAvailable = useSorted(initial, (a, b) => {
+                if (a.sequence_grid == null) return 1;
+                if (b.sequence_grid == null) return -1;
 
-            if (a.sequence_grid < b.sequence_grid) return -1;
-            if (a.sequence_grid > b.sequence_grid) return 1;
-            return 0;
-        });
+                if (a.sequence_grid < b.sequence_grid) return -1;
+                if (a.sequence_grid > b.sequence_grid) return 1;
+                return 0;
+            });
 
-        availableGrid.value = sortedAvailable.value
-        hiddenGrid.value = hidden.value
+            availableGrid.value = sortedAvailable.value
+            hiddenGrid.value = hidden.value
+
+        } else {
+            availableGrid.value = hidden.value
+            hiddenGrid.value = []
+        }
     }
 
     async function update() {
@@ -196,14 +202,26 @@ export const useGridStore = defineStore("grids", () => {
         const initial = useArrayFilter(mapDefaultGrid, (f) => f.initial_grid === true)
         const hidden = useArrayFilter(mapDefaultGrid, (f) => f.initial_grid === false)
 
-        const sortedAvailable = useSorted(initial, (a, b) => {
-            if (a.sequence_grid == null) return 1;
-            if (b.sequence_grid == null) return -1;
+        let available_columns: Column[];
+        let hidden_columns: Column[];
+        if (initial.value.length > 0) {
+            const sortedAvailable = useSorted(initial, (a, b) => {
+                if (a.sequence_grid == null) return 1;
+                if (b.sequence_grid == null) return -1;
 
-            if (a.sequence_grid < b.sequence_grid) return -1;
-            if (a.sequence_grid > b.sequence_grid) return 1;
-            return 0;
-        });
+                if (a.sequence_grid < b.sequence_grid) return -1;
+                if (a.sequence_grid > b.sequence_grid) return 1;
+                return 0;
+            });
+
+            available_columns = sortedAvailable.value
+            hidden_columns = hidden.value
+
+        } else {
+            available_columns = hidden.value
+            hidden_columns = []
+        }
+
 
         try {
             const res = await useNuxtApp().$customFetch<Grid>(`grid-configurations`, {
@@ -211,8 +229,8 @@ export const useGridStore = defineStore("grids", () => {
                 body: {
                     model,
                     user_id: user.id,
-                    available_columns: sortedAvailable.value,
-                    hidden_columns: hidden.value
+                    available_columns: available_columns,
+                    hidden_columns: hidden_columns
                 }
             })
 
