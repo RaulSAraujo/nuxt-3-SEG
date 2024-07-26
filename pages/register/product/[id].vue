@@ -46,13 +46,13 @@ await supplierStore.get();
 
       <v-spacer />
 
-      <ProductGroupBtn />
+      <ProductGroupButton />
     </div>
 
     <v-sheet class="mx-2" rounded="xl" elevation="5">
       <NuxtPage :keepalive="true" />
     </v-sheet>
 
-    <ProductFloatingSaveBtn />
+    <ProductFloatingSaveButton />
   </v-main>
 </template>
