@@ -14,19 +14,19 @@ const availableOrHidden = ref<boolean>(false);
       temporary
     >
       <template #prepend>
-        <TableMenuGridDrawerPrepend />
+        <TableToolbarMenuGridDrawerPrepend />
       </template>
 
-      <TableMenuGridDrawerDefault :available-or-hidden="availableOrHidden" />
+      <TableToolbarMenuGridDrawerDefault :available-or-hidden="availableOrHidden" />
 
       <template #append>
-        <TableMenuGridDrawerAppend
+        <TableToolbarMenuGridDrawerAppend
           :available-or-hidden="availableOrHidden"
           @switch="availableOrHidden = !availableOrHidden"
         />
       </template>
     </v-navigation-drawer>
 
-    <TableMenuGridDrawerImport />
+    <TableToolbarMenuGridDrawerImport />
   </LazyClientOnly>
 </template>
