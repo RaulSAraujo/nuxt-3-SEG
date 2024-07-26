@@ -2,7 +2,15 @@ export default defineNuxtPlugin({
   name: 'customFetch',
   parallel: true,
   async setup(nuxtApp) {
-    const baseURL = nuxtApp.$config.public.base_url_external;
+
+    const req = useRequestHeaders(['host']);
+
+    const host = req.host || window.location.hostname;
+
+    let baseURL = nuxtApp.$config.public.base_url_local;
+    if (host.includes('ddns')) {
+      baseURL = nuxtApp.$config.public.base_url_external;
+    }
 
     const { token } = useAuth();
 
