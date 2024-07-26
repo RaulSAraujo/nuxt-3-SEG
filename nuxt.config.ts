@@ -71,6 +71,7 @@ export default defineNuxtConfig({
   components: [
 
     { path: '~/components/utils', pathPrefix: false, global: true },
+    { path: '~/components/utils/edit_dialog', pathPrefix: false, global: true, prefix: 'EditDialog' },
 
     '~/components'
   ],

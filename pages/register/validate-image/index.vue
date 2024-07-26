@@ -62,7 +62,7 @@ const dialog = ref<boolean>(false);
         </template>
 
         <template #item.observation="{ item }">
-          <EditDialogTextField
+          <EditDialogString
             :id="item.id"
             :text="item.observation ?? ''"
             attr="observation"
