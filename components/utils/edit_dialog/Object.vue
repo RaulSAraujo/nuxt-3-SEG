@@ -1,36 +1,21 @@
 <script setup lang="ts">
-import { mergeProps } from "vue";
-
 const props = defineProps<{
-  text: string | null | undefined;
-  vw: number;
-  items: string[];
+  id: number;
+  attr: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  items: Array<any>;
   itemTitle: string;
   itemValue: string;
 }>();
 
 const emit = defineEmits(["save"]);
 
-const widthColumnText = (label: string | null) => {
-  if (typeof label === "string" && label.length > 0) {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-    context!.font = "14px Poppins";
-
-    return context?.measureText(label).actualBoundingBoxRight ?? 0;
-  }
-  return 0;
-};
-
-const convertVwToPx = (vw: number) => {
-  const viewportWidth = window.innerWidth;
-  return (vw / 100) * viewportWidth;
-};
-
 const menu = ref<boolean>(false);
 
 const comp = computed({
-  get: () => props.text,
+  get: () => props.value,
   set: (value) => {
     menu.value = false;
 
@@ -48,40 +33,7 @@ const comp = computed({
     :close-on-content-click="false"
   >
     <template #activator="{ props: menuProp }">
-      <v-tooltip
-        v-if="widthColumnText(text ?? '') > convertVwToPx(vw)"
-        location="top"
-        :text="text?.toUpperCase()"
-        style="
-          --v-theme-surface-variant: 25, 118, 210;
-          --v-theme-on-surface-variant: 255, 255, 255;
-        "
-      >
-        <template #activator="{ props: tooltip }">
-          <div
-            v-bind="mergeProps(menuProp, tooltip)"
-            :style="` cursor: pointer;
-              white-space: nowrap !important;
-              overflow: hidden !important;
-              text-overflow: ellipsis !important;
-              width: ${vw}vw;`"
-          >
-            <span>{{ text?.toUpperCase() }}</span>
-          </div>
-        </template>
-      </v-tooltip>
-
-      <div
-        v-else-if="widthColumnText(text ?? '') < convertVwToPx(vw) && !text"
-        v-bind="menuProp"
-        :style="`cursor: pointer; width: ${vw}vw`"
-      >
-        <v-label />
-      </div>
-
-      <span v-else v-bind="menuProp" style="cursor: pointer">
-        {{ text?.toUpperCase() }}
-      </span>
+      <slot v-bind="menuProp" style="cursor: pointer" />
     </template>
 
     <v-confirm-edit v-model="comp">
