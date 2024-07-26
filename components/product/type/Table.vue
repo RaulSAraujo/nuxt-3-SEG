@@ -73,15 +73,15 @@ const headersKit = ref([
     disable-sort
   >
     <template #item.image="{ item }">
-      <CheckIcon :value="item.image ?? false" />
+      <CheckIcon :value="item.image ?? false" :readonly="true" />
     </template>
 
     <template #item.support="{ item }">
-      <CheckIcon :value="item.support ?? false" />
+      <CheckIcon :value="item.support ?? false" :readonly="true" />
     </template>
 
     <template #item.erp_syncecom="{ item }">
-      <CheckIcon :value="item.erp_syncecom ?? false" />
+      <CheckIcon :value="item.erp_syncecom ?? false" :readonly="true" />
     </template>
 
     <template #item.apparatus="{ item }">

@@ -80,19 +80,25 @@ const activateDialogToEdit = ref<boolean>(false);
         </template>
 
         <template #item.erp_syncecom="{ item }">
-          <CheckIcon :value="item.ProductSell?.erp_syncecom ?? false" />
+          <CheckIcon :value="item.ProductSell?.erp_syncecom ?? false" :readonly="true" />
         </template>
 
         <template #item.syncedecom="{ item }">
-          <CheckIcon :value="item.ProductSell?.syncedecom ?? false" />
+          <CheckIcon :value="item.ProductSell?.syncedecom ?? false" :readonly="true" />
         </template>
 
         <template #item.syncecominprogress="{ item }">
-          <CheckIcon :value="item.ProductSell?.syncecominprogress ?? false" />
+          <CheckIcon
+            :value="item.ProductSell?.syncecominprogress ?? false"
+            :readonly="true"
+          />
         </template>
 
         <template #item.syncecomfailed="{ item }">
-          <CheckIcon :value="item.ProductSell?.syncecomfailed ?? false" />
+          <CheckIcon
+            :value="item.ProductSell?.syncecomfailed ?? false"
+            :readonly="true"
+          />
         </template>
 
         <template #item.quantity="{ item }">
