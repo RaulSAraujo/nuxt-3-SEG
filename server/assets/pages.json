@@ -158,7 +158,7 @@
             {
                 "icon": "mdi-archive",
                 "title": "Embalagens",
-                "name": "register-packing",
+                "name": "register-package",
                 "backUrl": "/package",
                 "auth": false,
                 "child": false

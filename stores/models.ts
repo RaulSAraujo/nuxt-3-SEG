@@ -10,7 +10,7 @@ export const useModelStore = defineStore("models", () => {
         'register-device': 'Apparatus',
         'register-device-classification-apparatus': 'ClassificationApparatus',
         'register-client': 'clients',
-        'register-packing': 'Package',
+        'register-package': 'Package',
         'register-validate-image': 'ValidateProductsImage',
         'register-saved-rma': 'SavedRma',
         'register-saved-rma-id-apparatus': 'SavedApparatusRma',

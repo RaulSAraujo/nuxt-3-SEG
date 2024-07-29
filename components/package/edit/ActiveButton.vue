@@ -1,0 +1,9 @@
+<template>
+  <v-btn
+    icon="mdi-pencil"
+    variant="plain"
+    size="small"
+    color="blue"
+    density="comfortable"
+  />
+</template>
