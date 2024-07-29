@@ -5,6 +5,7 @@ defineProps<{
   hideDetails?: boolean | "auto" | undefined;
   min?: number;
   max?: number;
+  step?: number;
 }>();
 </script>
 
@@ -13,6 +14,7 @@ defineProps<{
     :label="label"
     :min="min"
     :max="max"
+    :step="step"
     :inset="false"
     :reverse="false"
     density="compact"
