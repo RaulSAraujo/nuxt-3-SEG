@@ -1,17 +1,7 @@
 <script setup lang="ts">
-import type { RouteLocationNormalizedLoaded } from "#vue-router";
-
 useHead({
   titleTemplate: `Embalagens - %s`,
 });
-
-const { findModelName } = useModelStore();
-const { name }: RouteLocationNormalizedLoaded = useRoute();
-findModelName(name?.toString() ?? "");
-
-const tableStore = useTableStore();
-const { url } = storeToRefs(tableStore);
-url.value = "package";
 
 const filterStore = useFilterStore();
 const { activeCreateButton } = storeToRefs(filterStore);

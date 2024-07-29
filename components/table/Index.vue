@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import type { User } from "~/interfaces/User";
-import type { Grid } from "~/interfaces/Grid.js";
-
 const props = defineProps<{
   title: string;
   disabledMenu: boolean;
@@ -42,10 +39,6 @@ const parentSlots = computed(() => Object.keys(ctx));
  * @constant data Dados do usuario
  * @constant user Formatação
  */
-const { data } = useAuth();
-const user = data.value as User;
-
-const { model } = useModelStore();
 
 const gridStore = useGridStore();
 const { availableGrid, drawer: drawerGrid } = storeToRefs(gridStore);
@@ -56,40 +49,13 @@ const { drawer: drawerFilter } = storeToRefs(store);
 const tableStore = useTableStore();
 const { page, items, itemsPerPage, totalItems, loading } = storeToRefs(tableStore);
 
-/**
- * Request para obter a grid do usuario de acordo com a pagina
- * @param user.id Identificador do usuario
- * @param props.model Nome da model back-end
- * @constant grid Payload
- */
-let grid: Grid;
-if (availableGrid.value.length == 0) {
-  $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
-    priority: "high",
-    key: `Grid-${model}`,
-    getCachedData(key, nuxtApp) {
-      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
-    },
-  })
-    .then((res) => {
-      if (res.error.value) throw res;
+gridStore.get();
 
-      grid = res.data.value as Grid;
-
-      if (grid.resultCount > 0) {
-        gridStore.set(grid);
-      } else {
-        gridStore.create();
-      }
-    })
-    .catch((err) => {
-      $toast().error(err.error.value.cause ?? err.error.value.message);
-    });
-}
+tableStore.findRouteMap();
 </script>
 
 <template>
-  <ClientOnly fallback-tag="div">
+  <ClientOnly>
     <!-- @vue-ignore -->
     <v-data-table-server
       :headers="availableGrid"
@@ -118,8 +84,8 @@ if (availableGrid.value.length == 0) {
       </template>
 
       <template
-        v-for="header in availableGrid"
-        :key="header.key"
+        v-for="(header, index) in availableGrid"
+        :key="index"
         #[`item.${header.key}`]="{ item }: Record<string, any>"
       >
         <TableTemplatesDate v-if="header.type === 'DATE'" :value="item[header.key]" />
@@ -144,13 +110,14 @@ if (availableGrid.value.length == 0) {
       </template>
 
       <!-- @vue-skip -->
-      <template v-for="slot in parentSlots" :key="slot" #[slot]="props">
+      <template v-for="(slot, index) in parentSlots" :key="index" #[slot]="props">
         <slot :name="slot" v-bind="props" />
       </template>
     </v-data-table-server>
 
     <template #fallback>
       <!-- this will be rendered on server side -->
+
       <v-skeleton-loader type="table" />
     </template>
   </ClientOnly>

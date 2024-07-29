@@ -1,17 +1,7 @@
 <script setup lang="ts">
-import type { RouteLocationNormalizedLoaded } from "#vue-router";
-
 useHead({
   titleTemplate: `Classificação de aparelhos - %s`,
 });
-
-const { findModelName } = useModelStore();
-const { name }: RouteLocationNormalizedLoaded = useRoute();
-findModelName(name?.toString() ?? "");
-
-const tableStore = useTableStore();
-const { url } = storeToRefs(tableStore);
-url.value = "classification-apparatus";
 
 const filterStore = useFilterStore();
 const { activeCreateButton } = storeToRefs(filterStore);

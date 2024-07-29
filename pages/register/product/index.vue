@@ -1,17 +1,7 @@
 <script setup lang="ts">
-import type { RouteLocationNormalizedLoaded } from "#vue-router";
-
 useHead({
   titleTemplate: `Produto compra - %s`,
 });
-
-const { findModelName } = useModelStore();
-const { name }: RouteLocationNormalizedLoaded = useRoute();
-findModelName(name?.toString() ?? "");
-
-const tableStore = useTableStore();
-const { url } = storeToRefs(tableStore);
-url.value = "product";
 
 const filterStore = useFilterStore();
 const { activeCreateButton } = storeToRefs(filterStore);
@@ -168,12 +158,12 @@ const activateDialogToEdit = ref<boolean>(false);
           <span>{{ Math.ceil(parseFloat(item.weight_cubic ?? 0.0) * 1000) }}</span>
         </template>
       </Table>
-    </v-sheet>
 
-    <ProductCostTableMyTableToEdit
-      v-if="activateDialogToEdit"
-      v-model="activateDialogToEdit"
-      @disable="activateDialogToEdit = false"
-    />
+      <ProductCostTableMyTableToEdit
+        v-if="activateDialogToEdit"
+        v-model="activateDialogToEdit"
+        @disable="activateDialogToEdit = false"
+      />
+    </v-sheet>
   </v-main>
 </template>

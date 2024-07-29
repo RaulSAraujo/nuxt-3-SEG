@@ -1,18 +1,9 @@
 <script setup lang="ts">
-import type { RouteLocationNormalizedLoaded } from "#vue-router";
 import type { ClassificationApparatus } from "~/interfaces/ClassificationApparatus.js";
 
 useHead({
   titleTemplate: `Aparelhos - %s`,
 });
-
-const { findModelName } = useModelStore();
-const { name }: RouteLocationNormalizedLoaded = useRoute();
-findModelName(name?.toString() ?? "");
-
-const tableStore = useTableStore();
-const { url } = storeToRefs(tableStore);
-url.value = "apparatus";
 
 const filterStore = useFilterStore();
 const { activeCreateButton } = storeToRefs(filterStore);

@@ -1,6 +1,8 @@
+import type { User } from "~/interfaces/User";
 import type { Grid, Column } from "~/interfaces/Grid";
 import type { CustomFilterGrid } from '~/interfaces/CustomFilterGrid.js'
-import type { User } from "~/interfaces/User";
+
+
 
 export const useGridStore = defineStore("grids", () => {
     const drawer = ref<boolean>(false)
@@ -16,6 +18,41 @@ export const useGridStore = defineStore("grids", () => {
     const hiddenGrid = ref<Column[]>([])
 
     const dialogImport = ref<boolean>(false)
+
+    function get() {
+        const { findModelName } = useModelStore();
+
+        const model = findModelName();
+
+        const { data } = useAuth();
+        const user = data.value as User;
+
+        let grid: Grid;
+        if (availableGrid.value.length == 0) {
+            $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
+                priority: "high",
+                key: `Grid-${model}`,
+                getCachedData(key, nuxtApp) {
+                    return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+                },
+            })
+                .then((res) => {
+                    if (res.error.value) throw res;
+
+                    grid = res.data.value as Grid;
+
+                    if (grid.resultCount > 0) {
+                        set(grid);
+                    } else {
+                        create();
+                    }
+                })
+                .catch((err) => {
+                    $toast().error(err.error.value.cause ?? err.error.value.message);
+                });
+        }
+
+    }
 
     function set(value: Grid) {
         id.value = value.rows[0].id
@@ -284,6 +321,7 @@ export const useGridStore = defineStore("grids", () => {
         availableGrid,
         hiddenGrid,
         clearGridProps,
+        get,
         set,
         reset,
         create,

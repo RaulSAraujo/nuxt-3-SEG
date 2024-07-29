@@ -1,17 +1,7 @@
 <script setup lang="ts">
-import type { RouteLocationNormalizedLoaded } from "#vue-router";
-
 useHead({
   titleTemplate: `Clientes - %s`,
 });
-
-const { findModelName } = useModelStore();
-const { name }: RouteLocationNormalizedLoaded = useRoute();
-findModelName(name?.toString() ?? "");
-
-const tableStore = useTableStore();
-const { url } = storeToRefs(tableStore);
-url.value = "clients";
 
 const filterStore = useFilterStore();
 const { activeCreateButton } = storeToRefs(filterStore);
@@ -32,7 +22,15 @@ const dialog = ref<boolean>(false);
         :multi-sort="true"
       >
         <template #item.action>
-          <v-btn icon="mdi-pencil" variant="plain" size="small" color="pink" />
+          <v-btn
+            icon="mdi-pencil"
+            variant="plain"
+            size="small"
+            color="pink"
+            :to="{
+              name: 'register-client-new',
+            }"
+          />
         </template>
 
         <template #item.cpf_cnpj="{ item }">

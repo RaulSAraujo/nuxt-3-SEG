@@ -1,3 +1,5 @@
+import type { RouteLocationNormalizedLoaded } from "#vue-router";
+
 export const useModelStore = defineStore("models", () => {
     const model = ref<string>('')
 
@@ -60,8 +62,10 @@ export const useModelStore = defineStore("models", () => {
         'option-index-access': 'UsersAccessList',
     });
 
-    function findModelName(name: string) {
-        model.value = modelMap.value[name];
+    function findModelName() {
+        const { name }: RouteLocationNormalizedLoaded = useRoute();
+
+        return modelMap.value[name!.toString()];
     };
 
     return { model, findModelName };
