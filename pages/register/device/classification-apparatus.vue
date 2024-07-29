@@ -49,7 +49,7 @@ const dialog = ref<boolean>(false);
         </Table>
       </v-container>
 
-      <DeviceClassificationApparatusCreation v-model="dialog" @close="dialog = false" />
+      <ClassificationApparatusCreation v-model="dialog" @close="dialog = false" />
     </v-sheet>
   </v-main>
 </template>
