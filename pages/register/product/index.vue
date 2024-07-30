@@ -3,10 +3,6 @@ useHead({
   titleTemplate: `Produto compra - %s`,
 });
 
-const filterStore = useFilterStore();
-const { activeCreateButton } = storeToRefs(filterStore);
-activeCreateButton.value = false;
-
 const productStore = useProductStore();
 const { product, costTableIndex } = storeToRefs(productStore);
 
@@ -16,7 +12,7 @@ const activateDialogToEdit = ref<boolean>(false);
 <template>
   <v-main>
     <v-sheet class="mt-5" rounded="t-xl" elevation="5">
-      <Filter />
+      <Filter :activate-creation-button="false" />
 
       <Table
         title="PRODUTO COMPRA"

@@ -1,8 +1,6 @@
 import type { RouteLocationNormalizedLoaded } from "#vue-router";
 
 export const useModelStore = defineStore("models", () => {
-    const model = ref<string>('')
-
     const modelMap = ref<{ [key: string]: string }>({
         "register-warehouse": 'ErpWarehouse',
         'register-product': 'Product',
@@ -68,5 +66,5 @@ export const useModelStore = defineStore("models", () => {
         return modelMap.value[name!.toString()];
     };
 
-    return { model, findModelName };
+    return { findModelName };
 })

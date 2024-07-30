@@ -3,10 +3,6 @@ useHead({
   titleTemplate: `Classificação de aparelhos - %s`,
 });
 
-const filterStore = useFilterStore();
-const { activeCreateButton } = storeToRefs(filterStore);
-activeCreateButton.value = true;
-
 const dialog = ref<boolean>(false);
 </script>
 
@@ -25,7 +21,7 @@ const dialog = ref<boolean>(false);
 
     <v-sheet class="mt-5" rounded="t-xl" elevation="5">
       <v-container fluid tag="div">
-        <Filter @create="dialog = true" />
+        <Filter :activate-creation-button="true" @create="dialog = true" />
 
         <Table
           title="CLASSIFICAÇÃO DE APARELHOS"

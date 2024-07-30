@@ -63,7 +63,9 @@ export const useFilterStore = defineStore("filters", () => {
     }
 
     async function loadCustomGrids() {
-        const { model } = useModelStore();
+        const { findModelName } = useModelStore();
+
+        const model = findModelName();
 
         const defaultGrid = await useNuxtApp().$customFetch<CustomFilterGrid>(`custom-filters?model=${model}`)
 
@@ -83,6 +85,10 @@ export const useFilterStore = defineStore("filters", () => {
             if (item.type === 'BOOLEAN') {
                 item.value = null;
                 continue
+            }
+
+            if (!item.layout_filters) {
+                item.layout_filters = {}
             }
 
             if (!item.layout_filters.size) {
@@ -196,7 +202,9 @@ export const useFilterStore = defineStore("filters", () => {
     }
 
     async function exportGrid() {
-        const { model } = useModelStore();
+        const { findModelName } = useModelStore();
+
+        const model = findModelName();
 
         const dataStr = JSON.stringify(availableFilter.value)
         const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr)
@@ -211,7 +219,9 @@ export const useFilterStore = defineStore("filters", () => {
         const { data } = useAuthState();
         const user = data.value as User;
 
-        const { model } = useModelStore();
+        const { findModelName } = useModelStore();
+
+        const model = findModelName();
 
         const defaultGrid = await loadCustomGrids();
 
@@ -250,7 +260,9 @@ export const useFilterStore = defineStore("filters", () => {
         const { data } = useAuthState();
         const user = data.value as User;
 
-        const { model } = useModelStore();
+        const { findModelName } = useModelStore();
+
+        const model = findModelName();
 
         try {
             await useNuxtApp().$customFetch(`custom-filters-user`, {

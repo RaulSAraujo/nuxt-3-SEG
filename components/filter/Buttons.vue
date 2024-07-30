@@ -1,8 +1,11 @@
 <script setup lang="ts">
+defineProps<{
+  activateCreationButton: boolean;
+}>();
+
 defineEmits(["create"]);
 
 const filterStore = useFilterStore();
-const { activeCreateButton } = storeToRefs(filterStore);
 
 const tableStore = useTableStore();
 const { page } = storeToRefs(tableStore);
@@ -22,7 +25,7 @@ const clear = () => {
   <ClientOnly>
     <div class="d-flex justify-end mr-5 mb-5">
       <v-btn-toggle
-        v-if="activeCreateButton"
+        v-if="activateCreationButton"
         variant="outlined"
         density="compact"
         divided

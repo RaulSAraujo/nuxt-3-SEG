@@ -67,7 +67,9 @@ export const useGridStore = defineStore("grids", () => {
     }
 
     async function loadCustomGrids() {
-        const { model } = useModelStore();
+        const { findModelName } = useModelStore();
+
+        const model = findModelName();
 
         const defaultGrid = await useNuxtApp().$customFetch<CustomFilterGrid>(`custom-filters?model=${model}`)
 
@@ -206,7 +208,9 @@ export const useGridStore = defineStore("grids", () => {
     }
 
     async function exportGrid() {
-        const { model } = useModelStore();
+        const { findModelName } = useModelStore();
+
+        const model = findModelName();
 
         const dataStr = JSON.stringify(availableGrid.value)
         const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr)
@@ -221,7 +225,9 @@ export const useGridStore = defineStore("grids", () => {
         const { data } = useAuthState();
         const user = data.value as User;
 
-        const { model } = useModelStore();
+        const { findModelName } = useModelStore();
+
+        const model = findModelName();
 
         const defaultGrid = await loadCustomGrids();
 
@@ -283,7 +289,9 @@ export const useGridStore = defineStore("grids", () => {
         const { data } = useAuthState();
         const user = data.value as User;
 
-        const { model } = useModelStore();
+        const { findModelName } = useModelStore();
+
+        const model = findModelName();
 
         try {
             await useNuxtApp().$customFetch(`grid-configurations`, {

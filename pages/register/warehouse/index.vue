@@ -2,16 +2,12 @@
 useHead({
   titleTemplate: `Almoxarifados - %s`,
 });
-
-const filterStore = useFilterStore();
-const { activeCreateButton } = storeToRefs(filterStore);
-activeCreateButton.value = false;
 </script>
 
 <template>
   <v-main>
     <v-sheet class="mt-5" rounded="t-xl" elevation="5">
-      <Filter />
+      <Filter :activate-creation-button="false" />
 
       <Table
         title="ALMOXARIFADOS"

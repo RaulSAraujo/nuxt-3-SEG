@@ -3,17 +3,13 @@ useHead({
   titleTemplate: `Embalagens - %s`,
 });
 
-const filterStore = useFilterStore();
-const { activeCreateButton } = storeToRefs(filterStore);
-activeCreateButton.value = true;
-
 const dialog = ref<boolean>(false);
 </script>
 
 <template>
   <v-main>
     <v-sheet class="mt-5" rounded="t-xl" elevation="5">
-      <Filter @create="dialog = true" />
+      <Filter :activate-creation-button="true" @create="dialog = true" />
 
       <Table
         title="EMBALAGENS"

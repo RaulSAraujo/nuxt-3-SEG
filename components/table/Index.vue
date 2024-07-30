@@ -48,10 +48,9 @@ const { drawer: drawerFilter } = storeToRefs(store);
 
 const tableStore = useTableStore();
 const { page, items, itemsPerPage, totalItems, loading } = storeToRefs(tableStore);
+tableStore.findRouteMap();
 
 gridStore.get();
-
-tableStore.findRouteMap();
 </script>
 
 <template>

@@ -1,4 +1,8 @@
 <script setup lang="ts">
+defineProps<{
+  activateCreationButton: boolean;
+}>();
+
 defineEmits(["create"]);
 
 // Resetar props
@@ -20,5 +24,8 @@ filterStore.get();
 <template>
   <FilterGroup />
 
-  <FilterButtons @create="$emit('create')" />
+  <FilterButtons
+    :activate-creation-button="activateCreationButton"
+    @create="$emit('create')"
+  />
 </template>
