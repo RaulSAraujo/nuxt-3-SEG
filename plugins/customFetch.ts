@@ -7,9 +7,9 @@ export default defineNuxtPlugin({
 
     const host = req.host || window.location.hostname;
 
-    let baseURL = nuxtApp.$config.public.base_url_local;
+    let baseURL = nuxtApp.$config.public.base_url_local as string;
     if (host.includes('ddns')) {
-      baseURL = nuxtApp.$config.public.base_url_external;
+      baseURL = nuxtApp.$config.public.base_url_external as string;
     }
 
     const { token } = useAuth();

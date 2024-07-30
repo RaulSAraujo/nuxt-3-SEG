@@ -5,7 +5,7 @@ const { data: weatherData, status } = useLazyAsyncData(
   "Weather",
   async () => {
     const res = (await $fetch("/weather", {
-      baseURL: useRuntimeConfig().public.base_url_weather,
+      baseURL: useRuntimeConfig().public.base_url_weather as string,
       params: {
         appid: useRuntimeConfig().public.key_weather,
         lang: "pt_br",
