@@ -63,7 +63,8 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     'dayjs-nuxt',
     '@vueuse/nuxt',
-    '@nuxt/test-utils'
+    '@nuxt/test-utils',
+    'nuxt-payload-analyzer',
   ],
 
   css: ['@/assets/style.css'],
