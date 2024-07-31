@@ -12,6 +12,7 @@ defineEmits(["enter"]);
 
 <template>
   <v-text-field
+    :id="label"
     density="compact"
     color="primary"
     variant="outlined"

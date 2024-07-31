@@ -22,26 +22,24 @@ const clear = () => {
 </script>
 
 <template>
-  <ClientOnly>
-    <div class="d-flex justify-end mr-5 mb-5">
-      <v-btn-toggle
-        v-if="activateCreationButton"
-        variant="outlined"
-        density="compact"
-        divided
-      >
-        <v-btn class="text-success" @click="$emit('create')"> CRIAR </v-btn>
+  <div class="d-flex justify-end mr-5 mb-5">
+    <v-btn-toggle
+      v-if="activateCreationButton"
+      variant="outlined"
+      density="compact"
+      divided
+    >
+      <v-btn class="text-success" @click="$emit('create')"> CRIAR </v-btn>
 
-        <v-btn class="text-primary" @click="tableStore.searchData"> BUSCAR </v-btn>
+      <v-btn class="text-primary" @click="tableStore.searchData"> BUSCAR </v-btn>
 
-        <v-btn class="text-error" @click="clear">Limpar Filtros</v-btn>
-      </v-btn-toggle>
+      <v-btn class="text-error" @click="clear">Limpar Filtros</v-btn>
+    </v-btn-toggle>
 
-      <v-btn-toggle v-else variant="outlined" density="compact" divided>
-        <v-btn class="text-primary" @click="tableStore.searchData"> BUSCAR </v-btn>
+    <v-btn-toggle v-else variant="outlined" density="compact" divided>
+      <v-btn class="text-primary" @click="tableStore.searchData"> BUSCAR </v-btn>
 
-        <v-btn class="text-error" @click="clear">Limpar Filtros</v-btn>
-      </v-btn-toggle>
-    </div>
-  </ClientOnly>
+      <v-btn class="text-error" @click="clear">Limpar Filtros</v-btn>
+    </v-btn-toggle>
+  </div>
 </template>

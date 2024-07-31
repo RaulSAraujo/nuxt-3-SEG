@@ -17,18 +17,19 @@ const switchLock = () => {
 
 const propRef = toRef(props, "value");
 watch(propRef, (newValue) => {
-    if(newValue === true){
-        lock.value = false
-    }
+  if (newValue === true) {
+    lock.value = false;
+  }
 
-    if(newValue === null){
-        lock.value = true
-    }
+  if (newValue === null) {
+    lock.value = true;
+  }
 });
 </script>
 
 <template>
   <v-switch
+    :id="label"
     :label="label"
     inset
     color="primary"

@@ -6,7 +6,7 @@ export const useTableStore = defineStore("table", () => {
     const routerFull = ref<boolean | undefined>(undefined);
     const items = ref<object[]>([]);
     const totalItems = ref(0);
-    const loading = ref(false);
+    const loading = ref(true);
     const page = ref(1);
     const itemsPerPage = ref(10);
     const itemsPerPageoptions = ref([

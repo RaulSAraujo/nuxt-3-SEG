@@ -15,6 +15,7 @@ defineProps<{
 
 <template>
   <v-combobox
+    :id="label"
     density="compact"
     color="primary"
     variant="outlined"

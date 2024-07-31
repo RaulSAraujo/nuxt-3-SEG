@@ -61,72 +61,57 @@ gridStore.get();
 </script>
 
 <template>
-  <ClientOnly>
-    <!-- @vue-ignore -->
-    <v-data-table-server
-      :headers="availableGrid"
-      :items="items"
-      :page="page"
-      :items-per-page="itemsPerPage"
-      :items-length="totalItems"
-      :loading="loading"
-      loading-text="Loading... Please wait"
-      density="compact"
-      :multi-sort="multiSort"
-      :show-select="showSelect"
-      hide-default-footer
-      @update:options="tableStore.searchData"
-    >
-      <template #top>
-        <TableToolbar :title="props.title" :disabled-menu="disabledMenu">
-          <template #toolbarExtend>
-            <slot name="toolbarExtend" />
-          </template>
-
-          <template #menu>
-            <slot name="menu" />
-          </template>
-        </TableToolbar>
-      </template>
-
-      <template
-        v-for="(header, index) in availableGrid"
-        :key="index"
-        #[`item.${header.key}`]="{ item }: Record<string, any>"
-      >
-        <TableTemplatesDate v-if="header.type === 'DATE'" :value="item[header.key]" />
-
-        <TableTemplatesBoolean
-          v-else-if="header.type === 'BOOLEAN'"
-          :value="item[header.key]"
-        />
-
-        <template v-else>
-          <template
-            v-if="header.type === 'STRING' && typeof item[header.key] === 'string'"
-          >
-            <TableTemplatesString
-              :value="item[header.key]"
-              :max-width="header.maxWidth"
-            />
-          </template>
-
-          <span v-else>{{ item[header.key] }}</span>
+  <!-- @vue-ignore -->
+  <v-data-table-server
+    :headers="availableGrid"
+    :items="items"
+    :page="page"
+    :items-per-page="itemsPerPage"
+    :items-length="totalItems"
+    :loading="loading"
+    loading-text="Loading... Please wait"
+    :multi-sort="multiSort"
+    hide-default-footer
+    @update:options="tableStore.searchData"
+  >
+    <template #top>
+      <TableToolbar :title="props.title" :disabled-menu="disabledMenu">
+        <template #toolbarExtend>
+          <slot name="toolbarExtend" />
         </template>
-      </template>
 
-      <!-- @vue-skip -->
-      <template v-for="(slot, index) in parentSlots" :key="index" #[slot]="props">
-        <slot :name="slot" v-bind="props" />
-      </template>
-    </v-data-table-server>
-
-    <template #fallback>
-      <!-- this will be rendered on server side -->
-
-      <v-skeleton-loader type="table" />
+        <template #menu>
+          <slot name="menu" />
+        </template>
+      </TableToolbar>
     </template>
-  </ClientOnly>
+
+    <template
+      v-for="header in availableGrid"
+      :key="header.key"
+      #[`item.${header.key}`]="{ item }: Record<string, any>"
+    >
+      <TableTemplatesDate v-if="header.type === 'DATE'" :value="item[header.key]" />
+
+      <TableTemplatesBoolean
+        v-else-if="header.type === 'BOOLEAN'"
+        :value="item[header.key]"
+      />
+
+      <template v-else>
+        <template v-if="header.type === 'STRING' && typeof item[header.key] === 'string'">
+          <TableTemplatesString :value="item[header.key]" :max-width="header.maxWidth" />
+        </template>
+
+        <span v-else>{{ item[header.key] }}</span>
+      </template>
+    </template>
+
+    <!-- @vue-skip -->
+    <template v-for="slot in parentSlots" :key="slot" #[slot]="props">
+      <slot :name="slot" v-bind="props" />
+    </template>
+  </v-data-table-server>
 
   <TableFooter />
 

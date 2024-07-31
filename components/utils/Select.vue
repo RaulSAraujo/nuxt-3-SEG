@@ -28,6 +28,7 @@ const toggle = () => {
 
 <template>
   <v-select
+    :id="label"
     density="compact"
     color="primary"
     variant="outlined"
