@@ -3,6 +3,7 @@ import type { RouteLocationNormalizedLoaded } from "#vue-router";
 export const useTableStore = defineStore("table", () => {
 
     const url = ref<string>('')
+    const routerFull = ref<boolean | undefined>(undefined);
     const items = ref<object[]>([]);
     const totalItems = ref(0);
     const loading = ref(false);
@@ -80,10 +81,9 @@ export const useTableStore = defineStore("table", () => {
 
         url.value = routeMap.value[name!.toString()];
     };
-
     async function searchData() {
-
-        type AccValue = string | number | boolean | null | undefined | AccValue[];
+        type types = string | number | boolean | null | undefined;
+        type AccValue = types | types[];
         const validateValue = (value: AccValue) => {
             if (value === null || value === undefined) {
                 return false;
@@ -138,6 +138,7 @@ export const useTableStore = defineStore("table", () => {
             params: {
                 page: page.value,
                 perPage: itemsPerPage.value,
+                full: routerFull.value,
                 ...params,
             },
             priority: "low",
@@ -159,5 +160,5 @@ export const useTableStore = defineStore("table", () => {
 
     };
 
-    return { url, items, totalItems, loading, page, itemsPerPage, itemsPerPageoptions, pageCount, findRouteMap, searchData };
+    return { url, routerFull, items, totalItems, loading, page, itemsPerPage, itemsPerPageoptions, pageCount, findRouteMap, searchData };
 })

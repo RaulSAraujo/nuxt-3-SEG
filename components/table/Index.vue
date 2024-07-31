@@ -4,6 +4,7 @@ const props = defineProps<{
   disabledMenu: boolean;
   showSelect: boolean;
   multiSort: boolean;
+  routerFull?: boolean;
 }>();
 
 defineEmits(["loadItems"]);
@@ -47,8 +48,14 @@ const store = useFilterStore();
 const { drawer: drawerFilter } = storeToRefs(store);
 
 const tableStore = useTableStore();
-const { page, items, itemsPerPage, totalItems, loading } = storeToRefs(tableStore);
+const { page, items, itemsPerPage, totalItems, loading, routerFull: full } = storeToRefs(
+  tableStore
+);
 tableStore.findRouteMap();
+
+if (props.routerFull == true || props.routerFull == false) {
+  full.value = props.routerFull;
+}
 
 gridStore.get();
 </script>
