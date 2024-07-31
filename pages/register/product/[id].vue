@@ -33,7 +33,7 @@ await supplierStore.get();
 </script>
 
 <template>
-  <v-main class="mt-5 mx-2">
+  <div class="my-5 mx-2">
     <div class="d-flex flex-row">
       <v-btn
         variant="plain"
@@ -54,5 +54,5 @@ await supplierStore.get();
     </v-sheet>
 
     <ProductFloatingSaveButton />
-  </v-main>
+  </div>
 </template>

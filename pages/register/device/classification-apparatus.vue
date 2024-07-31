@@ -7,7 +7,7 @@ const dialog = ref<boolean>(false);
 </script>
 
 <template>
-  <v-main class="mt-5 mx-2">
+  <div class="my-5 mx-2">
     <div class="d-flex flex-row">
       <v-btn
         variant="plain"
@@ -37,5 +37,5 @@ const dialog = ref<boolean>(false);
 
       <ClassificationApparatusCreation v-model="dialog" @close="dialog = false" />
     </v-sheet>
-  </v-main>
+  </div>
 </template>

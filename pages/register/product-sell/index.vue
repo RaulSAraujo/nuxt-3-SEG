@@ -8,64 +8,62 @@ const { product } = storeToRefs(productSellStore);
 </script>
 
 <template>
-  <v-main>
-    <v-sheet class="mt-5" rounded="t-xl" elevation="5">
-      <Filter :activate-creation-button="false" />
+  <v-sheet class="mt-5" rounded="t-xl" elevation="5">
+    <Filter :activate-creation-button="false" />
 
-      <Table
-        title="PRODUTO VENDA"
-        :disabled-menu="false"
-        :show-select="true"
-        :multi-sort="true"
-      >
-        <template #item.action="{ item }">
-          <v-btn
-            icon="mdi-pencil"
-            variant="plain"
-            size="small"
-            color="pink"
-            :to="{
-              name: 'register-product-sell-id',
-              params: { id: item.id },
-            }"
-            @click="product = item"
-          />
-        </template>
+    <Table
+      title="PRODUTO VENDA"
+      :disabled-menu="false"
+      :show-select="true"
+      :multi-sort="true"
+    >
+      <template #item.action="{ item }">
+        <v-btn
+          icon="mdi-pencil"
+          variant="plain"
+          size="small"
+          color="pink"
+          :to="{
+            name: 'register-product-sell-id',
+            params: { id: item.id },
+          }"
+          @click="product = item"
+        />
+      </template>
 
-        <template #item.availability="{ item }">
-          <ProductSellTemplatesAvailability
-            :availability="item.Family?.SellPreference?.availability ?? ''"
-            :pavailability-histories="
-              item.Family?.SellPreference?.PAvailabilityHistories ?? null
-            "
-          />
-        </template>
+      <template #item.availability="{ item }">
+        <ProductSellTemplatesAvailability
+          :availability="item.Family?.SellPreference?.availability ?? ''"
+          :pavailability-histories="
+            item.Family?.SellPreference?.PAvailabilityHistories ?? null
+          "
+        />
+      </template>
 
-        <template #item.Det="{ item }">
-          <ProductSellTemplatesBuyPreferenceId
-            :buy-preference-id="item.Family.buy_preference_id"
-            :products="item.Family.Products"
-          />
-        </template>
+      <template #item.Det="{ item }">
+        <ProductSellTemplatesBuyPreferenceId
+          :buy-preference-id="item.Family.buy_preference_id"
+          :products="item.Family.Products"
+        />
+      </template>
 
-        <template #item.CategoryEcom="{ props: { item } }">
-          <span>{{ item.CategoryEcom?.category_name }}</span>
-        </template>
+      <template #item.CategoryEcom="{ props: { item } }">
+        <span>{{ item.CategoryEcom?.category_name }}</span>
+      </template>
 
-        <template #item.Ecommerces="{ item: { Ecommerces } }">
-          <ProductSellTemplatesCategoryEcom :ecommerces="Ecommerces" />
-        </template>
+      <template #item.Ecommerces="{ item: { Ecommerces } }">
+        <ProductSellTemplatesCategoryEcom :ecommerces="Ecommerces" />
+      </template>
 
-        <template #item.counter_price="{ item }">
-          <ToLocaleString :value="item.Family?.SellPreference?.counter_price ?? 0" />
-        </template>
+      <template #item.counter_price="{ item }">
+        <ToLocaleString :value="item.Family?.SellPreference?.counter_price ?? 0" />
+      </template>
 
-        <template #item.sell_price="{ item }">
-          <ToLocaleString
-            :value="item.Kit ? item.Kit?.Products[0].price ?? 0 : item.sell_price ?? 0"
-          />
-        </template>
-      </Table>
-    </v-sheet>
-  </v-main>
+      <template #item.sell_price="{ item }">
+        <ToLocaleString
+          :value="item.Kit ? item.Kit?.Products[0].price ?? 0 : item.sell_price ?? 0"
+        />
+      </template>
+    </Table>
+  </v-sheet>
 </template>
