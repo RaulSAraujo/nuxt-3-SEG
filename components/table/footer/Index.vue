@@ -14,22 +14,24 @@ watch(itemsPerPage, () => {
 </script>
 
 <template>
-  <div class="d-flex flex-rows justify-end align-center">
-    <span class="mr-2 text-caption">Itens por página: </span>
+  <v-lazy :options="{ threshold: 0.5 }" transition="fade-transition">
+    <div class="d-flex flex-rows justify-end align-center">
+      <span class="mr-2 text-caption">Itens por página: </span>
 
-    <v-select
-      v-model="itemsPerPage"
-      density="compact"
-      color="primary"
-      variant="outlined"
-      :items="itemsPerPageoptions"
-      item-title="title"
-      item-value="value"
-      max-width="90px"
-      hide-details
-      class="align-self-center"
-    />
+      <v-select
+        v-model="itemsPerPage"
+        density="compact"
+        color="primary"
+        variant="outlined"
+        :items="itemsPerPageoptions"
+        item-title="title"
+        item-value="value"
+        max-width="90px"
+        hide-details
+        class="align-self-center"
+      />
 
-    <v-pagination v-model="page" :length="pageCount" :total-visible="7" />
-  </div>
+      <v-pagination v-model="page" :length="pageCount" :total-visible="7" />
+    </div>
+  </v-lazy>
 </template>
