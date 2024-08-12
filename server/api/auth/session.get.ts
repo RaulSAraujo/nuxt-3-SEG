@@ -1,5 +1,6 @@
 import type { User } from '~/interfaces/User';
-import { createError, eventHandler, getRequestHeader, H3Event } from 'h3';
+import type { H3Event } from 'h3';
+import { createError, eventHandler, getRequestHeader } from 'h3';
 
 const parseJwt = (token: string) => {
     token = token.split('.')[1]
@@ -29,8 +30,22 @@ const parseJwt = (token: string) => {
     return JSON.parse(token).data as User
 }
 
+const getBaseUrl = (event: H3Event) => {
+    const hostReq = getRequestHeader(event, 'host')
+
+    const host = hostReq || window.location.hostname;
+
+    let baseURL = useRuntimeConfig().public.base_url_local as string;
+    if (host.includes('ddns')) {
+        baseURL = useRuntimeConfig().public.base_url_external as string;
+    }
+
+    return baseURL
+}
+
 export default eventHandler(async (event: H3Event) => {
     const session = await useStorage().getItem('data:session')
+
     if (session) return session
 
     const authHeaderValue = getRequestHeader(event, 'authorization')
@@ -40,7 +55,9 @@ export default eventHandler(async (event: H3Event) => {
 
     const decodeJwt = parseJwt(authHeaderValue)
 
-    const res = await $fetch(`${useRuntimeConfig().public.base_url_external}/user/profile-picture?user_id=${decodeJwt.id}`, {
+    const baseUrl = getBaseUrl(event)
+
+    const res = await $fetch(`${baseUrl}/user/profile-picture?user_id=${decodeJwt.id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

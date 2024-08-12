@@ -1,6 +1,7 @@
 import { useArrayFilter, useArrayMap } from "@vueuse/core"
 import type { Operation } from "~/interfaces/Operation"
 import type { Page } from "~/interfaces/Page"
+import type { H3Event } from 'h3'
 
 interface SignIn {
     group_id: number,
@@ -42,18 +43,30 @@ const auth_pages = (pages: Page[]) => {
     return removeNull;
 }
 
+const getBaseUrl = (event: H3Event) => {
+    const hostReq = getRequestHeader(event, 'host')
+
+    const host = hostReq || window.location.hostname;
+
+    let baseURL = useRuntimeConfig().public.base_url_local as string;
+    if (host.includes('ddns')) {
+        baseURL = useRuntimeConfig().public.base_url_external as string;
+    }
+
+    return baseURL
+}
+
 export default defineEventHandler(async (event) => {
     const { username, password } = await readBody(event)
 
-    const response = await $fetch(`${useRuntimeConfig().public.base_url_external}/login`, {
+    const baseUrl = getBaseUrl(event)
+
+    const response = await $fetch(`${baseUrl}/login`, {
         method: 'POST',
-        body: JSON.stringify({
+        body: {
             username,
             password
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        },
     }) as SignIn
 
     const operations = response.operations as Operation[]
@@ -73,9 +86,9 @@ export default defineEventHandler(async (event) => {
     const AuthenticatedPages = auth_pages(pages);
 
     const filterMenu = useArrayFilter(AuthenticatedPages, (f) => f!.title !== 'Options')
-    
+
     useStorage('data').setItem('auth_pages', filterMenu.value)
-    
+
     const filterOptions = useArrayFilter(AuthenticatedPages, (f) => f!.title === 'Options')
 
     useStorage('data').setItem('auth_pages_options', filterOptions.value[0])
