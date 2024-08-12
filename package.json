@@ -16,6 +16,7 @@
     "@pinia/nuxt": "^0.5.1",
     "@sidebase/nuxt-auth": "^0.7.2",
     "@vee-validate/nuxt": "^4.13.1",
+    "@vee-validate/yup": "^4.13.2",
     "maska": "^3.0.0",
     "nuxt": "^3.12.1",
     "nuxt-payload-analyzer": "^0.1.4",

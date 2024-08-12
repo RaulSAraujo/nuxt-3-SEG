@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  gender: string;
+  gender: string | null;
 }>();
 </script>
 <template>
