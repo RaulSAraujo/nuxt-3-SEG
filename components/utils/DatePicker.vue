@@ -3,6 +3,7 @@ const props = defineProps<{
   label: string;
   clearable: boolean | undefined;
   multiple: boolean | string | undefined;
+  alt?: string;
 }>();
 
 const emit = defineEmits(["enter", "save"]);
@@ -34,7 +35,7 @@ const activeMenuRange = () => {
 
 <template>
   <v-text-field
-    :id="label"
+    :id="alt || label"
     density="compact"
     color="primary"
     variant="outlined"

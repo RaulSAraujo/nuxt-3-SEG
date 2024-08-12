@@ -10,12 +10,13 @@ defineProps<{
   multiple: boolean | undefined;
   menuOpenDefault?: boolean | undefined;
   returnObject?: boolean | undefined;
+  alt?: string;
 }>();
 </script>
 
 <template>
   <v-combobox
-    :id="label"
+    :id="alt || label"
     density="compact"
     color="primary"
     variant="outlined"

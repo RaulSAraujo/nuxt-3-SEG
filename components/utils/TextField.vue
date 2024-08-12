@@ -5,6 +5,7 @@ defineProps<{
   placeholder?: string | undefined;
   disabled?: boolean | undefined;
   hideDetails?: boolean | "auto" | undefined;
+  alt?: string;
 }>();
 
 defineEmits(["enter"]);
@@ -12,7 +13,7 @@ defineEmits(["enter"]);
 
 <template>
   <v-text-field
-    :id="label"
+    :id="alt || label"
     density="compact"
     color="primary"
     variant="outlined"

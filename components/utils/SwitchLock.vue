@@ -2,6 +2,7 @@
 const props = defineProps<{
   label: string;
   value: boolean | null;
+  alt?: string;
 }>();
 
 const emit = defineEmits(["switch"]);
@@ -29,7 +30,7 @@ watch(propRef, (newValue) => {
 
 <template>
   <v-switch
-    :id="label"
+    :id="alt || label"
     :label="label"
     inset
     color="primary"

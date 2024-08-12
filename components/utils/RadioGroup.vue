@@ -7,11 +7,13 @@ defineProps<{
   disabled?: boolean;
   appendIcon?: string;
   prependIcon?: string;
+  alt?: string;
 }>();
 </script>
 
 <template>
   <v-radio-group
+    :id="alt || label"
     :label="label"
     :inline="inline || true"
     :hide-details="hideDetails"

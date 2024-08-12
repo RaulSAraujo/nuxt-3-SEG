@@ -7,6 +7,7 @@ defineProps<{
   clearable?: boolean | undefined;
   placeholder?: string | undefined;
   hideDetails?: boolean | "auto" | undefined;
+  alt?: string;
 }>();
 
 defineEmits(["enter"]);
@@ -14,6 +15,7 @@ defineEmits(["enter"]);
 
 <template>
   <v-textarea
+    :id="alt || label"
     :label="label"
     color="primary"
     density="compact"

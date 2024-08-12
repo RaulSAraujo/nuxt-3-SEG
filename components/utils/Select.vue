@@ -9,6 +9,7 @@ const props = defineProps<{
   clearable?: boolean | undefined;
   multiple: boolean | undefined;
   returnObject?: boolean | undefined;
+  alt?: string;
 }>();
 
 const likesAll = computed(() => props.value!.length === props.items.length);
@@ -28,7 +29,7 @@ const toggle = () => {
 
 <template>
   <v-select
-    :id="label"
+    :id="alt || label"
     density="compact"
     color="primary"
     variant="outlined"
