@@ -43,36 +43,29 @@ const getBaseUrl = (event: H3Event) => {
 
 export default defineEventHandler(async (event) => {
     try {
-        const authHeaderValue = getRequestHeader(event, 'authorization')
-        if (typeof authHeaderValue === 'undefined') {
-            throw createError({ statusCode: 403, statusMessage: 'Need to pass valid authorization header to access this endpoint' })
-        }
+        const { jwt } = await readBody(event)
 
-        const decodeJwt = parseJwt(authHeaderValue)
+        const decodeJwt = parseJwt(jwt)
 
         const currentTime = Math.floor(Date.now() / 1000)
 
         if (currentTime > decodeJwt.exp) {
             const baseUrl = getBaseUrl(event)
 
-            const response = await $fetch(`${baseUrl}/login/refresh`, {
+            return await $fetch<{ jwt: string }>(`${baseUrl}/login/refresh`, {
                 method: 'POST',
-                body: JSON.stringify({
-                    jwt: authHeaderValue
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
+                body: {
+                    jwt: jwt
                 }
             })
-
-            return response
         } else {
             return {
-                jwt: authHeaderValue
+                jwt
             }
         }
     } catch (err) {
-        console.error('Error fetching login data:', err)
+        console.error('Error fetching refresh data:', err)
+
         return null
     }
 })

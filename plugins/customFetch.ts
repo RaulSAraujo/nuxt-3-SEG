@@ -12,7 +12,7 @@ export default defineNuxtPlugin({
       baseURL = nuxtApp.$config.public.base_url_external as string;
     }
 
-    const { token } = useAuth();
+    const { token, signOut } = useAuth();
 
     const $customFetch = $fetch.create({
       baseURL,
@@ -25,6 +25,8 @@ export default defineNuxtPlugin({
       },
       async onResponseError({ response }) {
         if (response.status === 401) {
+          signOut()
+          
           navigateTo('/')
         }
       }

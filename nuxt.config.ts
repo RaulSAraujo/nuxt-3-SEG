@@ -130,14 +130,15 @@ export default defineNuxtConfig({
   },
 
   auth: {
+    isEnabled: true,
     baseURL: '/api/auth/',
     provider: {
-      type: 'refresh',
+      type: 'local',
       endpoints: {
         signIn: { path: '/signIn', method: 'post' },
         signOut: { path: '/signOut', method: 'post' },
         getSession: { path: '/session', method: 'get' },
-        refresh: { path: '/refresh', method: 'post' }
+        // refresh: { path: '/refresh', method: 'post' }
       },
       pages: {
         login: '/',
@@ -145,10 +146,30 @@ export default defineNuxtConfig({
       token: {
         signInResponseTokenPointer: '/jwt',
         type: '',
-        maxAgeInSeconds: 60 * 60 * 3, // 5 min
+        cookieName: 'auth.token',
+        headerName: 'Authorization',
+        maxAgeInSeconds: 86400,
         sameSiteAttribute: 'lax',
       },
-      refreshToken: { signInResponseRefreshTokenPointer: '/jwt', refreshRequestTokenPointer: '/jwt' },
+      sessionDataType: {
+        id: 'number',
+        name: 'string',
+        username: 'string',
+        active: 'boolean',
+        is_admin: 'boolean',
+        group_id: 'number',
+        theme: 'boolean',
+        top_menu: 'boolean',
+        lateral_menu: 'boolean',
+        created_at: 'Date | null',
+        updated_at: 'Date | null',
+        deleted_at: 'Date | null',
+        profile_image: 'Buffer | null'
+      }
+    },
+    session: {
+      enableRefreshOnWindowFocus: true,
+      enableRefreshPeriodically: false
     },
     globalAppMiddleware: {
       isEnabled: true
