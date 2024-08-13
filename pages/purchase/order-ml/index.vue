@@ -1,3 +1,7 @@
 <template>
-    <span>order ml</span>
+  <iframe
+    src="http://localhost:3000/purchase/order-ml"
+    frameBorder="0"
+    style="height: 90vh; width: 100vw"
+  />
 </template>
