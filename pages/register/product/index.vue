@@ -18,6 +18,7 @@ const activateDialogToEdit = ref<boolean>(false);
       :disabled-menu="false"
       :show-select="true"
       :multi-sort="true"
+      :router-full="true"
     >
       <template #item.action="{ item }">
         <v-btn

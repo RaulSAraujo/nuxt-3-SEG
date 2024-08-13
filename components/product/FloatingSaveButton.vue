@@ -5,6 +5,23 @@ const currentTime = ref(0);
 const productStore = useProductStore();
 const { product, productMeasurementsChanged } = storeToRefs(productStore);
 
+const loading = useLoadingIndicator();
+
+watch(
+  () => [
+    product.value!.package_id,
+    product.value!.height,
+    product.value!.width,
+    product.value!.length,
+    product.value!.weight,
+    product.value!.gross_weight,
+    product.value!.weight_cubic,
+  ],
+  () => {
+    productMeasurementsChanged.value = true;
+  }
+);
+
 const removeStatus = () => {
   const pstatuses = product.value!.Pstatuses!.map((item) => item.id);
 
@@ -23,7 +40,7 @@ const addStatus = () => {
   save(pstatuses);
 };
 
-const loading = useLoadingIndicator();
+const { databaseDateWithTime } = useDateConversion();
 
 const save = async (pstatuses?: number[]) => {
   snackbar.value = false;
@@ -58,6 +75,18 @@ const save = async (pstatuses?: number[]) => {
     delete details.length;
   }
 
+  if (details.virtual_stock_temporary_at) {
+    details.virtual_stock_temporary_at = databaseDateWithTime(
+      `${details.virtual_stock_temporary_at}`
+    );
+  }
+
+  if (details.virtual_stock_permanent_at) {
+    details.virtual_stock_permanent_at = databaseDateWithTime(
+      `${details.virtual_stock_permanent_at}`
+    );
+  }
+
   try {
     await useNuxtApp().$customFetch("product", {
       method: "PUT",
@@ -81,33 +110,35 @@ const save = async (pstatuses?: number[]) => {
 </script>
 
 <template>
-  <v-fab
-    v-if="$router.currentRoute.value.name === 'register-product-name'"
-    class="mb-4"
-    icon="mdi-content-save"
-    location="bottom end"
-    color="primary"
-    app
-    appear
-    @click="productMeasurementsChanged ? (snackbar = true) : save()"
-  />
+  <ClientOnly>
+    <v-fab
+      v-if="$router.currentRoute.value.name === 'register-product-id'"
+      class="mb-4"
+      icon="mdi-content-save"
+      location="bottom end"
+      color="primary"
+      app
+      appear
+      @click="productMeasurementsChanged ? (snackbar = true) : save()"
+    />
 
-  <v-snackbar
-    v-model="snackbar"
-    rounded="lg"
-    variant="flat"
-    timeout="6000"
-    :timer="`${currentTime}`"
-    color="primary"
-    location="top"
-    content-class="border-thin"
-  >
-    <div class="text-subtitle-1">Dimensões reais do produto ?</div>
+    <v-snackbar
+      v-model="snackbar"
+      rounded="lg"
+      variant="flat"
+      timeout="6000"
+      :timer="`${currentTime}`"
+      color="primary"
+      location="top"
+      content-class="border-thin"
+    >
+      <div class="text-subtitle-1">Dimensões reais do produto ?</div>
 
-    <template #actions>
-      <v-btn color="white" variant="plain" @click="addStatus()"> Não </v-btn>
+      <template #actions>
+        <v-btn color="white" variant="plain" @click="addStatus()"> Não </v-btn>
 
-      <v-btn color="white" variant="plain" @click="removeStatus()"> Sim </v-btn>
-    </template>
-  </v-snackbar>
+        <v-btn color="white" variant="plain" @click="removeStatus()"> Sim </v-btn>
+      </template>
+    </v-snackbar>
+  </ClientOnly>
 </template>

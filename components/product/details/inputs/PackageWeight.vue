@@ -13,11 +13,13 @@ const weight_cubic_kg = computed(() => product.value?.Package?.weight_cubic_kg ?
 /**
  * Formatação e validação do valor inicial
  */
-product.value!.Package!.package_weight = !Number.isInteger(
-  product.value!.Package!.package_weight
-)
-  ? Math.ceil(parseFloat(`${product.value!.Package!.package_weight ?? 0.0}`) * 1000)
-  : product.value!.Package!.package_weight ?? 0;
+if (product.value && product.value.Package) {
+  product.value.Package.package_weight = !Number.isInteger(
+    product.value.Package.package_weight
+  )
+    ? Math.ceil(parseFloat(`${product.value.Package.package_weight ?? 0.0}`) * 1000)
+    : product.value.Package.package_weight ?? 0;
+}
 
 const FormatFirstPackaging = () => {
   const mult = (height.value * length.value * width.value) / 6000;

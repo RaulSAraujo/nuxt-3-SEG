@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const packageStore = usePackageStore();
+packageStore.get();
 </script>
 
 <template>
@@ -17,10 +19,10 @@
 
     <p class="text-h6 font-weight-medium my-3">OBSERVAÇÕES</p>
 
-    <ProductDetailsObservation />    
+    <ProductDetailsObservation />
 
     <p class="text-h6 font-weight-medium my-3">EMBALAGEM / PESO</p>
 
-    <ProductDetailsPackage />
+    <ProductDetailsPackage v-if="packageStore.status === 'success'" />
   </v-container>
 </template>

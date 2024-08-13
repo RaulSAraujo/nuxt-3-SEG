@@ -23,8 +23,12 @@ export const useProductStore = defineStore("product", () => {
 
     const kit = ref<FamilyKit[] | null>();
 
-    async function getFamilyKit(type: string, type_id: string) {
-        const { data } = await $api<FamilyProduct | Kit>(`${type}?id=${type_id}`);
+    function getFamilyKit(type: string, type_id: string) {
+        const { data, status } = $api<FamilyProduct | Kit>(`${type}`, {
+            key: 'FamilyOrKitProduct',
+            query: { id: type_id },
+            pick: ['rows']
+        });
 
         const productStore = useProductStore();
         const { family, kit } = storeToRefs(productStore);
@@ -38,6 +42,8 @@ export const useProductStore = defineStore("product", () => {
 
             kit.value = format?.rows[0].Families;
         }
+
+        return status
     }
 
     return {

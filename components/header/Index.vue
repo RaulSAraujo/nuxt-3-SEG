@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { Page } from "~/interfaces/Page";
 
-const { data: pages, status } = useFetch<Page[]>("/api/pages");
+const { data: pages, status } = useFetch<Page[]>("/api/pages", {
+  key: "Pages",
+});
 </script>
 
 <template>

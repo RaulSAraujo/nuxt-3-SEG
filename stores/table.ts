@@ -3,7 +3,7 @@ import type { RouteLocationNormalizedLoaded } from "#vue-router";
 export const useTableStore = defineStore("table", () => {
 
     const url = ref<string>('')
-    const routerFull = ref<boolean | undefined>(undefined);
+    const routerFull = ref<boolean | null | undefined>(undefined);
     const items = ref<object[]>([]);
     const totalItems = ref(0);
     const loading = ref(true);

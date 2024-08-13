@@ -19,10 +19,12 @@ const setPackage = (packageData: Row) => {
 const packageStore = usePackageStore();
 const { packageItems } = storeToRefs(packageStore);
 
-const packageSelect = ref<number>(product.value?.package_id ?? 1);
+const packageSelect = ref<number | "Personalizada">(
+  product.value?.package_id ?? "Personalizada"
+);
 
-if (product.value && packageItems.value && packageSelect.value === 1) {
-  const find = useArrayFind(packageItems.value, (e) => e.name === "Personalizada");
+if (product.value && packageSelect.value === "Personalizada") {
+  const find = useArrayFind(packageItems.value!, (e) => e.name === "Personalizada");
 
   product.value.Package = find.value as Row;
 }

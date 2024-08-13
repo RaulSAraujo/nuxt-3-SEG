@@ -4,12 +4,11 @@ const route = useRoute();
 const type = computed(() => route.params.type.toString().toLocaleLowerCase());
 
 const productStore = useProductStore();
-await productStore.getFamilyKit(type.value, `${route.params.type_id}`);
-
+const status = productStore.getFamilyKit(type.value, `${route.params.type_id}`);
 </script>
 
 <template>
-  <v-container fluid>
+  <v-container v-if="status === 'success'" fluid>
     <ClientOnly fallback-tag="div">
       <div class="d-flex flex-row justify-space-between mb-5">
         <p class="text-h5 font-weight-bold">FAMILIA/KIT</p>

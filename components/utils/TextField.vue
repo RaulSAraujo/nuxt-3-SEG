@@ -20,7 +20,7 @@ defineEmits(["enter"]);
     :label="label"
     :clearable="clearable"
     :disabled="disabled"
-    :hide-details="hideDetails"
+    :hide-details="hideDetails || true"
     :placeholder="placeholder"
     @keypress.enter="$emit('enter')"
   />

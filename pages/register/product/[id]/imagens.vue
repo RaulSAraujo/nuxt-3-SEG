@@ -2,11 +2,13 @@
 const productStore = useProductStore();
 const { product } = storeToRefs(productStore);
 
-const { data, status } = await $api(
-  `photo/get/images-products?brand=${product.value!.brand.toLowerCase()}&name=${
-    product.value!.name
-  }`
-);
+const { data, status } = await $api("photo/get/images-products", {
+  key: "PhotoProduct",
+  query: {
+    brand: product.value!.brand.toLowerCase(),
+    name: product.value!.name,
+  },
+});
 </script>
 
 <template>

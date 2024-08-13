@@ -4,8 +4,18 @@ import type { ERPWarehouses } from "~/interfaces/ErpWarehouses.js";
 const { params } = useRoute();
 
 const [warehousesRes, erpWarehousesRes] = await Promise.all([
-  $api<Product>(`product?id=${params.id}&warehouses=true`),
-  $api<ERPWarehouses>(`erp-warehouses`),
+  $api<Product>("product", {
+    key: "Warehouse",
+    params: {
+      id: params.id,
+      warehouses: true,
+    },
+    pick: ["rows"],
+  }),
+  $api<ERPWarehouses>(`erp-warehouses`, {
+    key: "WarehousesList",
+    pick: ["rows"],
+  }),
 ]);
 
 const PreferentialWarehouse =

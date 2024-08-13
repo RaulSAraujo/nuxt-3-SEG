@@ -4,12 +4,15 @@ import type { Pstatus, Row } from "~/interfaces/Pstatus.js";
 const productStore = useProductStore();
 const { product } = storeToRefs(productStore);
 
-const { data, error } = await $api<Pstatus>("pstatus", {
-  method: "GET",
+const { data, status } = $api<Pstatus>("pstatus", {
+  key: "PstatusList",
+  lazy: true,
+  pick: ["rows"],
 });
 
 const StatusItems = ref<Row[]>();
-if (!error.value) {
+
+if (status.value === "success") {
   StatusItems.value = useSorted(data.value!.rows, (a, b) => {
     if (a.id < b.id) return -1;
     if (a.id > b.id) return 1;
@@ -117,7 +120,12 @@ const quotationStatusBloqueado = async () => {
 </script>
 
 <template>
-  <v-dialog transition="dialog-top-transition" width="400" persistent>
+  <v-dialog
+    v-if="status === 'success'"
+    transition="dialog-top-transition"
+    width="400"
+    persistent
+  >
     <template #activator="{ props: activatorProps }">
       <v-btn
         v-bind="activatorProps"

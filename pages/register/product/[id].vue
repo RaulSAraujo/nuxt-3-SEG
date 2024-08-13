@@ -7,12 +7,13 @@ const productStore = useProductStore();
 const { product } = storeToRefs(productStore);
 
 if (product.value == undefined) {
-  const { data, error } = await $api(`product?id=${params.id}`);
+  const { data, error } = await $api<Product>(`product?id=${params.id}`, {
+    key: `Product-${params.id}`,
+    pick: ["rows"],
+  });
 
-  if (!error.value) {
-    const val = data.value as Product;
-
-    product.value = val.rows[0];
+  if (!error.value && data.value) {
+    product.value = data.value.rows[0];
   }
 }
 
@@ -24,12 +25,6 @@ if (!Number.isInteger(product.value!.weight)) {
 } else {
   product.value!.weight = product.value!.weight ?? 0;
 }
-
-const packageStore = usePackageStore();
-await packageStore.get();
-
-const supplierStore = useSupplierStore();
-await supplierStore.get();
 </script>
 
 <template>

@@ -1,4 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const supplierStore = useSupplierStore();
+const status = supplierStore.get();
+</script>
 
 <template>
   <v-container fluid>
@@ -6,7 +9,7 @@
 
     <ProductCostTable />
 
-    <ProductCostTableMyTable />
+    <ProductCostTableMyTable v-if="status === 'success'" />
 
     <ProductCostTableInvoice />
   </v-container>

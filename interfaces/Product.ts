@@ -21,6 +21,8 @@ export interface Row {
     lead_time_at: Date | null;
     virtual_stock_temporary: boolean;
     virtual_stock_temporary_at: string | Date | null;
+    virtual_stock_permanent: boolean;
+    virtual_stock_permanent_at: string | Date | null;
     length: null | string | number;
     width: null | string | number;
     height: null | string | number;
