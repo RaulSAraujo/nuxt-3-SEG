@@ -16,15 +16,16 @@ const setPackage = (packageData: Row) => {
   product.value.length = parseFloat(`${packageData.length ?? 0}`).toFixed(2);
 };
 
-const packageStore = usePackageStore();
-const { packageItems } = storeToRefs(packageStore);
+const { payload } = useNuxtApp();
+
+const packageItems = payload.data["PackageList"] as Row[];
 
 const packageSelect = ref<number | "Personalizada">(
   product.value?.package_id ?? "Personalizada"
 );
 
 if (product.value && packageSelect.value === "Personalizada") {
-  const find = useArrayFind(packageItems.value!, (e) => e.name === "Personalizada");
+  const find = useArrayFind(packageItems, (e) => e.name === "Personalizada");
 
   product.value.Package = find.value as Row;
 }

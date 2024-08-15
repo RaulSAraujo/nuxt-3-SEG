@@ -1,32 +1,15 @@
-<script setup lang="ts">
-const route = useRoute();
-
-const type = computed(() => route.params.type.toString().toLocaleLowerCase());
-
-const productStore = useProductStore();
-const status = productStore.getFamilyKit(type.value, `${route.params.type_id}`);
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <v-container v-if="status === 'success'" fluid>
-    <ClientOnly fallback-tag="div">
-      <div class="d-flex flex-row justify-space-between mb-5">
-        <p class="text-h5 font-weight-bold">FAMILIA/KIT</p>
+  <v-container fluid>
+    <div class="d-flex flex-row justify-space-between mb-5">
+      <p class="text-h5 font-weight-bold">FAMILIA/KIT</p>
 
-        <ProductTypeGroupButtons />
-      </div>
+      <ProductTypeGroupButtons />
+    </div>
 
-      <ProductTypeTable />
+    <ProductTypeTableFamily v-if="$route.params.type === 'family'" />
 
-      <template #fallback>
-        <div class="d-flex flex-row justify-space-between mb-5">
-          <v-skeleton-loader width="80vw" type="text" />
-
-          <v-skeleton-loader width="20vw" type="actions" />
-        </div>
-
-        <v-skeleton-loader type="table-heading, table-tbody" />
-      </template>
-    </ClientOnly>
+    <ProductTypeTableKit v-if="$route.params.type === 'kit'" />
   </v-container>
 </template>

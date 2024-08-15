@@ -3,8 +3,20 @@ const props = defineProps<{
   id: number;
 }>();
 
-const productStore = useProductStore();
-const { kit } = storeToRefs(productStore);
+interface PartialFamily {
+  id: number;
+  name: string | null | undefined;
+  erp_product_id: number | undefined;
+  produto_chave: number | null | undefined;
+  description: string | null | undefined;
+  qtd_itens: number | null;
+  quantity: number | null | undefined;
+  virtual_quantity: number | null | undefined;
+  lead_time: number | null | undefined;
+  observation: string | null | undefined;
+}
+
+const kit = useState<PartialFamily[]>("KitProduct", () => []);
 
 const snackbar = ref<boolean>(false);
 const currentTime = ref(0);
@@ -37,20 +49,18 @@ const destroy = async () => {
 
     $toast().success(message);
 
-    const index = useArrayFindIndex(
-      kit!.value!,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (e: Record<string, any>) => e.id == props.id
-    );
+    const index = useArrayFindIndex(kit, (e) => e.id == props.id);
 
-    kit!.value!.splice(index.value, 1);
+    kit.value.splice(index.value, 1);
+
+    loading.finish();
   } catch (error) {
     const err = error as { statusText: string; message: string };
 
     $toast().error(`${err.statusText ?? err.message}`);
-  }
 
-  loading.finish();
+    loading.finish();
+  }
 };
 </script>
 

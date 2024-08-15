@@ -79,7 +79,6 @@ export interface Row {
     ean: string;
     created_at: Date;
     updated_at: Date;
-    deleted_at: null;
     Family: Family;
     ProductSell: ProductSell | null;
     Quotations?: Quotation[] | null;

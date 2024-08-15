@@ -26,8 +26,9 @@ export default defineNuxtPlugin({
       async onResponseError({ response }) {
         if (response.status === 401) {
           signOut()
-          
-          navigateTo('/')
+
+          const router = useRouter();
+          router.push('/');
         }
       }
     })

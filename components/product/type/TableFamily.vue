@@ -1,13 +1,11 @@
 <script setup lang="ts">
-const productStore = useProductStore();
-const { family, kit } = storeToRefs(productStore);
+import type { Family, Product } from "~/interfaces/Family.js";
 
 const headersFamily = ref([
   { title: "ID", key: "id" },
   { title: "COD.FABRICANTE", key: "name" },
   { title: "DISP.", key: "availability" },
   { title: "TIPO", key: "type" },
-  { title: "STATUS", key: "Pstatuses" },
   { title: "COD.ERP", key: "erp_product_id" },
   { title: "COD.AUXILIAR", key: "produto_chave" },
   { title: "COD.BARRA", key: "ean" },
@@ -26,48 +24,47 @@ const headersFamily = ref([
   { title: "OBSERVAÇÃO", key: "observation" },
 ]);
 
-const headersKit = ref([
-  {
-    title: "AÇÕES",
-    key: "action",
+const route = useRoute();
+
+const { data, status } = $api<Partial<Product>[]>(`${route.params.type}`, {
+  key: "FamilyProduct",
+  query: { id: route.params.type_id },
+  transform: (fetchData) => {
+    const products = ((fetchData as unknown) as Family).rows[0]
+      .Products as Partial<Product>[];
+
+    return products.map((p) => {
+      return {
+        id: p.id,
+        name: p.name,
+        availability: p.availability,
+        type: p.type,
+        erp_product_id: p.erp_product_id,
+        produto_chave: p.produto_chave,
+        ean: p.ean,
+        description: p.description,
+        brand: p.brand,
+        lead_time: p.lead_time,
+        apparatus: p.apparatus,
+        cost: p.cost,
+        price: p.price,
+        quantity: p.quantity,
+        virtual_quantity: p.virtual_quantity,
+        image: p.image,
+        support: p.support,
+        erp_syncecom: p.erp_syncecom,
+        gross_weight: p.gross_weight,
+        observation: p.observation,
+      };
+    });
   },
-  {
-    title: "COD.FABRICANTE",
-    key: "SellPreference.name",
-  },
-  {
-    title: "COD.ERP",
-    key: "SellPreference.erp_product_id",
-  },
-  {
-    title: "COD.AUXILIAR",
-    key: "SellPreference.produto_chave",
-  },
-  {
-    title: "DESCRIÇÃO",
-    key: "SellPreference.description",
-  },
-  {
-    title: "QUANT COMPOSIÇÃO KIT",
-    key: "KitFamily.qtd_itens",
-  },
-  { title: "ESTOQUE", key: "SellPreference.quantity" },
-  {
-    title: "ESTOQUE VIRTUAL",
-    key: "SellPreference.virtual_quantity",
-  },
-  {
-    title: "LEAD TIME",
-    key: "SellPreference.lead_time",
-  },
-  { title: "OBSERVAÇÃO", key: "SellPreference.observation" },
-]);
+});
 </script>
 
 <template>
   <v-data-table
-    v-if="$route.params.type == 'FAMILY' && family"
-    :items="family"
+    v-if="status === 'success'"
+    :items="data || []"
     :headers="headersFamily"
     hide-default-footer
     disable-sort
@@ -93,31 +90,15 @@ const headersKit = ref([
     </template>
 
     <template #item.price="{ item }">
-      <ToLocaleString :value="item.price" />
+      <ToLocaleString :value="item.price || null" />
     </template>
 
     <template #item.cost="{ item }">
-      <ToLocaleString :value="item.cost" />
+      <ToLocaleString :value="item.cost || null" />
     </template>
 
     <template #item.observation="{ item }">
       <Tooltip :text="item.observation" :vw="5" />
-    </template>
-  </v-data-table>
-
-  <v-data-table
-    v-if="$route.params.type == 'KIT' && kit"
-    :items="kit"
-    :headers="headersKit"
-    hide-default-footer
-    disable-sort
-  >
-    <template #item.action="{ item }">
-      <ProductTypeChangeKitCompositionRemove :id="item.id" />
-    </template>
-
-    <template #item.SellPreference.description="{ item }">
-      <Tooltip :text="item.SellPreference?.description ?? ''" :vw="10" />
     </template>
   </v-data-table>
 </template>

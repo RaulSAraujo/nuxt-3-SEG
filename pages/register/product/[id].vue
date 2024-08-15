@@ -7,28 +7,33 @@ const productStore = useProductStore();
 const { product } = storeToRefs(productStore);
 
 if (product.value == undefined) {
-  const { data, error } = await $api<Product>(`product?id=${params.id}`, {
-    key: `Product-${params.id}`,
+  const { data, status } = $api<Product>(`product`, {
+    key: `Product`,
+    query: {
+      id: params.id,
+    },
     pick: ["rows"],
   });
 
-  if (!error.value && data.value) {
-    product.value = data.value.rows[0];
-  }
-}
+  if (status.value === "success") {
+    product.value = data.value!.rows[0];
 
-/**
- * Formatação e validação do valor inicial
- */
-if (!Number.isInteger(product.value!.weight)) {
-  product.value!.weight = Math.ceil(parseFloat(`${product.value!.weight ?? 0.0}`) * 1000);
-} else {
-  product.value!.weight = product.value!.weight ?? 0;
+    /**
+     * Formatação e validação do valor inicial
+     */
+    if (!Number.isInteger(product.value!.weight)) {
+      product.value!.weight = Math.ceil(
+        parseFloat(`${product.value!.weight ?? 0.0}`) * 1000
+      );
+    } else {
+      product.value!.weight = product.value!.weight ?? 0;
+    }
+  }
 }
 </script>
 
 <template>
-  <div class="my-5 mx-2">
+  <div v-if="product" class="my-5 mx-2">
     <div class="d-flex flex-row">
       <v-btn
         variant="plain"

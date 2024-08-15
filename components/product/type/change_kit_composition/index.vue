@@ -100,6 +100,7 @@ const close = () => {
             :disabled="typeof search != 'object' || search == null"
             @close="
               isActive.value = false;
+
               close();
             "
           />

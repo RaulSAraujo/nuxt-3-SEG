@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const packageStore = usePackageStore();
-packageStore.get();
 </script>
 
 <template>
@@ -23,6 +21,6 @@ packageStore.get();
 
     <p class="text-h6 font-weight-medium my-3">EMBALAGEM / PESO</p>
 
-    <ProductDetailsPackage v-if="packageStore.status === 'success'" />
+    <ProductDetailsPackage />
   </v-container>
 </template>

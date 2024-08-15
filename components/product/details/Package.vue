@@ -1,10 +1,23 @@
 <script setup lang="ts">
+import type { Package, Row } from "~/interfaces/Package.js";
+
 const productStore = useProductStore();
 const { product } = storeToRefs(productStore);
+
+const { status } = $api<Row[]>("package", {
+  key: "PackageList",
+  lazy: true,
+  getCachedData(key, nuxtApp) {
+    return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+  },
+  transform: (fetchData) => {
+    return ((fetchData as unknown) as Package).rows;
+  },
+});
 </script>
 
 <template>
-  <v-row dense>
+  <v-row v-if="status === 'success'" dense>
     <v-col cols="12" sm="6" md="3" lg="3" xl="3">
       <ProductDetailsInputsIdPackage />
     </v-col>

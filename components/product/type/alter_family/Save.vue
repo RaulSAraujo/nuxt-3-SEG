@@ -1,21 +1,25 @@
 <script setup lang="ts">
+import type { Product } from "~/interfaces/Family.js";
 
 const props = defineProps<{
   id?: number | undefined;
   disabled: boolean;
 }>();
 
-const productStore = useProductStore();
-const { family } = storeToRefs(productStore);
-
 const emit = defineEmits(["close"]);
+
+const family = useNuxtApp().payload.data["FamilyProduct"] as Partial<Product>[];
 
 const snackbar = ref<boolean>(false);
 const currentTime = ref(0);
 
 const route = useRoute();
 
+const loading = ref<boolean>(false);
+
 const save = async () => {
+  loading.value = true;
+
   try {
     await useNuxtApp().$customFetch(`product`, {
       method: "PUT",
@@ -33,6 +37,8 @@ const save = async () => {
 
     $toast().error(`${err.statusText ?? err.message}`);
   }
+
+  loading.value = false;
 };
 </script>
 
@@ -41,6 +47,7 @@ const save = async () => {
     text="SALVAR"
     color="blue"
     :disabled="disabled"
+    :loading="loading"
     @click="family!.length == 1 ? (snackbar = true) : save()"
   />
 

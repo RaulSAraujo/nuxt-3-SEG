@@ -21,15 +21,14 @@ export interface Family {
     id: number;
     buy_preference_id: number | null;
     product_id: number | null;
-    quantity: null;
-    model: null;
-    replace_cost: null;
-    created_at: Date;
-    updated_at: Date;
-    deleted_at: null;
+    quantity: number | null;
+    model: string | null;
+    replace_cost: number | null;
+    created_at: Date | string;
+    updated_at: Date | string;
     KitFamily: KitFamily;
     SellPreference: Product | null;
-    ProductSell: ProductSell;
+    ProductSell?: ProductSell;
 }
 
 export interface KitFamily {
@@ -38,8 +37,8 @@ export interface KitFamily {
     family_id: number;
     filepath: string;
     qtd_itens: number;
-    created_at: Date;
-    updated_at: Date;
+    created_at: string | Date;
+    updated_at: string | Date;
 }
 
 export interface ProductSell {
@@ -74,7 +73,6 @@ export interface ProductSell {
     sync_viziotech: boolean;
     created_at: Date;
     updated_at: Date;
-    deleted_at: null;
 }
 
 export interface Product {
@@ -85,25 +83,27 @@ export interface Product {
     erp_product_id: number;
     supplier_preference_id: number;
     package_id: number | null;
-    name: string;
-    produto_chave: number;
+    name: null | string;
+    produto_chave: number | null;
     quantity: number;
     virtual_quantity: number | null;
     virtual_quantity_at: Date | null;
-    lead_time: number;
+    lead_time: number | null;
     lead_time_at: Date | null;
     virtual_stock_temporary: boolean;
-    virtual_stock_temporary_at: Date | null;
-    length: null | string;
-    width: null | string;
-    height: null | string;
-    gross_weight: string;
-    weight: string;
-    weight_cubic: null | string;
+    virtual_stock_temporary_at: string | Date | null;
+    virtual_stock_permanent: boolean;
+    virtual_stock_permanent_at: string | Date | null;
+    length: null | string | number;
+    width: null | string | number;
+    height: null | string | number;
+    gross_weight: null | string | number;
+    weight: null | string | number;
+    weight_cubic: null | string | number;
     brand: string;
-    description: string;
+    description: null | string;
     erp_syncecom: boolean;
-    erp_category: string;
+    erp_category: null | string;
     erp_color: null | string;
     apparatus: null | string;
     ncm: null | string;
@@ -113,11 +113,11 @@ export interface Product {
     endereco_estoque: null | string;
     unidade_c: string;
     synced_from_erp_at: string;
-    observation: string;
-    observation_cod_fab: string;
+    observation: null | string;
+    observation_cod_fab: string | null;
     erp_stock_movement_at: Date;
     classificacao: null | string;
-    cost: string;
+    cost: null | string;
     cost_at: Date | null;
     liquidation: boolean;
     promotion_price: null | string;
@@ -125,11 +125,11 @@ export interface Product {
     promotion_ends_at: Date | null;
     price: string;
     counter_price: string;
-    price_table_id: number;
+    price_table_id: number | null;
     pendente: boolean;
-    model: string;
+    model: null | string;
     active: boolean;
-    image: boolean;
+    image: boolean | null;
     support: boolean | null;
     warranty_days: number;
     icms_percentage: string;
@@ -146,11 +146,10 @@ export interface Product {
     quantity_purchased: number | null;
     quantity_reserved: number | null;
     description_ecom: null;
-    info: null;
+    info: null | string;
     ean: string;
     created_at: Date;
     updated_at: Date;
-    deleted_at: null;
     Package?: Package | null;
 }
 
@@ -159,12 +158,11 @@ export interface Package {
     name: string;
     width: number | null;
     length: number | null;
-    weight_per_cubic_kg: number;
+    weight_per_cubic_kg: number | null;
     custom: boolean;
     height: number | null;
-    weight_cubic_kg: number;
-    package_weight: number;
+    weight_cubic_kg: number | null;
+    package_weight: number | null;
     created_at: Date;
     updated_at: Date;
-    deleted_at: null;
 }

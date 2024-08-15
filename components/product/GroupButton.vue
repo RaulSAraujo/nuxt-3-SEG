@@ -38,7 +38,7 @@ const { product } = storeToRefs(productStore);
         name: 'register-product-id-type-type_id',
         params: {
           id: $route.params.id,
-          type: product?.type,
+          type: product?.type.toLowerCase(),
           type_id: product?.type_id,
         },
       }"

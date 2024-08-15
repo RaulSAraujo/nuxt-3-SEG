@@ -1,5 +1,4 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div>
@@ -10,8 +9,8 @@
       :text="`Familia atual: ${$route.params.type_id}`"
     />
 
-    <ProductTypeAlterFamily v-if="$route.params.type == 'FAMILY'" />
+    <ProductTypeAlterFamily v-if="$route.params.type == 'family'" />
 
-    <ProductTypeChangeKitComposition v-if="$route.params.type == 'KIT'" />
+    <ProductTypeChangeKitComposition v-if="$route.params.type == 'kit'" />
   </div>
 </template>

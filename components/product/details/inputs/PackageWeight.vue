@@ -22,6 +22,8 @@ if (product.value && product.value.Package) {
 }
 
 const FormatFirstPackaging = () => {
+  if (product.value && product.value.Package === undefined) return;
+
   const mult = (height.value * length.value * width.value) / 6000;
 
   product.value!.Package!.package_weight = Math.ceil(mult * weight_cubic_kg.value * 1000);

@@ -4,7 +4,7 @@ const { product, availabilityMap } = storeToRefs(productStore);
 </script>
 
 <template>
-  <v-row v-if="product?.Quotations" dense class="mx-auto">
+  <v-row v-if="product?.Quotations" dense class="mb-2">
     <v-col cols="12" sm="6" md="4" lg="3" xl="3">
       <TextField
         v-model="product.Quotations[0].Supplier.name"

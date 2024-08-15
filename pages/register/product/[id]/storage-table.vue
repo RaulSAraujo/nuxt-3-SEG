@@ -1,16 +1,32 @@
 <script setup lang="ts">
-import type { Product } from "~/interfaces/Product.js";
+import type {
+  Product,
+  PreferentialWarehouse,
+  WarehousesAddresses,
+} from "~/interfaces/Product.js";
 import type { ERPWarehouses } from "~/interfaces/ErpWarehouses.js";
 const { params } = useRoute();
 
+interface Warehouse {
+  PreferentialWarehouse: PreferentialWarehouse | null;
+  WarehousesAddresses: WarehousesAddresses[];
+}
+
 const [warehousesRes, erpWarehousesRes] = await Promise.all([
-  $api<Product>("product", {
+  $api<Warehouse>("product", {
     key: "Warehouse",
     params: {
       id: params.id,
       warehouses: true,
     },
-    pick: ["rows"],
+    transform: (fetchedData) => {
+      const firstRow = ((fetchedData as unknown) as Product).rows[0];
+
+      return {
+        PreferentialWarehouse: firstRow?.PreferentialWarehouse || null,
+        WarehousesAddresses: firstRow?.WarehousesAddresses || [],
+      };
+    },
   }),
   $api<ERPWarehouses>(`erp-warehouses`, {
     key: "WarehousesList",
@@ -18,9 +34,8 @@ const [warehousesRes, erpWarehousesRes] = await Promise.all([
   }),
 ]);
 
-const PreferentialWarehouse =
-  warehousesRes.data.value?.rows[0]?.PreferentialWarehouse ?? null;
-const WarehousesAddresses = warehousesRes.data.value?.rows[0]?.WarehousesAddresses ?? [];
+const preferentialWarehouse = warehousesRes.data.value!.PreferentialWarehouse;
+const warehousesAddresses = warehousesRes.data.value!.WarehousesAddresses;
 const erpWarehouses = erpWarehousesRes.data.value?.rows ?? [];
 
 const headers = ref([
@@ -55,17 +70,17 @@ const headers = ref([
   <v-container fluid>
     <span class="text-h5 font-weight-bold">ARMAZENAGEM PREFERENCIAL</span>
 
-    <v-row v-if="PreferentialWarehouse" dense class="mt-3 mx-2">
+    <v-row v-if="preferentialWarehouse" dense class="mt-3 mx-2">
       <v-col>
         <TextField
-          v-model="PreferentialWarehouse.almox"
+          v-model="preferentialWarehouse.almox"
           label="CÓDIGO"
           :disabled="true"
         />
       </v-col>
       <v-col>
         <Select
-          v-model="PreferentialWarehouse.almox"
+          v-model="preferentialWarehouse.almox"
           label="ALMOXARIFADO"
           :items="erpWarehouses"
           item-title="descricao"
@@ -76,14 +91,14 @@ const headers = ref([
       </v-col>
       <v-col>
         <TextField
-          v-model="PreferentialWarehouse.estatual"
+          v-model="preferentialWarehouse.estatual"
           label="ESTOQUE"
           :disabled="true"
         />
       </v-col>
       <v-col>
         <TextField
-          v-model="PreferentialWarehouse.localizacao"
+          v-model="preferentialWarehouse.localizacao"
           label="LOCALIZAÇÃO"
           :disabled="true"
         />
@@ -95,7 +110,7 @@ const headers = ref([
 
     <v-data-table
       :headers="headers"
-      :items="WarehousesAddresses"
+      :items="warehousesAddresses"
       hide-default-footer
       disable-filtering
       disable-sort

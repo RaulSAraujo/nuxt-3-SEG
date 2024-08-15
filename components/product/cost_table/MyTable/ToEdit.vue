@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Supplier, Row } from "~/interfaces/Supplier.js";
+
 defineEmits(["disable"]);
 
 const dayjs = useDayjs();
@@ -6,7 +8,15 @@ const dayjs = useDayjs();
 const productStore = useProductStore();
 const { product, costTableIndex, availabilityMap } = storeToRefs(productStore);
 
-const { supplierItems } = useSupplierStore();
+const { data } = $api<Row[]>("supplier", {
+  key: "SupplierList",
+  getCachedData(key, nuxtApp) {
+    return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+  },
+  transform: (fetchData) => {
+    return ((fetchData as unknown) as Supplier).rows;
+  },
+});
 
 const loading = ref<boolean>(false);
 
@@ -118,7 +128,7 @@ const updateQuotation = async () => {
             <Combobox
               v-model="product!.Quotations![costTableIndex].supplier_id"
               label="FORNECEDOR"
-              :items="supplierItems ?? []"
+              :items="data ?? []"
               item-title="name"
               item-value="id"
               :hide-details="true"
