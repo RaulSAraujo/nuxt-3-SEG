@@ -15,14 +15,19 @@ const { product } = storeToRefs(productStore);
       "
     />
 
-    <v-btn
-      v-if="product?.type == 'FAMILY'"
-      text="Tabela de custos"
-      :to="{
-        name: 'register-product-id-cost-table',
-        params: { id: $route.params.id },
-      }"
-    />
+    <ClientOnly>
+      <v-btn
+        text="Tabela de custos"
+        :to="{
+          name: 'register-product-id-cost-table',
+          params: { id: $route.params.id },
+        }"
+      />
+
+      <template #fallback>
+        <v-skeleton-loader width="150px" color="transparent" type="heading" />
+      </template>
+    </ClientOnly>
 
     <v-btn
       text="Tabela de status"
@@ -32,17 +37,23 @@ const { product } = storeToRefs(productStore);
       }"
     />
 
-    <v-btn
-      text="Familia/Kit"
-      :to="{
-        name: 'register-product-id-type-type_id',
-        params: {
-          id: $route.params.id,
-          type: product?.type.toLowerCase(),
-          type_id: product?.type_id,
-        },
-      }"
-    />
+    <ClientOnly>
+      <v-btn
+        text="Familia/Kit"
+        :to="{
+          name: 'register-product-id-type-type_id',
+          params: {
+            id: $route.params.id,
+            type: product?.type.toLowerCase(),
+            type_id: product?.type_id,
+          },
+        }"
+      />
+
+      <template #fallback>
+        <v-skeleton-loader width="150px" color="transparent" type="heading" />
+      </template>
+    </ClientOnly>
 
     <v-btn
       text="Imagens"

@@ -33,7 +33,7 @@ if (product.value == undefined) {
 </script>
 
 <template>
-  <div v-if="product" class="my-5 mx-2">
+  <div class="my-5 mx-2">
     <div class="d-flex flex-row">
       <v-btn
         variant="plain"
@@ -50,7 +50,15 @@ if (product.value == undefined) {
     </div>
 
     <v-sheet class="mx-2" rounded="xl" elevation="5">
-      <NuxtPage :keepalive="true" />
+      <ClientOnly>
+        <NuxtPage :keepalive="true" />
+
+        <template #fallback>
+          <v-container :fluid="true">
+            <v-skeleton-loader type="article,image,article,article,article" />
+          </v-container>
+        </template>
+      </ClientOnly>
     </v-sheet>
 
     <ProductFloatingSaveButton />
