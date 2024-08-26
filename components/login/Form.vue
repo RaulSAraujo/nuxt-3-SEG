@@ -32,7 +32,7 @@ const submit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <v-form @submit.prevent="submit">
+  <v-form @submit.prevent="submit" class="mt-8">
     <v-text-field
       v-model="username.value.value"
       label="Usuario:"
@@ -56,8 +56,8 @@ const submit = handleSubmit(async (values) => {
       @click:append-inner="showPassaword = !showPassaword"
     />
 
-    <v-row no-gutters justify="center" class="mx-10">
-      <v-btn block height="35" color="primary" variant="outlined" type="submit">
+    <v-row no-gutters justify="center" class="mx-10 mt-6">
+      <v-btn block height="35" color="primary" type="submit">
         ENTRAR
       </v-btn>
     </v-row>

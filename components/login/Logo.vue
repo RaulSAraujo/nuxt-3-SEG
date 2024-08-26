@@ -12,7 +12,7 @@ const _srcset = computed(() => {
     sizes: "xs:150px sm:150px md:150px lg:150px xl:150px",
     modifiers: {
       format: "webp",
-      quality: 100
+      quality: 100,
     },
   });
 });
@@ -27,7 +27,7 @@ const _srcset = computed(() => {
     :height="height"
   />
 
-  <v-row class="mb-3" no-gutters justify="center">
+  <div class="mb-3 text-center">
     <span class="text-body-2 text-grey">Sistema empresarial de gestão</span>
-  </v-row>
+  </div>
 </template>
