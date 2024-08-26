@@ -2,22 +2,11 @@
 const productSellStore = useProductSellStore();
 const { product } = storeToRefs(productSellStore);
 
-const dayjs = useDayjs();
+const { brDateWithTime } = useDateConversion();
 
 if (product.value) {
-  if (product.value.updated_at && dayjs(product.value.updated_at).isValid()) {
-    product.value.updated_at = dayjs(
-      product.value!.updated_at,
-      "YYYY-MM-DDTHH:mm:ss"
-    ).format("DD/MM/YYYY HH:mm:ss");
-  }
-
-  if (product.value.created_at && dayjs(product.value.created_at).isValid()) {
-    product.value.created_at = dayjs(
-      product.value!.created_at,
-      "YYYY-MM-DDTHH:mm:ss"
-    ).format("DD/MM/YYYY HH:mm:ss");
-  }
+  product.value.updated_at = brDateWithTime(product.value.updated_at!.toString());
+  product.value.created_at = brDateWithTime(product.value.created_at!.toString());
 }
 </script>
 

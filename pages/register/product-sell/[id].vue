@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProductSell } from "~/interfaces/ProductSell.js";
+import type { ProductSell, Row } from "~/interfaces/ProductSell.js";
 
 const { params } = useRoute();
 
@@ -7,10 +7,39 @@ const productSellStore = useProductSellStore();
 const { product } = storeToRefs(productSellStore);
 
 if (product.value == undefined) {
-  const { data, error } = await $api<ProductSell>(`product-sell?id=${params.id}`);
+  const { data, status } = await $api<Partial<Row>>(`product-sell`, {
+    key: `ProductSell`,
+    query: {
+      id: params.id,
+    },
+    transform: (fetchData) => {
+      const row = (fetchData as ProductSell).rows[0];
 
-  if (!error.value) {
-    product.value = data.value!.rows[0];
+      return {
+        id: row.id,
+        type_id: row.type_id,
+        type: row.type,
+        quantity: row.quantity,
+        ean_gs1: row.ean_gs1,
+        active: row.active,
+        description: row.description,
+        created_at: row.created_at,
+        updated_at: row.updated_at,
+        model: row.model,
+        syncecom: row.syncecom,
+        syncedecom: row.syncedecom,
+        syncecominprogress: row.syncecominprogress,
+        syncecomfailed: row.syncecomfailed,
+        image: row.image,
+        sync_comclick: row.sync_comclick,
+        sync_loja_do_tecnico: row.sync_loja_do_tecnico,
+        sync_viziotech: row.sync_viziotech,
+      };
+    },
+  });
+
+  if (status.value === "success") {
+    product.value = data.value!;
   }
 }
 </script>
@@ -33,7 +62,15 @@ if (product.value == undefined) {
     </div>
 
     <v-sheet class="mx-2" rounded="xl" elevation="5">
-      <NuxtPage :keepalive="true" />
+      <ClientOnly>
+        <NuxtPage :keepalive="true" />
+
+        <template #fallback>
+          <v-container :fluid="true">
+            <v-skeleton-loader type="article,image,article" />
+          </v-container>
+        </template>
+      </ClientOnly>
     </v-sheet>
 
     <ProductSellFloatingSaveButton />

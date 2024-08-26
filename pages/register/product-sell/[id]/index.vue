@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <v-container fluid tag="div">
+  <v-container :fluid="true">
     <p class="text-h5 font-weight-bold mb-5">DETALHES DO PRODUTO</p>
 
     <ProductSellDetails />
