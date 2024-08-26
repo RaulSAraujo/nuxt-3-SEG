@@ -71,6 +71,7 @@ gridStore.get();
     :loading="loading"
     loading-text="Loading... Please wait"
     :multi-sort="multiSort"
+    density="compact"
     hide-default-footer
     @update:options="tableStore.searchData"
   >

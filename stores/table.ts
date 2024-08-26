@@ -27,7 +27,7 @@ export const useTableStore = defineStore("table", () => {
         'register-validate-image': 'validate-products-image',
         'register-device-classification-apparatus': 'classification-apparatus',
         "register-warehouse": 'erp-warehouses',
-        'register-quotation': 'QuotationPack',
+        'register-quotation': 'quotation-pack',
         'register-supplier': 'supplier',
         'register-saved-rma-id-apparatus': 'SavedApparatusRma',
         'register-saved-rma-id-products': 'SavedProductsRma',
