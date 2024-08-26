@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import type { Page } from "~/interfaces/Page";
+import type { User } from "~/interfaces/User";
+
+const { data } = useAuthState();
+const user = data.value as User;
 
 const { data: pages, status } = useFetch<Page[]>("/api/pages", {
   key: "Pages",
+  params: {
+    group_id: user.group_id,
+  },
 });
 </script>
 

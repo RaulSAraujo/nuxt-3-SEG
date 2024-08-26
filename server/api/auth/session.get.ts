@@ -44,16 +44,16 @@ const getBaseUrl = (event: H3Event) => {
 }
 
 export default eventHandler(async (event: H3Event) => {
-    const session = await useStorage().getItem('data:session')
-
-    if (session) return session
-
     const authHeaderValue = getRequestHeader(event, 'authorization')
     if (typeof authHeaderValue === 'undefined') {
         throw createError({ statusCode: 403, statusMessage: 'Need to pass valid authorization header to access this endpoint' })
     }
 
     const decodeJwt = parseJwt(authHeaderValue)
+
+    const session = await useStorage('data').getItem(`profile_${decodeJwt.id}`)
+
+    if (session) return session
 
     const baseUrl = getBaseUrl(event)
 
@@ -66,7 +66,7 @@ export default eventHandler(async (event: H3Event) => {
     })
     decodeJwt.profile_image = res as Buffer
 
-    useStorage('data').setItem('session', decodeJwt)
+    useStorage('data').setItem(`profile_${decodeJwt.id}`, decodeJwt)
 
     return decodeJwt
 })

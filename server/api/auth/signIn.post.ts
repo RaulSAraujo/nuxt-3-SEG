@@ -61,13 +61,13 @@ export default defineEventHandler(async (event) => {
 
     const baseUrl = getBaseUrl(event)
 
-    const response = await $fetch(`${baseUrl}/login`, {
+    const response = await $fetch<SignIn>(`${baseUrl}/login`, {
         method: 'POST',
         body: {
             username,
             password
         },
-    }) as SignIn
+    })
 
     const operations = response.operations as Operation[]
     const pages = await useStorage('assets:server').getItem(`pages.json`) as Page[]
@@ -87,11 +87,11 @@ export default defineEventHandler(async (event) => {
 
     const filterMenu = useArrayFilter(AuthenticatedPages, (f) => f!.title !== 'Options')
 
-    useStorage('data').setItem('auth_pages', filterMenu.value)
+    await useStorage('data').setItem(`group_id_${response.group_id}:pages`, filterMenu.value)
 
     const filterOptions = useArrayFilter(AuthenticatedPages, (f) => f!.title === 'Options')
 
-    useStorage('data').setItem('auth_pages_options', filterOptions.value[0])
+    await useStorage('data').setItem(`group_id_${response.group_id}:pages_options`, filterOptions.value[0])
 
     return response
 })

@@ -24,11 +24,9 @@ const submit = handleSubmit(async (values) => {
     await signIn(values, {
       callbackUrl: "/home",
       redirect: true,
-      username: values.username,
-      password: values.password,
     });
   } catch (error) {
-    $toast().error(error.statusMessage ?? 'OCorreu um erro.');
+    $toast().error(error.statusMessage ?? "OCorreu um erro.");
   }
 });
 </script>

@@ -44,6 +44,7 @@ async function toggleTheme() {
   $fetch("/api/auth/session", {
     method: "PUT",
     body: {
+      id: user.id,
       theme: theme.global.name.value === "dark" ? false : true,
     },
   });
