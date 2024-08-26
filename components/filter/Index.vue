@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   activateCreationButton: boolean;
+  disabledMenu: boolean;
 }>();
 
 defineEmits(["create"]);
@@ -26,6 +27,7 @@ filterStore.get();
 
   <FilterButtons
     :activate-creation-button="activateCreationButton"
+    :disabled-menu="disabledMenu"
     @create="$emit('create')"
   />
 </template>

@@ -76,15 +76,16 @@ const create = async () => {
     $toast().error(`${err.statusText ?? err.message}`);
   }
 };
+
+const close = () => {
+  validate.name = "";
+  validate.status = "";
+};
 </script>
 
 <template>
-  <v-dialog width="420px" persistent>
+  <v-dialog width="420px" @after-leave="close">
     <v-card rounded="xl" title="NOVA SOLICITAÇÃO">
-      <template #append>
-        <v-btn icon="mdi-close" variant="plain" @click="$emit('close')" />
-      </template>
-
       <template #text>
         <v-text-field
           v-model="validate.name"
@@ -105,7 +106,9 @@ const create = async () => {
       </template>
 
       <template #actions>
-        <v-btn color="primary" text="SALVAR" @click="create" />
+        <v-spacer />
+        <v-btn color="primary" variant="flat" width="13vw" text="SALVAR" @click="create" />
+        <v-spacer />
       </template>
     </v-card>
   </v-dialog>

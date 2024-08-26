@@ -7,13 +7,19 @@ const dialog = ref<boolean>(false);
 </script>
 
 <template>
-  <v-sheet class="mt-5" rounded="t-xl" elevation="5">
-    <Filter :activate-creation-button="true" @create="dialog = true" />
+  <div class="mt-5" rounded="t-xl" elevation="5">
+    <span class="ml-5 text-h6 text-primary font-weight-black">SALVADOS</span>
 
-    <Table title="SALVADOS" :disabled-menu="false" :show-select="true" :multi-sort="true">
+    <Filter
+      :activate-creation-button="true"
+      :disabled-menu="false"
+      @create="dialog = true"
+    />
+
+    <Table :show-select="true" :multi-sort="true">
       <template #item.action="{ item }">
         <Delete :id="item.id" />
       </template>
     </Table>
-  </v-sheet>
+  </div>
 </template>

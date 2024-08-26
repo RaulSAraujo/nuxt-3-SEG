@@ -10,16 +10,12 @@ const activateDialogToEdit = ref<boolean>(false);
 </script>
 
 <template>
-  <v-sheet class="mt-5" rounded="t-xl" elevation="5">
-    <Filter :activate-creation-button="false" />
+  <div class="mt-5">
+    <span class="ml-5 text-h6 text-primary font-weight-black">PRODUTO COMPRA</span>
 
-    <Table
-      title="PRODUTO COMPRA"
-      :disabled-menu="false"
-      :show-select="true"
-      :multi-sort="true"
-      :router-full="true"
-    >
+    <Filter :disabled-menu="false" :activate-creation-button="false" />
+
+    <Table :show-select="true" :multi-sort="true" :router-full="true">
       <template #item.action="{ item }">
         <v-btn
           icon="mdi-pencil"
@@ -157,5 +153,5 @@ const activateDialogToEdit = ref<boolean>(false);
       v-model="activateDialogToEdit"
       @disable="activateDialogToEdit = false"
     />
-  </v-sheet>
+  </div>
 </template>

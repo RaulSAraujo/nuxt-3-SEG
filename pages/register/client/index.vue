@@ -5,9 +5,12 @@ useHead({
 </script>
 
 <template>
-  <v-sheet class="mt-5" rounded="t-xl" elevation="5">
+  <div class="mt-5" rounded="t-xl" elevation="5">
+    <span class="ml-5 text-h6 text-primary font-weight-black">CLIENTES</span>
+
     <Filter
       :activate-creation-button="true"
+      :disabled-menu="false"
       @create="
         navigateTo({
           name: 'register-client-new',
@@ -15,13 +18,7 @@ useHead({
       "
     />
 
-    <Table
-      title="CLIENTES"
-      :disabled-menu="false"
-      :show-select="true"
-      :multi-sort="true"
-      :router-full="false"
-    >
+    <Table :show-select="true" :multi-sort="true" :router-full="false">
       <template #item.action="{ item }">
         <v-btn
           icon="mdi-pencil"
@@ -84,5 +81,5 @@ useHead({
         </span>
       </template>
     </Table>
-  </v-sheet>
+  </div>
 </template>

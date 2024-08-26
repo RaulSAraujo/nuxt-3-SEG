@@ -38,7 +38,7 @@ defineProps<{
           <v-icon :icon="item.icon" />
         </template>
 
-        <v-list-item-title class="text-uppercase">
+        <v-list-item-title>
           {{ item.title }}
         </v-list-item-title>
       </v-list-item>

@@ -63,10 +63,10 @@ const close = () => {
 </script>
 
 <template>
-  <v-dialog width="260px" persistent>
+  <v-dialog width="260px" @after-leave="close">
     <v-card rounded="xl" title="NOVO APARELHO">
       <template #text>
-        <TextField v-model="form.apparatus_name" label="NOME DO APARELHO" />
+        <TextField v-model="form.apparatus_name" label="NOME DO APARELHO" class="mb-3" />
         <Select
           v-model="form.classification_active"
           label="CLASSIFICAÇÃO"
@@ -75,12 +75,21 @@ const close = () => {
           item-value="id"
           :multiple="false"
           :return-object="true"
+          :clearable="true"
         />
       </template>
 
       <template #actions>
-        <v-btn color="error" text="FECHAR" @click="close" />
-        <v-btn color="primary" text="SALVAR" @click="create" />
+        <v-spacer />
+        <v-btn
+          class="mb-2"
+          color="primary"
+          width="100px"
+          variant="flat"
+          text="SALVAR"
+          @click="create"
+        />
+        <v-spacer />
       </template>
     </v-card>
   </v-dialog>

@@ -1,7 +1,5 @@
 <script setup lang="ts">
 const props = defineProps<{
-  title: string;
-  disabledMenu: boolean;
   showSelect: boolean;
   multiSort: boolean;
   routerFull?: boolean;
@@ -75,18 +73,6 @@ gridStore.get();
     hide-default-footer
     @update:options="tableStore.searchData"
   >
-    <template #top>
-      <TableToolbar :title="props.title" :disabled-menu="disabledMenu">
-        <template #toolbarExtend>
-          <slot name="toolbarExtend" />
-        </template>
-
-        <template #menu>
-          <slot name="menu" />
-        </template>
-      </TableToolbar>
-    </template>
-
     <template
       v-for="header in availableGrid"
       :key="header.key"
@@ -116,9 +102,19 @@ gridStore.get();
 
   <TableFooter />
 
-  <TableToolbarMenuFilterDrawer v-if="drawerFilter" />
+  <DrawerFilter v-if="drawerFilter" />
 
-  <TableToolbarMenuGridDrawer v-if="drawerGrid" />
+  <DrawerGrid v-if="drawerGrid" />
 
   <TableFloatingButton :length="items.length" />
 </template>
+
+<style>
+.v-theme--dark .v-data-table__thead {
+  background-color: #3c3c3cb0;
+}
+
+.v-theme--light .v-data-table__thead {
+  background-color: #f0f0f0;
+}
+</style>

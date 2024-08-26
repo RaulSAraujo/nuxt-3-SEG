@@ -54,23 +54,28 @@ const close = () => {
   supplier.name = "";
   supplier.lead_time = "";
   supplier.virtual_quantity = "";
-
-  emit("close");
 };
 </script>
 
 <template>
-  <v-dialog width="260px" persistent>
+  <v-dialog width="260px" @after-leave="close">
     <v-card rounded="xl" title="NOVO FORNECEDOR">
       <template #text>
-        <TextField v-model="supplier.name" label="NOME DO FORNECEDOR" />
-        <TextField v-model="supplier.lead_time" label="LEAD TIME" />
+        <TextField v-model="supplier.name" label="NOME DO FORNECEDOR" class="mb-2" />
+        <TextField v-model="supplier.lead_time" label="LEAD TIME" class="mb-2" />
         <TextField v-model="supplier.virtual_quantity" label="QUANTIDADE VIRTUAL" />
       </template>
 
       <template #actions>
-        <v-btn color="error" text="FECHAR" @click="close" />
-        <v-btn color="primary" text="SALVAR" @click="create" />
+        <v-spacer />
+        <v-btn
+          color="primary"
+          text="SALVAR"
+          variant="flat"
+          width="13vw"
+          @click="create"
+        />
+        <v-spacer />
       </template>
     </v-card>
   </v-dialog>

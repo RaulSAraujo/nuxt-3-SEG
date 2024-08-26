@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const store = useFilterStore();
+const store = useGridStore();
 const { drawer } = storeToRefs(store);
 
 const availableOrHidden = ref<boolean>(false);
@@ -14,19 +14,19 @@ const availableOrHidden = ref<boolean>(false);
       temporary
     >
       <template #prepend>
-        <TableToolbarMenuFilterDrawerPrepend />
+        <DrawerGridPrepend />
       </template>
 
-      <TableToolbarMenuFilterDrawerDefault :available-or-hidden="availableOrHidden" />
+      <DrawerGridDefault :available-or-hidden="availableOrHidden" />
 
       <template #append>
-        <TableToolbarMenuFilterDrawerAppend
+        <DrawerGridAppend
           :available-or-hidden="availableOrHidden"
           @switch="availableOrHidden = !availableOrHidden"
         />
       </template>
     </v-navigation-drawer>
 
-    <TableToolbarMenuFilterDrawerImport />
+    <DrawerGridImport />
   </LazyClientOnly>
 </template>

@@ -8,15 +8,12 @@ const { product } = storeToRefs(productSellStore);
 </script>
 
 <template>
-  <v-sheet class="mt-5" rounded="t-xl" elevation="5">
-    <Filter :activate-creation-button="false" />
+  <div class="mt-5">
+    <span class="ml-5 text-h6 text-primary font-weight-black">PRODUTO VENDA</span>
 
-    <Table
-      title="PRODUTO VENDA"
-      :disabled-menu="false"
-      :show-select="true"
-      :multi-sort="true"
-    >
+    <Filter :activate-creation-button="false" :disabled-menu="false" />
+
+    <Table :show-select="true" :multi-sort="true">
       <template #item.action="{ item }">
         <v-btn
           icon="mdi-pencil"
@@ -65,5 +62,5 @@ const { product } = storeToRefs(productSellStore);
         />
       </template>
     </Table>
-  </v-sheet>
+  </div>
 </template>

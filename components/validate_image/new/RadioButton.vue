@@ -25,6 +25,14 @@ const activeIcon = (status: string) => {
   if (status === "PEÇA SEM ESTOQUE") return "mdi-alpha-s-circle";
   else return "mdi-circle";
 };
+
+const colorTooltip = (status: string) => {
+  if (status === "NÃO PRIORITARIO") return "33, 150, 243";
+  if (status === "PRIORITARIO") return "255, 235, 59";
+  if (status === "FINALIZADO") return "76, 175, 80";
+  if (status === "PEÇA SEM ESTOQUE") return "244, 67, 54";
+  else return "transparent";
+};
 </script>
 
 <template>
@@ -34,7 +42,13 @@ const activeIcon = (status: string) => {
     density="comfortable"
     defaults-target="NÃO PRIORITARIO"
   >
-    <v-tooltip v-for="(radio, index) in list" :key="index" location="top">
+    <v-tooltip
+      v-for="(radio, index) in list"
+      :key="index"
+      location="top"
+      :style="`--v-theme-surface-variant: ${colorTooltip(radio.value ?? '')};
+        --v-theme-on-surface-variant: 255, 255, 255;`"
+    >
       <template #activator="{ props }">
         <v-radio
           v-bind="props"

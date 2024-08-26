@@ -21,14 +21,13 @@ const dialog = ref<boolean>(false);
 
     <v-sheet class="mt-5" rounded="t-xl" elevation="5">
       <v-container fluid tag="div">
-        <Filter :activate-creation-button="true" @create="dialog = true" />
-
-        <Table
-          title="CLASSIFICAÇÃO DE APARELHOS"
+        <Filter
+          :activate-creation-button="true"
           :disabled-menu="false"
-          :show-select="true"
-          :multi-sort="true"
-        >
+          @create="dialog = true"
+        />
+
+        <Table :show-select="true" :multi-sort="true">
           <template #item.action="{ item }">
             <Delete :id="item.id" />
           </template>

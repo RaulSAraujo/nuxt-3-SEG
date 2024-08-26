@@ -28,6 +28,6 @@ const _srcset = computed(() => {
   />
 
   <div class="mb-3 text-center">
-    <span class="text-body-2 text-grey">Sistema empresarial de gestão</span>
+    <span class="text-body-2 text-grey">Sistema Empresarial de Gestão</span>
   </div>
 </template>

@@ -5,7 +5,9 @@ useHead({
 </script>
 
 <template>
-  <v-sheet class="mt-5" rounded="t-xl" elevation="5">
+  <div class="mt-5">
+    <span class="ml-5 text-h6 text-primary font-weight-black">COTAÇÕES</span>
+
     <div class="pa-5">
       <v-btn-toggle variant="outlined" divided>
         <v-btn text="1º EXTRAIR CÓD.FAB FAMILIA" style="color: cyan" />
@@ -14,7 +16,7 @@ useHead({
       </v-btn-toggle>
     </div>
 
-    <Table title="COTAÇÕES" :disabled-menu="true" :show-select="true" :multi-sort="true">
+    <Table :show-select="true" :multi-sort="true">
       <template #item.not_found_file="{ item }">
         <v-btn
           v-if="item.not_found_file"
@@ -48,5 +50,5 @@ useHead({
         />
       </template>
     </Table>
-  </v-sheet>
+  </div>
 </template>

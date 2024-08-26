@@ -13,15 +13,16 @@ const { data: classification } = await $api<ClassificationApparatus>(
 </script>
 
 <template>
-  <v-sheet class="mt-5" rounded="t-xl" elevation="5">
-    <Filter :activate-creation-button="true" @create="dialog = true" />
+  <div class="mt-5">
+    <span class="ml-5 text-h6 text-primary font-weight-black">APARELHOS</span>
 
-    <Table
-      title="APARELHOS"
+    <Filter
+      :activate-creation-button="true"
       :disabled-menu="false"
-      :show-select="true"
-      :multi-sort="true"
-    >
+      @create="dialog = true"
+    />
+
+    <Table :show-select="true" :multi-sort="true">
       <template #item.action="{ item }">
         <Delete :id="item.id" />
       </template>
@@ -78,5 +79,5 @@ const { data: classification } = await $api<ClassificationApparatus>(
       :classification-items="classification!.rows"
       @close="dialog = false"
     />
-  </v-sheet>
+  </div>
 </template>

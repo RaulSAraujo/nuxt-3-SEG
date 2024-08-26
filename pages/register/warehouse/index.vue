@@ -5,14 +5,11 @@ useHead({
 </script>
 
 <template>
-  <v-sheet class="mt-5" rounded="t-xl" elevation="5">
-    <Filter :activate-creation-button="false" />
+  <div class="mt-5">
+    <span class="ml-5 text-h6 text-primary font-weight-black">ALMOXARIFADOS</span>
 
-    <Table
-      title="ALMOXARIFADOS"
-      :disabled-menu="false"
-      :show-select="true"
-      :multi-sort="true"
-    />
-  </v-sheet>
+    <Filter :activate-creation-button="false" :disabled-menu="false" />
+
+    <Table :show-select="true" :multi-sort="true" />
+  </div>
 </template>

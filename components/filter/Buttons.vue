@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   activateCreationButton: boolean;
+  disabledMenu: boolean;
 }>();
 
 defineEmits(["create"]);
@@ -23,23 +24,34 @@ const clear = () => {
 
 <template>
   <div class="d-flex justify-end mr-5 mb-5">
-    <v-btn-toggle
-      v-if="activateCreationButton"
-      variant="outlined"
-      density="compact"
-      divided
-    >
-      <v-btn class="text-success" @click="$emit('create')"> CRIAR </v-btn>
+    <div v-if="activateCreationButton">
+      <v-btn class="mr-2" color="primary" @click="$emit('create')"> CRIAR </v-btn>
 
-      <v-btn class="text-primary" @click="tableStore.searchData"> BUSCAR </v-btn>
+      <v-btn class="mr-2" color="primary" @click="tableStore.searchData"> BUSCAR </v-btn>
 
-      <v-btn class="text-error" @click="clear">Limpar Filtros</v-btn>
-    </v-btn-toggle>
+      <v-btn class="mr-2" variant="outlined" color="primary" @click="clear">
+        Limpar Filtros
+      </v-btn>
 
-    <v-btn-toggle v-else variant="outlined" density="compact" divided>
-      <v-btn class="text-primary" @click="tableStore.searchData"> BUSCAR </v-btn>
+      <FilterMenu :disabled="disabledMenu">
+        <template #menu>
+          <slot name="menu" />
+        </template>
+      </FilterMenu>
+    </div>
 
-      <v-btn class="text-error" @click="clear">Limpar Filtros</v-btn>
-    </v-btn-toggle>
+    <div v-else>
+      <v-btn class="mr-2" color="primary" @click="tableStore.searchData"> BUSCAR </v-btn>
+
+      <v-btn class="mr-2" color="primary" variant="outlined" @click="clear"
+        >Limpar Filtros</v-btn
+      >
+
+      <FilterMenu :disabled="disabledMenu">
+        <template #menu>
+          <slot name="menu" />
+        </template>
+      </FilterMenu>
+    </div>
   </div>
 </template>

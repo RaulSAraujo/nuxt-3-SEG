@@ -5,7 +5,7 @@
         "items": [
             {
                 "icon": "mdi-tag-plus",
-                "title": "Produto Compra",
+                "title": "Produto compra",
                 "name": "register-product",
                 "backUrl": "/product",
                 "auth": false,
@@ -61,7 +61,7 @@
             },
             {
                 "icon": "mdi-tag-minus",
-                "title": "Produto Venda",
+                "title": "Produto venda",
                 "name": "register-product-sell",
                 "backUrl": "/product-sell",
                 "auth": false,
@@ -85,7 +85,7 @@
             },
             {
                 "icon": "mdi-image-area",
-                "title": "Validação de Imagens",
+                "title": "Validação de imagens",
                 "name": "register-validate-image",
                 "backUrl": "/validate-products-image",
                 "auth": false,
@@ -283,7 +283,7 @@
             },
             {
                 "icon": "mdi-store",
-                "title": "Pedidos ML",
+                "title": "Pedidos mercado livre",
                 "name": "purchase-order-ml",
                 "backUrl": "/orders-finality-stock-ml",
                 "auth": false,
@@ -331,7 +331,7 @@
             },
             {
                 "icon": "mdi-lan-check",
-                "title": "Validação de Estoque Virtual",
+                "title": "Validação de estoque virtual",
                 "name": "purchase-validate-stock-virtual",
                 "backUrl": "/validate-virtual-stock",
                 "auth": false,
@@ -423,7 +423,7 @@
         "items": [
             {
                 "icon": "mdi-webpack",
-                "title": "Ordem de Serviço",
+                "title": "Ordem de serviço",
                 "name": "service-order",
                 "backUrl": "/service-order",
                 "auth": false,
@@ -511,7 +511,7 @@
             },
             {
                 "icon": "mdi-cash-register",
-                "title": "Controle de Caixa",
+                "title": "Controle de caixa",
                 "name": "service-cash-control",
                 "backUrl": "/reception-cash-control",
                 "auth": false,
@@ -519,7 +519,7 @@
             },
             {
                 "icon": "mdi-card-account-details",
-                "title": "CRM",
+                "title": "Crm",
                 "name": "service-crm",
                 "backUrl": "/crm",
                 "auth": false,
