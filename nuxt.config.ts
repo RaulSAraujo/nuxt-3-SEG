@@ -34,7 +34,12 @@ export default defineNuxtConfig({
     layoutTransition: {
       name: 'fade',
       mode: 'out-in' // default
-    }
+    },
+  },
+
+  devServer: {
+    port: 3002,
+    host: '0.0.0.0',
   },
 
   nitro: {
