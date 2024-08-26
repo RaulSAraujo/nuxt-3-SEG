@@ -1,3 +1,7 @@
 <template>
-    <span>tax stock</span>
+  <iframe
+    src="http://localhost:3000/manager/tax-stock"
+    frameBorder="0"
+    style="height: 90vh; width: 100vw"
+  />
 </template>
