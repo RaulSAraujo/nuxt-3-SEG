@@ -1,13 +1,13 @@
 <script setup lang="ts">
 defineProps<{
-    value: string | number | null
-}>()
+  value: string | number | null;
+}>();
 </script>
 
 <template>
-  <span v-if="value">
+  <span>
     {{
-      parseFloat(`${value || 0}`).toLocaleString("pt-BR", {
+      parseFloat(`${value || 0.0}`).toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL",
       })
