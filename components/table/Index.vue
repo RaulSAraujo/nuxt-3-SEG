@@ -57,11 +57,14 @@ if (props.routerFull == true || props.routerFull == false) {
 }
 
 gridStore.get();
+
+const expanded = ref<Array<number>>([]);
 </script>
 
 <template>
   <!-- @vue-ignore -->
   <v-data-table-server
+    v-model:expanded="expanded"
     :headers="availableGrid"
     :items="items"
     :page="page"
@@ -99,6 +102,33 @@ gridStore.get();
     <!-- @vue-skip -->
     <template v-for="slot in parentSlots" :key="slot" #[slot]="props">
       <slot :name="slot" v-bind="props" />
+    </template>
+
+    <template #header.data-table-expand="{ selectAll, allSelected }">
+      <v-btn
+        v-if="!allSelected"
+        icon="mdi-chevron-down"
+        variant="plain"
+        @click="
+          () => {
+            selectAll(true);
+            // @ts-ignore
+            items.forEach((i) => expanded.push(i.id));
+          }
+        "
+      />
+      <v-btn
+        v-else
+        icon="mdi-chevron-up"
+        variant="plain"
+        @click="
+          () => {
+            selectAll(false);
+
+            expanded = [];
+          }
+        "
+      />
     </template>
   </v-data-table-server>
 
