@@ -19,7 +19,6 @@ export default defineNuxtPlugin({
       async onRequest({ options }) {
         options.headers = {
           ...options.headers,
-          'Content-Type': 'application/json',
           Authorization: `${token.value}`,
         }
       },
