@@ -28,6 +28,7 @@ const headers = ref([
     :headers="headers"
     hide-default-footer
     disable-sort
+    items-per-page="-1"
   >
     <template #item.cost="{ item }">
       <ToLocaleString :value="item.cost_after" class="text-red" />

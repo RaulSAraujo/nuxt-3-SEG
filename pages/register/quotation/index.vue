@@ -12,9 +12,11 @@ useHead({
       <QuotationExportFamily />
 
       <QuotationImportQuotation />
+
+      <FilterMenuGridButton />
     </div>
 
-    <Table :show-select="true" :multi-sort="true" :show-expand="true">
+    <Table :show-expand="true">
       <template #item.not_found_file="{ item }">
         <ClientOnly>
           <v-btn
