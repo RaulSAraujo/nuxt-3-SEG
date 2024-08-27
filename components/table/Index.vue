@@ -3,6 +3,7 @@ const props = defineProps<{
   showSelect: boolean;
   multiSort: boolean;
   routerFull?: boolean;
+  showExpand?: boolean;
 }>();
 
 defineEmits(["loadItems"]);
@@ -68,6 +69,7 @@ gridStore.get();
     :items-length="totalItems"
     :loading="loading"
     loading-text="Loading... Please wait"
+    :show-expand="showExpand"
     :multi-sort="multiSort"
     density="compact"
     hide-default-footer
