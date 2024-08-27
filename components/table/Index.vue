@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
-  showSelect: boolean;
-  multiSort: boolean;
+  showSelect?: boolean;
+  multiSort?: boolean;
   routerFull?: boolean;
   showExpand?: boolean;
 }>();
@@ -18,6 +18,10 @@ onBeforeRouteLeave((to, from, next) => {
 
     items.value = [];
     totalItems.value = 0;
+
+    selected.value = [];
+
+    expanded.value = [];
 
     gridStore.clearGridProps();
 
@@ -47,9 +51,16 @@ const store = useFilterStore();
 const { drawer: drawerFilter } = storeToRefs(store);
 
 const tableStore = useTableStore();
-const { page, items, itemsPerPage, totalItems, loading, routerFull: full } = storeToRefs(
-  tableStore
-);
+const {
+  page,
+  items,
+  itemsPerPage,
+  totalItems,
+  loading,
+  routerFull: full,
+  expanded,
+  selected,
+} = storeToRefs(tableStore);
 tableStore.findRouteMap();
 
 if (props.routerFull == true || props.routerFull == false) {
@@ -57,22 +68,24 @@ if (props.routerFull == true || props.routerFull == false) {
 }
 
 gridStore.get();
-
-const expanded = ref<Array<number>>([]);
 </script>
 
 <template>
   <!-- @vue-ignore -->
   <v-data-table-server
+    v-model="selected"
     v-model:expanded="expanded"
     :headers="availableGrid"
     :items="items"
+    item-value="id"
+    select-strategy="all"
     :page="page"
     :items-per-page="itemsPerPage"
     :items-length="totalItems"
     :loading="loading"
     loading-text="Loading... Please wait"
     :show-expand="showExpand"
+    :show-select="showSelect"
     :multi-sort="multiSort"
     density="compact"
     hide-default-footer

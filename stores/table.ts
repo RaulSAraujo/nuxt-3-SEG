@@ -17,6 +17,10 @@ export const useTableStore = defineStore("table", () => {
     ]);
     const pageCount = computed(() => Math.ceil(totalItems.value / itemsPerPage.value));
 
+    const selected = ref([])
+
+    const expanded = ref<Array<number>>([]);
+
     const routeMap = ref<{ [key: string]: string }>({
         'register-product': 'product',
         'register-product-sell': 'product-sell',
@@ -160,5 +164,5 @@ export const useTableStore = defineStore("table", () => {
 
     };
 
-    return { url, routerFull, items, totalItems, loading, page, itemsPerPage, itemsPerPageoptions, pageCount, findRouteMap, searchData };
+    return { url, routerFull, items, totalItems, loading, page, itemsPerPage, itemsPerPageoptions, pageCount, selected, expanded, findRouteMap, searchData };
 })
