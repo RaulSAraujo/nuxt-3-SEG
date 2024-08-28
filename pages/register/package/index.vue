@@ -2,19 +2,17 @@
 useHead({
   titleTemplate: `Embalagens - %s`,
 });
-
-const dialog = ref<boolean>(false);
 </script>
 
 <template>
   <div class="mt-5">
     <span class="ml-5 text-h6 text-primary font-weight-black">EMBALAGENS</span>
 
-    <Filter
-      :activate-creation-button="true"
-      :disabled-menu="false"
-      @create="dialog = true"
-    />
+    <Filter :disabled-menu="false">
+      <template #button-create>
+        <PackageCreation />
+      </template>
+    </Filter>
 
     <Table :show-select="true" :multi-sort="true">
       <template #item.action="{ item }">
@@ -23,7 +21,5 @@ const dialog = ref<boolean>(false);
         <Delete :id="item.id" />
       </template>
     </Table>
-
-    <PackageCreation v-model="dialog" @close="dialog = false" />
   </div>
 </template>
