@@ -38,7 +38,7 @@ const update = async () => {
 
     <v-spacer />
 
-    <v-btn color="white" @click="update"> SALVAR </v-btn>
+    <v-btn color="primary" @click="update"> SALVAR </v-btn>
   </div>
 
   <v-row dense>
