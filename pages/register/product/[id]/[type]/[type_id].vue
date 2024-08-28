@@ -3,9 +3,7 @@
 <template>
   <v-container fluid>
     <div class="d-flex flex-row justify-space-between mb-5">
-      <p class="text-h5 font-weight-bold text-primary">
-        FAMILIA ATUAL: {{ $route.params.type_id }}
-      </p>
+      <p class="text-h5 font-weight-bold">FAMILIA ATUAL: {{ $route.params.type_id }}</p>
 
       <ProductTypeGroupButtons />
     </div>
