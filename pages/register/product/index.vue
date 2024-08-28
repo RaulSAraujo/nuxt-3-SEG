@@ -13,7 +13,13 @@ const activateDialogToEdit = ref<boolean>(false);
   <div class="mt-5">
     <span class="ml-5 text-h6 text-primary font-weight-black">PRODUTO COMPRA</span>
 
-    <Filter :disabled-menu="false" :activate-creation-button="false" />
+    <Filter :disabled-menu="false" :activate-creation-button="false">
+      <template #menu>
+        <ProductMenuUpdateAll />
+
+        <ProductMenuIntegration />
+      </template>
+    </Filter>
 
     <Table :show-select="true" :multi-sort="true" :router-full="true">
       <template #item.action="{ item }">
