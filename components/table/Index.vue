@@ -89,6 +89,7 @@ gridStore.get();
     :multi-sort="multiSort"
     density="compact"
     hide-default-footer
+    return-object
     @update:options="tableStore.searchData"
   >
     <template
@@ -117,21 +118,28 @@ gridStore.get();
       <slot :name="slot" v-bind="props" />
     </template>
 
+    <template #header.data-table-select="{ selectAll, allSelected }">
+      <v-checkbox id="tableSelect" hide-details @click="selectAll(!allSelected)" />
+    </template>
+
     <template #header.data-table-expand="{ selectAll, allSelected }">
       <v-btn
         v-if="!allSelected"
+        id="expandAll"
         icon="mdi-chevron-down"
         variant="plain"
         @click="
           () => {
             selectAll(true);
-            // @ts-ignore
-            items.forEach((i) => expanded.push(i.id));
+
+            items.forEach((i) => expanded.push(i));
           }
         "
       />
+
       <v-btn
         v-else
+        id="closeAll"
         icon="mdi-chevron-up"
         variant="plain"
         @click="

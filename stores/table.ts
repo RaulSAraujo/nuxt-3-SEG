@@ -19,7 +19,7 @@ export const useTableStore = defineStore("table", () => {
 
     const selected = ref([])
 
-    const expanded = ref<Array<number>>([]);
+    const expanded = ref<Array<object>>([]);
 
     const routeMap = ref<{ [key: string]: string }>({
         'register-product': 'product',
