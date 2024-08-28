@@ -36,6 +36,7 @@ const activeMenuRange = () => {
 <template>
   <v-text-field
     :id="alt || label"
+    v-maska="!multiple ? '##/##/####' : '##/##/#### - ##/##/####'"
     density="compact"
     color="primary"
     variant="outlined"
