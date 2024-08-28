@@ -30,6 +30,14 @@ if (product.value == undefined) {
     }
   }
 }
+
+const activeSaveButton = ref(false);
+
+onMounted(() => {
+  setTimeout(() => {
+    activeSaveButton.value = true;
+  }, 1000);
+});
 </script>
 
 <template>
@@ -61,6 +69,6 @@ if (product.value == undefined) {
       </ClientOnly>
     </v-sheet>
 
-    <ProductFloatingSaveButton />
+    <ProductFloatingSaveButton v-if="activeSaveButton" />
   </div>
 </template>
