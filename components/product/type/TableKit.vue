@@ -15,16 +15,16 @@ interface PartialFamily {
 }
 
 const headersKit = ref([
-  { title: "AÇÕES", key: "action" },
-  { title: "COD.FABRICANTE", key: "name" },
-  { title: "COD.ERP", key: "erp_product_id" },
-  { title: "COD.AUXILIAR", key: "produto_chave" },
-  { title: "DESCRIÇÃO", key: "description" },
-  { title: "QUANT COMPOSIÇÃO KIT", key: "qtd_itens" },
-  { title: "ESTOQUE", key: "quantity" },
-  { title: "ESTOQUE VIRTUAL", key: "virtual_quantity" },
-  { title: "LEAD TIME", key: "lead_time" },
-  { title: "OBSERVAÇÃO", key: "observation" },
+  { title: "Ações", key: "action" },
+  { title: "Código fabricante", key: "name" },
+  { title: "Código erp", key: "erp_product_id" },
+  { title: "Código auxiliar", key: "produto_chave" },
+  { title: "Descrição", key: "description" },
+  { title: "Quantidade composição kit", key: "qtd_itens" },
+  { title: "Estoque", key: "quantity" },
+  { title: "Estoque virtual", key: "virtual_quantity" },
+  { title: "Lead time", key: "lead_time" },
+  { title: "Observação", key: "observation" },
 ]);
 
 const route = useRoute();

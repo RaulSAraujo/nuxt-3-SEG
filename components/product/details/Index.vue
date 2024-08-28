@@ -8,7 +8,7 @@ const { product } = storeToRefs(productStore);
     <v-col cols="12" sm="4" md="4" lg="2" xl="2">
       <TextField
         v-model="product!.type"
-        label="FAMILY/KIT"
+        label="Familia ou kit"
         :disabled="true"
         :hide-details="true"
       />
@@ -17,7 +17,7 @@ const { product } = storeToRefs(productStore);
     <v-col cols="12" sm="4" md="4" lg="2" xl="2">
       <TextField
         v-model="product!.name"
-        label="COD.FABRICANTE"
+        label="Código de fabricante"
         :disabled="true"
         :hide-details="true"
       />
@@ -26,7 +26,7 @@ const { product } = storeToRefs(productStore);
     <v-col cols="12" sm="4" md="4" lg="2" xl="2">
       <TextField
         v-model="product!.produto_chave"
-        label="COD.AUXILIAR"
+        label="Código auxiliar"
         :disabled="true"
         :hide-details="true"
       />
@@ -35,7 +35,7 @@ const { product } = storeToRefs(productStore);
     <v-col cols="12" sm="4" md="4" lg="2" xl="2">
       <TextField
         v-model="product!.brand"
-        label="MARCA"
+        label="Marca"
         :disabled="true"
         :hide-details="true"
       />
@@ -44,7 +44,7 @@ const { product } = storeToRefs(productStore);
     <v-col cols="12" sm="4" md="4" lg="2" xl="2">
       <TextField
         v-model="product!.apparatus"
-        label="APARELHO"
+        label="Aparelho"
         :disabled="true"
         :hide-details="true"
       />
@@ -53,7 +53,7 @@ const { product } = storeToRefs(productStore);
     <v-col cols="12" sm="12" md="12" lg="2" xl="2">
       <TextField
         v-model="product!.erp_category"
-        label="CATEGORIA"
+        label="Categoria"
         :disabled="true"
         :hide-details="true"
       />
@@ -64,7 +64,7 @@ const { product } = storeToRefs(productStore);
     <v-col cols="12" sm="12" md="12" lg="8" xl="8">
       <TextField
         v-model="product!.description"
-        label="DESCRIÇÃO"
+        label="Descrição"
         :disabled="true"
         :hide-details="true"
       />
@@ -73,7 +73,7 @@ const { product } = storeToRefs(productStore);
     <v-col cols="12" sm="4" md="4" lg="2" xl="2">
       <TextField
         v-model="product!.ean"
-        label="COD.EAN"
+        label="Codigo ean"
         :disabled="true"
         :hide-details="true"
       />
@@ -82,7 +82,7 @@ const { product } = storeToRefs(productStore);
     <v-col cols="12" sm="12" md="12" lg="2" xl="2">
       <TextField
         v-model="product!.erp_color"
-        label="COR"
+        label="Cor"
         :disabled="true"
         :hide-details="true"
       />
@@ -93,10 +93,11 @@ const { product } = storeToRefs(productStore);
     <v-col>
       <TextArea
         v-model="product!.model"
-        label="MODELOS"
+        label="Modelos"
         rows="1"
         :auto-grow="true"
         :hide-details="true"
+        @update:model-value="product!.model = $event.toUpperCase()"
       />
     </v-col>
   </v-row>
@@ -105,7 +106,7 @@ const { product } = storeToRefs(productStore);
     <v-col class="d-flex flex-row justify-center border-sm rounded-lg mx-1">
       <Switch
         :model-value="product!.ProductSell!.syncecom ?? false"
-        label="SINC ECOM"
+        label="Sincronizado ecom"
         :readonly="true"
         :hide-details="true"
       />
@@ -114,18 +115,18 @@ const { product } = storeToRefs(productStore);
     <v-col class="d-flex flex-row justify-center border-sm rounded-lg mx-1">
       <Switch
         v-model="product!.active"
-        label="ATIVO"
+        label="Ativo"
         :readonly="true"
         :hide-details="true"
       />
     </v-col>
 
     <v-col class="d-flex flex-row justify-center border-sm rounded-lg mx-1">
-      <Switch v-model="product!.image" label="IMAGEM" :hide-details="true" />
+      <Switch v-model="product!.image" label="Imagem" :hide-details="true" />
     </v-col>
 
     <v-col class="d-flex flex-row justify-center border-sm rounded-lg mx-1">
-      <Switch v-model="product!.support" label="SUPORTE" :hide-details="true" />
+      <Switch v-model="product!.support" label="Suporte" :hide-details="true" />
     </v-col>
   </v-row>
 </template>

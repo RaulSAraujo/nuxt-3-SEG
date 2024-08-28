@@ -5,13 +5,13 @@ defineProps<{
 }>();
 
 const availabilityToTextMap = ref<Record<number, string>>({
-  1: "Disponivel",
-  2: "Disponivel(est)",
-  3: "Indisponivel com previsão",
-  4: "indisponivel",
-  5: "Fora de linha",
-  6: "Bloqueado",
-  7: "Não encontrado",
+  1: "DISPONIVEL",
+  2: "DISPONIVEL(EST)",
+  3: "INDISPONIVEL COM PREVISÃO",
+  4: "INDISPONIVEL",
+  5: "FORA DE LINHA",
+  6: "BLOQUEADO",
+  7: "NÃO ENCONTRADO",
 });
 </script>
 

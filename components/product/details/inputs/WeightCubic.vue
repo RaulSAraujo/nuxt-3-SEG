@@ -23,5 +23,5 @@ watch(
 </script>
 
 <template>
-  <TextField v-model="product!.weight_cubic" label="PESO CUBICO (GRAMAS)" disabled />
+  <TextField v-model="product!.weight_cubic" label="Peso cubico (g)" disabled />
 </template>

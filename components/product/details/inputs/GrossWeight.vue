@@ -29,9 +29,5 @@ watch(
 </script>
 
 <template>
-  <TextField
-    v-model="product!.gross_weight"
-    label="PESO BRUTO (GRAMAS)"
-    :disabled="true"
-  />
+  <TextField v-model="product!.gross_weight" label="Peso bruto (g)" :disabled="true" />
 </template>

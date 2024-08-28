@@ -9,7 +9,7 @@ const { product, availabilityMap } = storeToRefs(productStore);
       <TextField
         v-model="product.Quotations[0].Supplier.name"
         outlined
-        label="FORNECEDOR PREFERENCIAL"
+        label="Fornecedor preferencial"
         disabled
         dense
       />
@@ -17,7 +17,7 @@ const { product, availabilityMap } = storeToRefs(productStore);
     <v-col cols="12" sm="6" md="4" lg="2" xl="2">
       <CurrencyField
         v-model="product.Quotations[0].cost"
-        label="CUSTO (FORNECEDOR PREF.)"
+        label="Custo (fornecedor pref.)"
         :hide-details="true"
         :disabled="true"
       />
@@ -25,7 +25,7 @@ const { product, availabilityMap } = storeToRefs(productStore);
     <v-col cols="12" sm="6" md="4" lg="2" xl="2">
       <CurrencyField
         v-model="product.cost"
-        label="CUSTO (PRODUTO)"
+        label="Custo (produto)"
         :hide-details="true"
         :disabled="true"
       />
@@ -33,14 +33,14 @@ const { product, availabilityMap } = storeToRefs(productStore);
     <v-col cols="12" sm="6" md="6" lg="2" xl="2">
       <TextField
         v-model="product.Family.quantity"
-        label="QUANTIDADE MINIMA COMPRA"
+        label="Quantidade minima compra"
         :disabled="true"
       />
     </v-col>
     <v-col cols="12" sm="12" md="6" lg="3" xl="3">
       <Select
         v-model="product!.availability"
-        label="DISPONIBILIDADE"
+        label="Disponibilidade"
         :items="availabilityMap"
         item-title="title"
         item-value="value"

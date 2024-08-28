@@ -6,14 +6,14 @@ const { product } = storeToRefs(productStore);
 <template>
   <v-row>
     <v-col>
-      <TextField v-model="product!.observation" label="OBSERVAÇÃO" :hide-details="true" />
+      <TextField v-model="product!.observation" label="Observação" :hide-details="true" />
     </v-col>
   </v-row>
   <v-row>
     <v-col>
       <TextField
         v-model="product!.observation_cod_fab"
-        label="OBSERVAÇÃO COD.FABRICANTE"
+        label="Observação do codigo de fabricante"
         :hide-details="true"
       />
     </v-col>

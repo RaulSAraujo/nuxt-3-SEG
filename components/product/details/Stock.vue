@@ -10,7 +10,7 @@ const { availabilityMap } = useProductStore();
     <v-col cols="12" sm="4" md="6" lg="2" xl="2">
       <Select
         v-model="product!.availability"
-        label="DISPONIBILIDADE"
+        label="Disponibilidade"
         :items="availabilityMap"
         item-title="title"
         item-value="value"
@@ -21,7 +21,7 @@ const { availabilityMap } = useProductStore();
     <v-col cols="12" sm="2" md="2" lg="2" xl="2">
       <TextField
         v-model="product!.quantity"
-        label="ESTOQUE"
+        label="Estoque"
         :disabled="true"
         :hide-details="true"
       />
@@ -29,7 +29,7 @@ const { availabilityMap } = useProductStore();
     <v-col cols="12" sm="3" md="2" lg="2" xl="2">
       <TextField
         v-model="product!.virtual_quantity"
-        label="ESTOQUE VIRTUAL"
+        label="Estoque virtual"
         :hide-details="true"
       />
     </v-col>
@@ -39,7 +39,7 @@ const { availabilityMap } = useProductStore();
     <v-col cols="12" sm="4" md="3" lg="2" xl="2">
       <TextField
         v-model="product!.quantity_purchased"
-        label="QUANTIDADE COMPRADA"
+        label="Quantidade comprada"
         :disabled="true"
         :hide-details="true"
       />
@@ -47,7 +47,7 @@ const { availabilityMap } = useProductStore();
     <v-col cols="12" sm="4" md="4" lg="2" xl="2">
       <TextField
         v-model="product!.warranty_days"
-        label="DIAS GARANTIA"
+        label="Dias de garantia"
         :hide-details="true"
       />
     </v-col>

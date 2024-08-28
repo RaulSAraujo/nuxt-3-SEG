@@ -55,7 +55,7 @@ watch(
   <TextField
     v-if="product && product.Package"
     v-model="product.Package.package_weight"
-    label="PESO EMBALAGEM (GRAMAS)"
+    label="Peso da embalagem (g)"
     :disabled="true"
   />
 </template>

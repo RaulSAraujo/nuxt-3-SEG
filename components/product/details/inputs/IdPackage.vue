@@ -34,7 +34,7 @@ if (product.value && packageSelect.value === "Personalizada") {
 <template>
   <Select
     v-model="packageSelect"
-    label="EMBALAGEM"
+    label="Embalagem"
     :items="packageItems ?? []"
     item-title="name"
     item-value="id"

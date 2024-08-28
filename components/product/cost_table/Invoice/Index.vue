@@ -45,7 +45,7 @@ const update = async () => {
     <v-col cols="12" sm="6" md="3" lg="3" xl="3">
       <TextField
         v-model="product!.icms_percentage"
-        label="ICMS PERCENTUAL"
+        label="Icms percentual"
         :disabled="true"
         :hide-details="true"
       />
@@ -53,7 +53,7 @@ const update = async () => {
     <v-col cols="12" sm="6" md="3" lg="3" xl="3">
       <TextField
         v-model="product!.diff_icms_percentage"
-        label="DIFERENCIAL ICMS PERCENTUAL"
+        label="Diferencial icms percentual"
         :disabled="true"
         :hide-details="true"
       />
@@ -61,7 +61,7 @@ const update = async () => {
     <v-col cols="12" sm="6" md="3" lg="3" xl="3">
       <TextField
         v-model="product!.ipi_percentage"
-        label="IPI PERCENTAGEM"
+        label="Ipi percentagem"
         :disabled="true"
         :hide-details="true"
       />
@@ -69,7 +69,7 @@ const update = async () => {
     <v-col cols="12" sm="6" md="3" lg="3" xl="3">
       <TextField
         v-model="product!.icms_st_percentage"
-        label="ICMS ST PERCENTAGE"
+        label="Icms st percentage"
         :disabled="true"
         :hide-details="true"
       />
@@ -78,12 +78,12 @@ const update = async () => {
 
   <v-row dense>
     <v-col cols="12" sm="6" md="3" lg="2" xl="2">
-      <TextField v-model="product!.freight" label="FRETE" :hide-details="true" />
+      <TextField v-model="product!.freight" label="Frete" :hide-details="true" />
     </v-col>
     <v-col cols="12" sm="6" md="3" lg="2" xl="2">
       <TextField
         v-model="product!.others_cost"
-        label="OUTROS CUSTOS"
+        label="Outros custos"
         :disabled="true"
         :hide-details="true"
       />
@@ -91,7 +91,7 @@ const update = async () => {
     <v-col cols="12" sm="6" md="3" lg="2" xl="2">
       <TextField
         v-model="product!.icms"
-        label="ICMS"
+        label="Icms"
         :disabled="true"
         :hide-details="true"
       />
@@ -99,7 +99,7 @@ const update = async () => {
     <v-col cols="12" sm="6" md="3" lg="2" xl="2">
       <TextField
         v-model="product!.diff_icms"
-        label="DIFF_ICMS"
+        label="Diff icms"
         :disabled="true"
         :hide-details="true"
       />
@@ -107,7 +107,7 @@ const update = async () => {
     <v-col cols="12" sm="6" md="3" lg="2" xl="2">
       <TextField
         v-model="product!.icms_st"
-        label="ICMS_ST"
+        label="Icms st"
         :disabled="true"
         :hide-details="true"
       />
@@ -115,7 +115,7 @@ const update = async () => {
     <v-col cols="12" sm="6" md="3" lg="2" xl="2">
       <TextField
         v-model="product!.ipi"
-        label="IPI"
+        label="Ipi"
         :disabled="true"
         :hide-details="true"
       />

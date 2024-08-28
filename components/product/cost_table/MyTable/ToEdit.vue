@@ -118,7 +118,7 @@ const updateQuotation = async () => {
           <v-col cols="6" sm="4" md="3" lg="3">
             <TextField
               v-model="product!.name"
-              label="COD. FABRICANTE"
+              label="Codigo de fabricante"
               :disabled="true"
               :hide-details="true"
             />
@@ -127,7 +127,7 @@ const updateQuotation = async () => {
           <v-col cols="6" sm="4" md="2" lg="3">
             <Combobox
               v-model="product!.Quotations![costTableIndex].supplier_id"
-              label="FORNECEDOR"
+              label="Fornecedor"
               :items="data ?? []"
               item-title="name"
               item-value="id"
@@ -142,7 +142,7 @@ const updateQuotation = async () => {
                 <CurrencyField
                   v-model="product!.Quotations![costTableIndex].cost"
                   v-bind="props"
-                  label="PREÇO"
+                  label="Preço"
                   :hide-details="true"
                   @update:model-value="ChangeDateAndAvailabilityDate"
                 />
@@ -154,7 +154,7 @@ const updateQuotation = async () => {
           <v-col cols="3" sm="2" md="2" lg="1">
             <TextField
               v-model="product!.Quotations![costTableIndex].lead_time"
-              label="LEAD TIME"
+              label="Lead time"
               :hide-details="true"
             />
           </v-col>
@@ -162,7 +162,7 @@ const updateQuotation = async () => {
           <v-col cols="6" sm="5" md="3" lg="3">
             <Select
               v-model="product!.Quotations![costTableIndex].availability"
-              label="DISPONIBILIDADE"
+              label="Disponibilidade"
               :items="availabilityMap"
               item-title="title"
               item-value="value"
@@ -174,7 +174,7 @@ const updateQuotation = async () => {
           <v-col cols="6" sm="5" md="2" lg="3">
             <DatePicker
               v-model="product!.Quotations![costTableIndex].cost_at"
-              label="DATA ALTERAÇÃO DE CUSTO"
+              label="Data alteração de custo"
               :clearable="false"
               :multiple="false"
               @save="product!.Quotations![costTableIndex].cost_at = $dayjs($event).format('DD/MM/YYYY')"
@@ -184,7 +184,7 @@ const updateQuotation = async () => {
           <v-col cols="6" sm="5" md="2" lg="3">
             <DatePicker
               v-model="product!.Quotations![costTableIndex].availability_at"
-              label="DATA ALTERAÇÃO DE DISPONIBILIDADE"
+              label="Data alteração de disponibildade"
               :clearable="false"
               :multiple="false"
               @save="product!.Quotations![costTableIndex].availability_at = $dayjs($event).format('DD/MM/YYYY')"
@@ -195,7 +195,7 @@ const updateQuotation = async () => {
             <Switch
               v-model="product!.Quotations![costTableIndex].active"
               class="d-flex flex-row justify-center border-sm rounded-lg mx-1"
-              label="COT. ATIVA"
+              label="Cotação ativa"
               :hide-details="true"
             />
           </v-col>
@@ -203,7 +203,7 @@ const updateQuotation = async () => {
           <v-col cols="6" sm="4" md="3" lg="3">
             <TextField
               v-model="product!.Quotations![costTableIndex].virtual_quantity"
-              label="ESTOQUE VIRTUAL"
+              label="Estoque virtual"
               :hide-details="true"
             />
           </v-col>
@@ -211,7 +211,7 @@ const updateQuotation = async () => {
           <v-col cols="6" sm="12" md="12" lg="12">
             <TextArea
               v-model="product!.Quotations![costTableIndex].observation"
-              label="OBSERVAÇÃO"
+              label="Observação"
               :auto-grow="true"
               :hide-details="true"
             />

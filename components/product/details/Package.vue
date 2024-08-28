@@ -24,7 +24,7 @@ const { status } = $api<Row[]>("package", {
     <v-col cols="12" sm="6" md="3" lg="3" xl="3">
       <TextField
         v-model="product!.weight"
-        label="PESO LIQUIDO (GRAMAS)"
+        label="Peso liquido (g)"
         :hide-details="true"
       />
     </v-col>
@@ -43,21 +43,21 @@ const { status } = $api<Row[]>("package", {
     <v-col cols="12" sm="6" md="3" lg="3" xl="3">
       <TextField
         v-model="product!.height"
-        label="ALTURA (CM)"
+        label="Altura (cm)"
         :disabled="product!.package_id != 1"
       />
     </v-col>
     <v-col cols="12" sm="6" md="3" lg="3" xl="3">
       <TextField
         v-model="product!.width"
-        label="LARGURA (CM)"
+        label="Largura (cm)"
         :disabled="product!.package_id != 1"
       />
     </v-col>
     <v-col cols="12" sm="6" md="3" lg="3" xl="3">
       <TextField
         v-model="product!.length"
-        label="COMPRIMENTO (CM)"
+        label="Comprimento (cm)"
         :disabled="product!.package_id != 1"
       />
     </v-col>

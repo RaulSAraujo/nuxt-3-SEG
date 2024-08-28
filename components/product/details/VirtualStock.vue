@@ -48,14 +48,14 @@ watch(
       <Switch
         v-model="product!.virtual_stock_temporary"
         class="d-flex flex-row justify-center border-sm rounded-lg mx-1"
-        label="VIRTUAL ESTOQUE TEMPORÁRIO"
+        label="Virtual estoque temporário"
         :hide-details="true"
       />
     </v-col>
     <v-col>
       <TextField
         v-model="product!.virtual_stock_temporary_at"
-        label="DATA VIRTUAL ESTOQUE TEMPORÁRIO"
+        label="Data virtual estoque temporário"
         :disabled="true"
         :hide-details="true"
       />
@@ -71,7 +71,7 @@ watch(
     <v-col>
       <TextField
         v-model="product!.virtual_stock_permanent_at"
-        label="DATA VIRTUAL ESTQ PERMANENTE"
+        label="Data virtual estoque permanente"
         :disabled="true"
         :hide-details="true"
       />
