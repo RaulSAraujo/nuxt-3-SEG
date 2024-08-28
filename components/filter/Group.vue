@@ -25,7 +25,7 @@ const saveDate = (event: string, multiple: boolean | string) => {
       :lg="(item.layout_filters?.size ?? 2) + 1"
     >
       <TextField
-        v-if="item.type == 'STRING' || item.type == 'FLOAT' || item.type == 'INTEGER'"
+        v-if="item.type == 'STRING'"
         v-model="item.value"
         :label="item.label"
         :alt="`search-${item.label.toLocaleLowerCase()}`"
@@ -39,6 +39,13 @@ const saveDate = (event: string, multiple: boolean | string) => {
         :hide-details="true"
         @update:model-value="changeValuesFilter = true"
         @enter="searchData"
+      />
+
+      <NumberInput
+        v-if="item.type == 'FLOAT' || item.type == 'INTEGER'"
+        :label="item.label"
+        :hide-details="true"
+        control-variant="default"
       />
 
       <Select

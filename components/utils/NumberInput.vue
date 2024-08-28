@@ -6,6 +6,7 @@ defineProps<{
   min?: number;
   max?: number;
   step?: number;
+  controlVariant?: "default" | "stacked" | "split";
 }>();
 </script>
 
@@ -20,7 +21,7 @@ defineProps<{
     density="compact"
     variant="outlined"
     :hide-input="false"
-    control-variant="split"
+    :control-variant="controlVariant ?? 'split'"
     :hide-details="hideDetails"
   />
 </template>
