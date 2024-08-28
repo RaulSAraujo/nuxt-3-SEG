@@ -45,7 +45,8 @@ const save = async () => {
 <template>
   <v-btn
     text="SALVAR"
-    color="blue"
+    :color="disabled ? 'black' : 'primary'"
+    variant="flat"
     :disabled="disabled"
     :loading="loading"
     @click="family!.length == 1 ? (snackbar = true) : save()"

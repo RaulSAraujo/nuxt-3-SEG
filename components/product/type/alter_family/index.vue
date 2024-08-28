@@ -39,13 +39,13 @@ const close = () => {
 </script>
 
 <template>
-  <v-dialog transition="dialog-top-transition" width="400" persistent>
+  <v-dialog transition="dialog-top-transition" width="400px" @after-leave="close">
     <template #activator="{ props }">
       <v-btn
         v-bind="props"
         variant="outlined"
         color="red"
-        :text="'TROCAR FAMILIA DO PRODUTO'"
+        text="TROCAR FAMILIA DO PRODUTO"
       />
     </template>
 
@@ -54,6 +54,7 @@ const close = () => {
         <v-card-text class="mt-5">
           <Combobox
             v-model="search"
+            v-maska="'+'"
             label="Digite a referencia"
             :items="productItems"
             item-title="id"
@@ -67,24 +68,13 @@ const close = () => {
         <v-card-actions>
           <v-spacer />
 
-          <v-btn
-            text="FECHAR"
-            color="red"
-            @click="
-              isActive.value = false;
-              close();
-            "
-          />
-
           <ProductTypeAlterFamilySave
             :id="typeof search == 'object' ? search?.id ?? undefined : undefined"
             :disabled="typeof search != 'object' || search == null"
-            @close="
-              isActive.value = false;
-
-              close();
-            "
+            @close="isActive.value = false"
           />
+
+          <v-spacer />
         </v-card-actions>
       </v-card>
     </template>
