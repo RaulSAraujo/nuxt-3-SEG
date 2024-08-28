@@ -5,9 +5,16 @@ defineProps({
 </script>
 
 <template>
-  <v-menu location="top" offset="0px 0px">
+  <v-menu location="top" offset="3px 0px">
     <template #activator="{ props }">
-      <v-btn v-if="!disabled" icon="mdi-dots-vertical" variant="plain" color="primary" v-bind="props" />
+      <v-btn
+        v-if="!disabled"
+        v-bind="props"
+        icon="mdi-dots-vertical"
+        variant="plain"
+        color="primary"
+        density="comfortable"
+      />
     </template>
 
     <v-btn-toggle divided rounded="lg">
