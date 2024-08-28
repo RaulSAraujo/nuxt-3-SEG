@@ -9,14 +9,14 @@ const form = reactive<Row>(props.item);
 </script>
 
 <template>
-  <v-dialog transition="dialog-top-transition" width="300" persistent>
+  <v-dialog transition="dialog-top-transition" width="300px">
     <template #activator="{ props: activatorProps }">
       <PackageEditActiveButton v-bind="activatorProps" />
     </template>
 
     <template #default="{ isActive }">
       <v-card :title="`EMBALAGEM: ${form.name}`" rounded="xl">
-        <v-card-text>
+        <template #text>
           <v-row dense>
             <v-col cols="12">
               <TextField v-model="form.name" label="Nome" :hide-details="true" />
@@ -76,14 +76,15 @@ const form = reactive<Row>(props.item);
               <Switch v-model="form.custom" label="Personalizado" :hide-details="true" />
             </v-col>
           </v-row>
-        </v-card-text>
+        </template>
 
-        <v-card-actions>
+        <template #actions>
           <v-spacer />
 
-          <v-btn text="FECHAR" color="red" @click="isActive.value = false" />
           <PackageEditSaveButton :form="form" @close="isActive.value = false" />
-        </v-card-actions>
+
+          <v-spacer />
+        </template>
       </v-card>
     </template>
   </v-dialog>
