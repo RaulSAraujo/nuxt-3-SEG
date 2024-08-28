@@ -41,11 +41,22 @@ const saveDate = (event: string, multiple: boolean | string) => {
         @enter="searchData"
       />
 
-      <NumberInput
+      <TextField
         v-if="item.type == 'FLOAT' || item.type == 'INTEGER'"
+        v-model="item.value"
+        v-maska="'+'"
         :label="item.label"
+        :alt="`search-${item.label.toLocaleLowerCase()}`"
+        aria-id="textfield"
+        :clearable="item.layout_filters?.clearable"
+        :placeholder="
+          item.layout_filters?.approximate
+            ? 'Digite o valor aproximado'
+            : 'Digite o valor exato'
+        "
         :hide-details="true"
-        control-variant="default"
+        @update:model-value="changeValuesFilter = true"
+        @enter="searchData"
       />
 
       <Select

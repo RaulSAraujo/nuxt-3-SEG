@@ -17,6 +17,7 @@ defineProps<{
 <template>
   <v-combobox
     :id="alt || label"
+    v-maska="'X'"
     density="compact"
     color="primary"
     variant="outlined"
