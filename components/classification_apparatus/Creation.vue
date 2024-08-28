@@ -1,15 +1,7 @@
 <script setup lang="ts">
 import type { Row } from "~/interfaces/ClassificationApparatus.js";
 
-const emit = defineEmits(["close"]);
-
-interface Body {
-  name: string;
-}
-
-const form = reactive<Body>({
-  name: "",
-});
+const name = ref("");
 
 const tableStore = useTableStore();
 const { items } = storeToRefs(tableStore);
@@ -23,7 +15,7 @@ const create = async () => {
     const res = await useNuxtApp().$customFetch<Row>("classification-apparatus", {
       method: "POST",
       body: {
-        name: form.name,
+        name: name.value,
       },
     });
 
@@ -32,8 +24,6 @@ const create = async () => {
     items.value.splice(0, 0, {
       ...res,
     });
-
-    close();
   } catch (error) {
     const err = error as { statusText: string; message: string };
 
@@ -44,23 +34,40 @@ const create = async () => {
 };
 
 const close = () => {
-  form.name = "";
-
-  emit("close");
+  name.value = "";
 };
 </script>
 
 <template>
-  <v-dialog width="260px" persistent>
-    <v-card rounded="xl" title="NOVA CLASSIFICAÇÃO">
-      <template #text>
-        <TextField v-model="form.name" label="NOME DA CLASSIFICAÇÃO" />
-      </template>
+  <v-dialog width="280px" @after-leave="close">
+    <template #activator="{ props: dialog }">
+      <v-btn v-bind="dialog" class="mr-2" color="primary" text="CRIAR" />
+    </template>
 
-      <template #actions>
-        <v-btn color="error" text="FECHAR" @click="close" />
-        <v-btn color="primary" text="SALVAR" @click="create" />
-      </template>
-    </v-card>
+    <template #default="{ isActive }">
+      <v-card rounded="xl" title="NOVA CLASSIFICAÇÃO">
+        <template #text>
+          <TextField v-model="name" label="NOME DA CLASSIFICAÇÃO" />
+        </template>
+
+        <template #actions>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            text="SALVAR"
+            width="8vw"
+            variant="flat"
+            @click="
+              async () => {
+                await create();
+
+                isActive.value = false;
+              }
+            "
+          />
+          <v-spacer />
+        </template>
+      </v-card>
+    </template>
   </v-dialog>
 </template>

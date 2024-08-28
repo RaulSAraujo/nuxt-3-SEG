@@ -2,19 +2,17 @@
 useHead({
   titleTemplate: `Validação de imagens - %s`,
 });
-
-const dialog = ref<boolean>(false);
 </script>
 
 <template>
   <div class="mt-5">
     <span class="ml-5 text-h6 text-primary font-weight-black">VALIDAÇÃO DE IMAGENS</span>
 
-    <Filter
-      :activate-creation-button="true"
-      :disabled-menu="false"
-      @create="dialog = true"
-    />
+    <Filter :disabled-menu="false">
+      <template #button-create>
+        <ValidateImageNew />
+      </template>
+    </Filter>
 
     <Table :show-select="true" :multi-sort="true">
       <template #item.action="{ item }">
@@ -57,7 +55,5 @@ const dialog = ref<boolean>(false);
         />
       </template>
     </Table>
-
-    <ValidateImageNew v-model="dialog" @close="dialog = false" />
   </div>
 </template>

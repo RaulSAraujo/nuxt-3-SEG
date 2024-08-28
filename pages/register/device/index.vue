@@ -5,8 +5,6 @@ useHead({
   titleTemplate: `Aparelhos - %s`,
 });
 
-const dialog = ref<boolean>(false);
-
 const { data: classification } = await $api<ClassificationApparatus>(
   "classification-apparatus"
 );
@@ -16,11 +14,25 @@ const { data: classification } = await $api<ClassificationApparatus>(
   <div class="mt-5">
     <span class="ml-5 text-h6 text-primary font-weight-black">APARELHOS</span>
 
-    <Filter
-      :activate-creation-button="true"
-      :disabled-menu="false"
-      @create="dialog = true"
-    />
+    <Filter :disabled-menu="false">
+      <template #button-create>
+        <DeviceCreation :classification-items="classification!.rows" />
+      </template>
+
+      <template #menu>
+        <v-tooltip location="top" text="CLASSIFICAÇÃO DE APARELHOS">
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              icon="mdi-sort-alphabetical-ascending-variant"
+              :to="{
+                name: 'register-device-classification-apparatus',
+              }"
+            />
+          </template>
+        </v-tooltip>
+      </template>
+    </Filter>
 
     <Table :show-select="true" :multi-sort="true">
       <template #item.action="{ item }">
@@ -58,26 +70,6 @@ const { data: classification } = await $api<ClassificationApparatus>(
           </template>
         </EditDialogObject>
       </template>
-
-      <template #menu>
-        <v-tooltip location="top" text="CLASSIFICAÇÃO DE APARELHOS">
-          <template #activator="{ props }">
-            <v-btn
-              v-bind="props"
-              icon="mdi-sort-alphabetical-ascending-variant"
-              :to="{
-                name: 'register-device-classification-apparatus',
-              }"
-            />
-          </template>
-        </v-tooltip>
-      </template>
     </Table>
-
-    <DeviceCreation
-      v-model="dialog"
-      :classification-items="classification!.rows"
-      @close="dialog = false"
-    />
   </div>
 </template>

@@ -2,8 +2,6 @@
 useHead({
   titleTemplate: `Classificação de aparelhos - %s`,
 });
-
-const dialog = ref<boolean>(false);
 </script>
 
 <template>
@@ -21,11 +19,11 @@ const dialog = ref<boolean>(false);
 
     <v-sheet class="mt-5" rounded="t-xl" elevation="5">
       <v-container fluid tag="div">
-        <Filter
-          :activate-creation-button="true"
-          :disabled-menu="false"
-          @create="dialog = true"
-        />
+        <Filter :disabled-menu="false">
+          <template #button-create>
+            <ClassificationApparatusCreation />
+          </template>
+        </Filter>
 
         <Table :show-select="true" :multi-sort="true">
           <template #item.action="{ item }">
@@ -33,8 +31,6 @@ const dialog = ref<boolean>(false);
           </template>
         </Table>
       </v-container>
-
-      <ClassificationApparatusCreation v-model="dialog" @close="dialog = false" />
     </v-sheet>
   </div>
 </template>

@@ -6,8 +6,6 @@ defineProps<{
   classificationItems: RowClassification[];
 }>();
 
-const emit = defineEmits(["close"]);
-
 interface Body {
   apparatus_name: string;
   classification_active: RowClassification | null;
@@ -43,8 +41,6 @@ const create = async () => {
         name: form.classification_active?.name,
       },
     });
-
-    close();
   } catch (error) {
     const err = error as { statusText: string; message: string };
 
@@ -57,40 +53,54 @@ const create = async () => {
 const close = () => {
   form.apparatus_name = "";
   form.classification_active = null;
-
-  emit("close");
 };
 </script>
 
 <template>
-  <v-dialog width="260px" @after-leave="close">
-    <v-card rounded="xl" title="NOVO APARELHO">
-      <template #text>
-        <TextField v-model="form.apparatus_name" label="NOME DO APARELHO" class="mb-3" />
-        <Select
-          v-model="form.classification_active"
-          label="CLASSIFICAÇÃO"
-          :items="classificationItems"
-          item-title="name"
-          item-value="id"
-          :multiple="false"
-          :return-object="true"
-          :clearable="true"
-        />
-      </template>
+  <v-dialog transition="dialog-top-transition" width="260px" @after-leave="close">
+    <template #activator="{ props: dialog }">
+      <v-btn v-bind="dialog" class="mr-2" color="primary" text="CRIAR" />
+    </template>
 
-      <template #actions>
-        <v-spacer />
-        <v-btn
-          class="mb-2"
-          color="primary"
-          width="100px"
-          variant="flat"
-          text="SALVAR"
-          @click="create"
-        />
-        <v-spacer />
-      </template>
-    </v-card>
+    <template #default="{ isActive }">
+      <v-card rounded="xl" title="NOVO APARELHO">
+        <template #text>
+          <TextField
+            v-model="form.apparatus_name"
+            label="NOME DO APARELHO"
+            class="mb-3"
+          />
+          <Select
+            v-model="form.classification_active"
+            label="CLASSIFICAÇÃO"
+            :items="classificationItems"
+            item-title="name"
+            item-value="id"
+            :multiple="false"
+            :return-object="true"
+            :clearable="true"
+          />
+        </template>
+
+        <template #actions>
+          <v-spacer />
+          <v-btn
+            class="mb-2"
+            color="primary"
+            width="8vw"
+            variant="flat"
+            text="SALVAR"
+            @click="
+              async () => {
+                await create();
+
+                isActive.value = false;
+              }
+            "
+          />
+          <v-spacer />
+        </template>
+      </v-card>
+    </template>
   </v-dialog>
 </template>

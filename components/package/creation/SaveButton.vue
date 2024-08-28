@@ -38,7 +38,9 @@ const update = async () => {
 <template>
   <v-btn
     text="SALVAR"
-    color="blue"
+    color="primary"
+    variant="flat"
+    width="8vw"
     @click="
       update();
       $emit('close');

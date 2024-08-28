@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { Row } from "~/interfaces/Supplier.js";
 
-const emit = defineEmits(["close"]);
-
 interface Body {
   name: string;
   active: boolean;
@@ -58,25 +56,37 @@ const close = () => {
 </script>
 
 <template>
-  <v-dialog width="260px" @after-leave="close">
-    <v-card rounded="xl" title="NOVO FORNECEDOR">
-      <template #text>
-        <TextField v-model="supplier.name" label="NOME DO FORNECEDOR" class="mb-2" />
-        <TextField v-model="supplier.lead_time" label="LEAD TIME" class="mb-2" />
-        <TextField v-model="supplier.virtual_quantity" label="QUANTIDADE VIRTUAL" />
-      </template>
+  <v-dialog transition="dialog-top-transition" width="260px" @after-leave="close">
+    <template #activator="{ props: dialog }">
+      <v-btn v-bind="dialog" class="mr-2" color="primary" text="CRIAR" />
+    </template>
 
-      <template #actions>
-        <v-spacer />
-        <v-btn
-          color="primary"
-          text="SALVAR"
-          variant="flat"
-          width="13vw"
-          @click="create"
-        />
-        <v-spacer />
-      </template>
-    </v-card>
+    <template #default="{ isActive }">
+      <v-card rounded="xl" title="NOVO FORNECEDOR">
+        <template #text>
+          <TextField v-model="supplier.name" label="NOME DO FORNECEDOR" class="mb-2" />
+          <TextField v-model="supplier.lead_time" label="LEAD TIME" class="mb-2" />
+          <TextField v-model="supplier.virtual_quantity" label="QUANTIDADE VIRTUAL" />
+        </template>
+
+        <template #actions>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            text="SALVAR"
+            variant="flat"
+            width="8vw"
+            @click="
+              async () => {
+                await create();
+
+                isActive.value = false;
+              }
+            "
+          />
+          <v-spacer />
+        </template>
+      </v-card>
+    </template>
   </v-dialog>
 </template>

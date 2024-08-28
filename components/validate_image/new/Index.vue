@@ -84,32 +84,50 @@ const close = () => {
 </script>
 
 <template>
-  <v-dialog width="420px" @after-leave="close">
-    <v-card rounded="xl" title="NOVA SOLICITAÇÃO">
-      <template #text>
-        <v-text-field
-          v-model="validate.name"
-          clearable
-          hide-details
-          class="mb-2"
-          color="primary"
-          density="compact"
-          variant="outlined"
-          label="CODIGO DE FABRICANTE"
-        />
+  <v-dialog transition="dialog-top-transition" width="420px" @after-leave="close">
+    <template #activator="{ props: dialog }">
+      <v-btn v-bind="dialog" class="mr-2" color="primary" text="CRIAR" />
+    </template>
 
-        <div class="d-flex flex-row align-center">
-          <span class="mr-3">SELECIONE A PRIORIDADE:</span>
+    <template #default="{ isActive }">
+      <v-card rounded="xl" title="NOVA SOLICITAÇÃO">
+        <template #text>
+          <v-text-field
+            v-model="validate.name"
+            clearable
+            hide-details
+            class="mb-2"
+            color="primary"
+            density="compact"
+            variant="outlined"
+            label="CODIGO DE FABRICANTE"
+          />
 
-          <ValidateImageNewRadioButton v-model="validate.status" />
-        </div>
-      </template>
+          <div class="d-flex flex-row align-center">
+            <span class="mr-3">SELECIONE A PRIORIDADE:</span>
 
-      <template #actions>
-        <v-spacer />
-        <v-btn color="primary" variant="flat" width="13vw" text="SALVAR" @click="create" />
-        <v-spacer />
-      </template>
-    </v-card>
+            <ValidateImageNewRadioButton v-model="validate.status" />
+          </div>
+        </template>
+
+        <template #actions>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            variant="flat"
+            width="10vw"
+            text="SALVAR"
+            @click="
+              async () => {
+                await create();
+
+                isActive.value = false;
+              }
+            "
+          />
+          <v-spacer />
+        </template>
+      </v-card>
+    </template>
   </v-dialog>
 </template>

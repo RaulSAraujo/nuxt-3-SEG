@@ -1,10 +1,7 @@
 <script setup lang="ts">
 defineProps<{
-  activateCreationButton: boolean;
   disabledMenu: boolean;
 }>();
-
-defineEmits(["create"]);
 
 // Resetar props
 onBeforeRouteLeave((to, from, next) => {
@@ -25,9 +22,13 @@ filterStore.get();
 <template>
   <FilterGroup />
 
-  <FilterButtons
-    :activate-creation-button="activateCreationButton"
-    :disabled-menu="disabledMenu"
-    @create="$emit('create')"
-  />
+  <FilterButtons :disabled-menu="disabledMenu">
+    <template #menu>
+      <slot name="menu" />
+    </template>
+
+    <template #button-create>
+      <slot name="button-create" />
+    </template>
+  </FilterButtons>
 </template>
