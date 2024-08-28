@@ -21,6 +21,7 @@ defineProps<{
     density="compact"
     variant="outlined"
     :hide-input="false"
+    color="primary"
     :control-variant="controlVariant ?? 'split'"
     :hide-details="hideDetails"
   />
