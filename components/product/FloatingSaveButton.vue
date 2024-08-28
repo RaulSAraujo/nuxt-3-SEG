@@ -113,12 +113,9 @@ const save = async (pstatuses?: number[]) => {
   <ClientOnly>
     <v-fab
       v-if="$router.currentRoute.value.name === 'register-product-id'"
-      class="mb-4"
       icon="mdi-content-save"
-      location="bottom end"
       color="primary"
-      app
-      appear
+      style="position: fixed; bottom: 105px; right: 60px"
       @click="productMeasurementsChanged ? (snackbar = true) : save()"
     />
 

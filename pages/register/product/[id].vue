@@ -70,5 +70,7 @@ onMounted(() => {
     </v-sheet>
 
     <ProductFloatingSaveButton v-if="activeSaveButton" />
+
+    <ProductFloatingDeleteButton />
   </div>
 </template>
