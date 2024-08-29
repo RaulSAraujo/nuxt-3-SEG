@@ -2,6 +2,8 @@
 import type { Page } from "~/interfaces/Page";
 import type { User } from "~/interfaces/User";
 
+const theme = useTheme();
+
 const { data } = useAuthState();
 const user = data.value as User;
 
@@ -14,7 +16,11 @@ const { data: pages, status } = useFetch<Page[]>("/api/pages", {
 </script>
 
 <template>
-  <v-app-bar scroll-behavior="elevate" scroll-threshold="100">
+  <v-app-bar
+    scroll-behavior="elevate"
+    scroll-threshold="100"
+    :color="!theme.global.current.value.dark ? 'primary' : ''"
+  >
     <template #prepend>
       <v-app-bar-nav-icon icon="mdi-home" to="/home" variant="plain" />
     </template>
@@ -27,6 +33,7 @@ const { data: pages, status } = useFetch<Page[]>("/api/pages", {
       <v-btn
         icon="mdi-face-agent"
         variant="plain"
+        color="grey"
         :to="{
           name: 'support-request',
         }"

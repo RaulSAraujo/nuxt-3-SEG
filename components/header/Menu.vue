@@ -45,3 +45,17 @@ defineProps<{
     </v-list>
   </v-menu>
 </template>
+
+<style>
+.v-list-item--variant-plain,
+.v-list-item--variant-plain {
+  opacity: 0.75;
+  color: black;
+}
+
+.v-list-item--variant-plain:focus,
+.v-list-item--variant-plain:hover {
+  opacity: 1;
+  color: black;
+}
+</style>

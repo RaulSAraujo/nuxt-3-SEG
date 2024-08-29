@@ -114,9 +114,9 @@ export default defineNuxtConfig({
           light: {
             dark: false,
             colors: {
-              primary: '#1867C0',
+              primary: colors.blue.darken2,
               accent: colors.grey.darken3,
-              secondary: '#48A9A6',
+              secondary: colors.amber.darken3,
               info: colors.teal.lighten1,
               warning: colors.amber.base,
               error: colors.deepOrange.accent4,
@@ -126,6 +126,7 @@ export default defineNuxtConfig({
               'surface-light': colors.grey.lighten4,
               'surface-variant': colors.grey.darken3,
               'on-surface-variant': colors.grey.lighten3,
+              background: '#fafafa',
             }
           },
         }

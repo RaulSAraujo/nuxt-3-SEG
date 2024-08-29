@@ -56,7 +56,7 @@ onMounted(() => {
   >
     <template #activator="{ props }">
       <v-badge color="blue" bordered :content="notifications.length">
-        <v-btn v-bind="props" icon="mdi-bell" variant="plain" density="compact" />
+        <v-btn v-bind="props" icon="mdi-bell" variant="plain" color="white" />
       </v-badge>
     </template>
 

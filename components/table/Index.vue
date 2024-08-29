@@ -172,6 +172,6 @@ await gridStore.get();
 }
 
 .v-theme--light .v-data-table__thead {
-  background-color: #f0f0f0;
+  background-color: #eeeeee;
 }
 </style>
