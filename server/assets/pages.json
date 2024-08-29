@@ -92,14 +92,6 @@
                 "child": false
             },
             {
-                "icon": "mdi-currency-usd",
-                "title": "Cotações",
-                "name": "register-quotation",
-                "backUrl": "/quotation",
-                "auth": false,
-                "child": false
-            },
-            {
                 "icon": "mdi-truck-fast",
                 "title": "Fornecedores",
                 "name": "register-supplier",
@@ -162,54 +154,6 @@
                 "backUrl": "/package",
                 "auth": false,
                 "child": false
-            },
-            {
-                "icon": "mdi-package-check",
-                "title": "Salvados",
-                "name": "register-saved-rma",
-                "backUrl": "/saved-rma",
-                "auth": false,
-                "child": false
-            },
-            {
-                "icon": "",
-                "title": "",
-                "name": "register-saved-rma-id",
-                "backUrl": "/saved-rma-id",
-                "auth": false,
-                "child": true
-            },
-            {
-                "icon": "",
-                "title": "",
-                "name": "register-saved-rma-id-apparatus",
-                "backUrl": "/saved-apparatus-rma",
-                "auth": false,
-                "child": true
-            },
-            {
-                "icon": "",
-                "title": "",
-                "name": "register-saved-rma-id-apparatus-apparatus",
-                "backUrl": "/saved-apparatus-rma-id",
-                "auth": false,
-                "child": true
-            },
-            {
-                "icon": "",
-                "title": "",
-                "name": "register-saved-rma-id-apparatus-apparatus-image",
-                "backUrl": "/saved-apparatus-rma-id-image",
-                "auth": false,
-                "child": true
-            },
-            {
-                "icon": "",
-                "title": "",
-                "name": "register-saved-rma-id-products",
-                "backUrl": "/saved-products-rma",
-                "auth": false,
-                "child": true
             }
         ]
     },
@@ -282,6 +226,14 @@
                 "child": true
             },
             {
+                "icon": "mdi-currency-usd",
+                "title": "Cotações",
+                "name": "purchase-quotation",
+                "backUrl": "/quotation",
+                "auth": false,
+                "child": false
+            },
+            {
                 "icon": "mdi-store",
                 "title": "Pedidos mercado livre",
                 "name": "purchase-order-ml",
@@ -306,12 +258,52 @@
                 "child": false
             },
             {
-                "icon": "mdi-receipt-text-check",
-                "title": "Recebimento",
-                "name": "purchase-receipt",
-                "backUrl": "/receivement",
+                "icon": "mdi-package-check",
+                "title": "Salvados",
+                "name": "purchase-saved-rma",
+                "backUrl": "/saved-rma",
                 "auth": false,
                 "child": false
+            },
+            {
+                "icon": "",
+                "title": "",
+                "name": "register-saved-rma-id",
+                "backUrl": "/saved-rma-id",
+                "auth": false,
+                "child": true
+            },
+            {
+                "icon": "",
+                "title": "",
+                "name": "register-saved-rma-id-apparatus",
+                "backUrl": "/saved-apparatus-rma",
+                "auth": false,
+                "child": true
+            },
+            {
+                "icon": "",
+                "title": "",
+                "name": "register-saved-rma-id-apparatus-apparatus",
+                "backUrl": "/saved-apparatus-rma-id",
+                "auth": false,
+                "child": true
+            },
+            {
+                "icon": "",
+                "title": "",
+                "name": "register-saved-rma-id-apparatus-apparatus-image",
+                "backUrl": "/saved-apparatus-rma-id-image",
+                "auth": false,
+                "child": true
+            },
+            {
+                "icon": "",
+                "title": "",
+                "name": "register-saved-rma-id-products",
+                "backUrl": "/saved-products-rma",
+                "auth": false,
+                "child": true
             },
             {
                 "icon": "mdi-receipt-text-clock",
@@ -345,8 +337,8 @@
         "items": [
             {
                 "icon": "mdi-cart-percent",
-                "title": "Verificação de pedido",
-                "name": "sale-verification-order",
+                "title": "Pedidos de separação",
+                "name": "sale-separation-requests",
                 "backUrl": "/sales-orders-separation",
                 "auth": false,
                 "child": false
@@ -390,22 +382,6 @@
                 "backUrl": "/shipping-check",
                 "auth": false,
                 "child": false
-            },
-            {
-                "icon": "mdi-tag-multiple",
-                "title": "Etiqueta de produto",
-                "name": "sale-product-label",
-                "backUrl": "/stock-tag-control",
-                "auth": false,
-                "child": false
-            },
-            {
-                "icon": "",
-                "title": "",
-                "name": "sale-product-label-manual_separation",
-                "backUrl": "/manual_separation",
-                "auth": false,
-                "child": true
             },
             {
                 "icon": "mdi-chart-arc",
@@ -540,6 +516,22 @@
         "title": "Estoque",
         "items": [
             {
+                "icon": "mdi-tag-multiple",
+                "title": "Etiqueta de produto",
+                "name": "stock-product-label",
+                "backUrl": "/stock-tag-control",
+                "auth": false,
+                "child": false
+            },
+            {
+                "icon": "",
+                "title": "",
+                "name": "stock-product-label-manual_separation",
+                "backUrl": "/manual_separation",
+                "auth": false,
+                "child": true
+            },
+            {
                 "icon": "mdi-tag-faces",
                 "title": "Nova etiqueta produto",
                 "name": "stock-product-tag",
@@ -560,6 +552,14 @@
                 "title": "Controle de empréstimo",
                 "name": "stock-product-loan",
                 "backUrl": "/product-loan",
+                "auth": false,
+                "child": false
+            },
+            {
+                "icon": "mdi-receipt-text-check",
+                "title": "Recebimento",
+                "name": "stock-receipt",
+                "backUrl": "/receivement",
                 "auth": false,
                 "child": false
             },
@@ -602,6 +602,14 @@
                 "backUrl": "/parts-collection-management-new",
                 "auth": false,
                 "child": true
+            },
+            {
+                "icon": "mdi-poll",
+                "title": "Estoque fiscal",
+                "name": "stock-tax-stock",
+                "backUrl": "/tax-stock",
+                "auth": false,
+                "child": false
             }
         ]
     },
@@ -614,6 +622,14 @@
                 "title": "Checkout",
                 "name": "expedition-check-out",
                 "backUrl": "/Checkout",
+                "auth": false,
+                "child": false
+            },
+            {
+                "icon": "mdi-timeline-check-outline",
+                "title": "Gerencial checkout",
+                "name": "expedition-manager-check-out",
+                "backUrl": "/manage-checkout",
                 "auth": false,
                 "child": false
             },
@@ -652,36 +668,6 @@
         ]
     },
     {
-        "icon": "mdi-account-clock",
-        "title": "Gerencial",
-        "items": [
-            {
-                "icon": "mdi-timeline-check-outline",
-                "title": "Gerencial checkout",
-                "name": "manager-check-out",
-                "backUrl": "/manage-checkout",
-                "auth": false,
-                "child": false
-            },
-            {
-                "icon": "mdi-lan-pending",
-                "title": "Pendencias",
-                "name": "manager-pendency",
-                "backUrl": "/pendency",
-                "auth": false,
-                "child": false
-            },
-            {
-                "icon": "mdi-poll",
-                "title": "Estoque fiscal",
-                "name": "manager-tax-stock",
-                "backUrl": "/tax-stock",
-                "auth": false,
-                "child": false
-            }
-        ]
-    },
-    {
         "icon": "mdi-server-security",
         "title": "Integrações",
         "items": [
@@ -690,6 +676,14 @@
                 "title": "Erros sincronização",
                 "name": "integration-sync-errors",
                 "backUrl": "/product-sync-errors",
+                "auth": false,
+                "child": false
+            },
+            {
+                "icon": "mdi-lan-pending",
+                "title": "Erros de integração",
+                "name": "integration-Integration-errors",
+                "backUrl": "/pendency",
                 "auth": false,
                 "child": false
             },
@@ -703,7 +697,7 @@
             },
             {
                 "icon": "mdi-cloud-braces",
-                "title": "Integrações",
+                "title": "Log de Integrações",
                 "name": "integration-log",
                 "backUrl": "/integration",
                 "auth": false,
