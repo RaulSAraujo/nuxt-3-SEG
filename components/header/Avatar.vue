@@ -15,17 +15,14 @@ const user = data.value as User;
     </template>
 
     <v-list lines="one" density="compact" nav class="rounded-xl">
-      <v-list-item>
-        <!-- :to="{ name: 'profile' }" -->
+      <v-list-item :to="{ name: 'profile' }">
         <template #prepend>
           <v-icon icon="mdi-account-box" />
         </template>
 
         <v-list-item-title class="text-uppercase"> PERFIL </v-list-item-title>
       </v-list-item>
-      <v-list-item>
-        <!-- :to="{ name: 'option-index' }" -->
-
+      <v-list-item :to="{ name: 'options' }">
         <template #prepend>
           <v-icon icon="mdi-cog" />
         </template>

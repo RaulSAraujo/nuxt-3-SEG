@@ -1,6 +1,6 @@
 <template>
   <iframe
-    src="http://localhost:3000/profile"
+    src="http://localhost:3000/stock/suggested-storage-location"
     frameBorder="0"
     style="height: 90vh; width: 100vw"
   />

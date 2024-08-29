@@ -24,6 +24,13 @@ const { data: pages, status } = useFetch<Page[]>("/api/pages", {
     </v-app-bar-title>
 
     <template #append>
+      <v-btn
+        icon="mdi-face-agent"
+        variant="plain"
+        :to="{
+          name: 'support-request',
+        }"
+      />
       <HeaderNotifications />
       <HeaderTheme />
       <HeaderAvatar />

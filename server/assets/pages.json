@@ -390,6 +390,22 @@
                 "backUrl": "/indicators-orders",
                 "auth": false,
                 "child": false
+            },
+            {
+                "icon": "mdi-cart-percent",
+                "title": "Venda de aparelhos",
+                "name": "sale-sell-device",
+                "backUrl": "/sell-device",
+                "auth": false,
+                "child": false
+            },
+            {
+                "icon": "mdi-order-bool-ascending-variant",
+                "title": "Acompanhamento de status",
+                "name": "sale-tracking-order-status",
+                "backUrl": "/tracking-order-status",
+                "auth": false,
+                "child": false
             }
         ]
     },
@@ -548,6 +564,14 @@
                 "child": false
             },
             {
+                "icon": "mdi-help-box",
+                "title": "Sugestão local de armazenagem",
+                "name": "stock-suggested-storage-location",
+                "backUrl": "/suggested-storage-location",
+                "auth": false,
+                "child": false
+            },
+            {
                 "icon": "mdi-file-arrow-up-down-outline",
                 "title": "Controle de empréstimo",
                 "name": "stock-product-loan",
@@ -662,6 +686,14 @@
                 "title": "Horario de corte",
                 "name": "expedition-cut-time",
                 "backUrl": "/carrier-cut-time",
+                "auth": false,
+                "child": false
+            },
+            {
+                "icon": "mdi-priority-high",
+                "title": "Urgência de Envio",
+                "name": "expedition-shipping-urgency",
+                "backUrl": "/shipping-urgency",
                 "auth": false,
                 "child": false
             }
