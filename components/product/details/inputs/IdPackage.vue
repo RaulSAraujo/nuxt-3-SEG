@@ -20,12 +20,12 @@ const { payload } = useNuxtApp();
 
 const packageItems = payload.data["PackageList"] as Row[];
 
-const packageSelect = ref<number | "Personalizada">(
-  product.value?.package_id ?? "Personalizada"
+const packageSelect = ref<number | "PERSONALIZADA">(
+  product.value?.package_id ?? "PERSONALIZADA"
 );
 
-if (product.value && packageSelect.value === "Personalizada") {
-  const find = useArrayFind(packageItems, (e) => e.name === "Personalizada");
+if (product.value && packageSelect.value === "PERSONALIZADA") {
+  const find = useArrayFind(packageItems, (e) => e.name === "PERSONALIZADA");
 
   product.value.Package = find.value as Row;
 }
