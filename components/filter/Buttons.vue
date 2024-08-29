@@ -6,10 +6,12 @@ defineProps<{
 const filterStore = useFilterStore();
 
 const tableStore = useTableStore();
-const { page } = storeToRefs(tableStore);
+const { page, sortBy } = storeToRefs(tableStore);
 
 const clear = () => {
   filterStore.clearValues();
+
+  sortBy.value = undefined;
 
   if (page.value > 1) {
     page.value = 1;

@@ -6,6 +6,7 @@ export const useTableStore = defineStore("table", () => {
     const routerFull = ref<boolean | null | undefined>(undefined);
     const items = ref<object[]>([]);
     const totalItems = ref(0);
+    const sortBy = ref<[{ key: string; order: string }]>();
     const loading = ref(true);
     const page = ref(1);
     const itemsPerPage = ref(10);
@@ -85,6 +86,7 @@ export const useTableStore = defineStore("table", () => {
 
         url.value = routeMap.value[name!.toString()];
     };
+
     async function searchData() {
         type types = string | number | boolean | null | undefined;
         type AccValue = types | types[];
@@ -103,6 +105,9 @@ export const useTableStore = defineStore("table", () => {
 
             return true;
         };
+
+        const sortfield = sortBy.value?.map((i) => i.key).join(',') ?? undefined
+        const sortType = sortBy.value?.map((i) => i.order).join(',') ?? undefined
 
         const filterStore = useFilterStore()
         const { availableFilter, changeValuesFilter } = storeToRefs(filterStore)
@@ -137,15 +142,16 @@ export const useTableStore = defineStore("table", () => {
             page.value = 1
         }
 
-        useNuxtApp().$customFetch<{ resultCount: number; rows: object[]; totalRecords: number }>(url.value, {
+        useNuxtApp().$customFetch<{ resultCount: number; rows: object[]; totalRecords: number; sortBy: object[] }>(url.value, {
             method: "GET",
             params: {
                 page: page.value,
                 perPage: itemsPerPage.value,
                 full: routerFull.value,
+                'sort-field': sortfield,
+                'sort-type': sortType,
                 ...params,
             },
-            priority: "low",
             retry: 3,
             retryDelay: 100,
         }).then(async (res) => {
@@ -164,5 +170,5 @@ export const useTableStore = defineStore("table", () => {
 
     };
 
-    return { url, routerFull, items, totalItems, loading, page, itemsPerPage, itemsPerPageoptions, pageCount, selected, expanded, findRouteMap, searchData };
+    return { url, routerFull, items, totalItems, sortBy, loading, page, itemsPerPage, itemsPerPageoptions, pageCount, selected, expanded, findRouteMap, searchData };
 })

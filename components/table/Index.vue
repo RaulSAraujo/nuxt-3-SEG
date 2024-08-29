@@ -19,6 +19,8 @@ onBeforeRouteLeave((to, from, next) => {
     items.value = [];
     totalItems.value = 0;
 
+    sortBy.value = undefined;
+
     selected.value = [];
 
     expanded.value = [];
@@ -56,6 +58,7 @@ const {
   items,
   itemsPerPage,
   totalItems,
+  sortBy,
   loading,
   routerFull: full,
   expanded,
@@ -75,6 +78,7 @@ gridStore.get();
   <v-data-table-server
     v-model="selected"
     v-model:expanded="expanded"
+    v-model:sort-by="sortBy"
     :headers="availableGrid"
     :items="items"
     item-value="id"
