@@ -67,7 +67,7 @@ const close = () => {
     </template>
 
     <template #default>
-      <v-card title="2º IMPORTAR COTAÇÃO">
+      <v-card title="2º IMPORTAR COTAÇÃO" rounded="xl">
         <template #subtitle>
           <v-btn
             text="Baixe o exemplo aqui"

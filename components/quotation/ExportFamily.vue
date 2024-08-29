@@ -66,7 +66,7 @@ const close = () => {
     </template>
 
     <template #default>
-      <v-card title="1º EXTRAIR CÓD.FAB FAMILIA">
+      <v-card title="1º EXTRAIR CÓD.FAB FAMILIA" rounded="xl">
         <template #subtitle>
           <v-btn
             text="Baixe o exemplo aqui"
