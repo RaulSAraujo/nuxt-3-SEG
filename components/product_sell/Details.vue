@@ -13,19 +13,19 @@ if (product.value) {
 <template>
   <v-row dense>
     <v-col cols="6" sm="4" md="4" lg="2" xl="2">
-      <TextField v-model="product!.id" label="REFERENCIA" :disabled="true" />
+      <TextField v-model="product!.id" label="Referencia" :disabled="true" />
     </v-col>
     <v-col cols="6" sm="4" md="4" lg="2" xl="2">
-      <TextField v-model="product!.type_id" label="ID TIPO" :disabled="true" />
+      <TextField v-model="product!.type_id" label="Id tipo" :disabled="true" />
     </v-col>
     <v-col cols="12" sm="4" md="4" lg="2" xl="2">
-      <TextField v-model="product!.type" label="TIPO" :disabled="true" />
+      <TextField v-model="product!.type" label="Tipo" :disabled="true" />
     </v-col>
     <v-col cols="12" sm="4" md="4" lg="2" xl="2">
-      <TextField v-model="product!.quantity" label="QUANTIDADE" :disabled="true" />
+      <TextField v-model="product!.quantity" label="Quantidade" :disabled="true" />
     </v-col>
     <v-col cols="12" sm="4" md="4" lg="2" xl="2">
-      <TextField v-model="product!.ean_gs1" label="EAN GS1" :disabled="true" />
+      <TextField v-model="product!.ean_gs1" label="Ean gs1" :disabled="true" />
     </v-col>
     <v-col cols="12" sm="4" md="4" lg="2" xl="2">
       <Switch
@@ -37,12 +37,12 @@ if (product.value) {
       />
     </v-col>
     <v-col cols="12" sm="12" md="6" lg="8" xl="8">
-      <TextField v-model="product!.description" label="DESCRIÇÃO" />
+      <TextField v-model="product!.description" label="Descrição" />
     </v-col>
     <v-col cols="6" sm="6" md="3" lg="2" xl="2">
       <TextField
         v-model="product!.created_at"
-        label="CRIADO EM"
+        label="Criado em"
         :disabled="true"
         :hide-details="true"
       />
@@ -50,7 +50,7 @@ if (product.value) {
     <v-col cols="6" sm="6" md="3" lg="2" xl="2">
       <TextField
         v-model="product!.updated_at"
-        label="ATUALIZADO EM"
+        label="Atualizado em"
         :disabled="true"
         :hide-details="true"
       />
@@ -58,7 +58,7 @@ if (product.value) {
     <v-col cols="12">
       <TextArea
         v-model="product!.model"
-        label="MODELOS"
+        label="Modelos"
         rows="1"
         :auto-grow="true"
         :hide-details="true"
@@ -69,7 +69,7 @@ if (product.value) {
       <Switch
         v-model="product!.syncecom"
         class="d-flex flex-row justify-center border-sm rounded-lg"
-        label="SINC. ECOM"
+        label="Sinc. ecom"
         :hide-details="true"
       />
     </v-col>
@@ -77,7 +77,7 @@ if (product.value) {
       <Switch
         v-model="product!.syncedecom"
         class="d-flex flex-row justify-center border-sm rounded-lg"
-        label="SINCRONIZADO. ECOM"
+        label="Sincronizado ecom"
         :hide-details="true"
         :readonly="true"
       />
@@ -86,7 +86,7 @@ if (product.value) {
       <Switch
         v-model="product!.syncecominprogress"
         class="d-flex flex-row justify-center border-sm rounded-lg"
-        label="SINC./PROGRESSO"
+        label="Sinc. progresso"
         :hide-details="true"
         :readonly="true"
       />
@@ -95,7 +95,7 @@ if (product.value) {
       <Switch
         v-model="product!.syncecomfailed"
         class="d-flex flex-row justify-center border-sm rounded-lg"
-        label="SINC. COM FALHA"
+        label="Sinc. com falha"
         :hide-details="true"
         :readonly="true"
       />
@@ -104,7 +104,7 @@ if (product.value) {
       <Switch
         v-model="product!.image"
         class="d-flex flex-row justify-center border-sm rounded-lg"
-        label="IMAGEM"
+        label="Imagem"
         :hide-details="true"
         :readonly="true"
       />
@@ -113,7 +113,7 @@ if (product.value) {
       <Switch
         v-model="product!.sync_comclick"
         class="d-flex flex-row justify-center border-sm rounded-lg"
-        label="COMCLICK"
+        label="Comclick"
         :hide-details="true"
       />
     </v-col>
@@ -121,7 +121,7 @@ if (product.value) {
       <Switch
         v-model="product!.sync_loja_do_tecnico"
         class="d-flex flex-row justify-center border-sm rounded-lg"
-        label="LOJA DO TECNICO"
+        label="Loja do técnico"
         :hide-details="true"
         :disabled="product!.sync_viziotech"
       />
@@ -130,7 +130,7 @@ if (product.value) {
       <Switch
         v-model="product!.sync_viziotech"
         class="d-flex flex-row justify-center border-sm rounded-lg"
-        label="VIZIOTECH"
+        label="Viziotech"
         :hide-details="true"
         @click="product!.sync_loja_do_tecnico = false"
       />

@@ -1,13 +1,17 @@
 <script setup lang="ts"></script>
 
 <template>
-  <v-container :fluid="true">
-    <p class="text-h5 font-weight-bold mb-5">DETALHES DO PRODUTO</p>
+  <div>
+    <v-toolbar title="DETALHES DO PRODUTO" rounded="t-xl" />
 
-    <ProductSellDetails />
+    <v-container :fluid="true">
+      <ProductSellDetails />
+    </v-container>
 
-    <p class="text-h5 font-weight-bold my-5">INFORMAÇÕES ADICIONAIS</p>
+    <v-toolbar title="INFORMAÇÕES ADICIONAIS" />
 
-    <ProductSellAdditional />
-  </v-container>
+    <v-container :fluid="true">
+      <ProductSellAdditional />
+    </v-container>
+  </div>
 </template>

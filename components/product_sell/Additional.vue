@@ -8,7 +8,7 @@ const { product } = storeToRefs(productSellStore);
     <v-col cols="12" sm="6" md="6" lg="3" xl="3">
       <TextField
         :model-value="product!.CategoryEcom"
-        label="CATEGORIA ECOM"
+        label="Categoria ecom"
         :disabled="true"
       />
     </v-col>
@@ -16,7 +16,7 @@ const { product } = storeToRefs(productSellStore);
       <Switch
         v-model="product!.featured_seal"
         class="d-flex flex-row justify-center border-sm rounded-lg"
-        label="DESTAQUE PRODUTO"
+        label="Destaque produto"
         :hide-details="true"
       />
     </v-col>
@@ -24,7 +24,7 @@ const { product } = storeToRefs(productSellStore);
       <Switch
         v-model="product!.release_seal"
         class="d-flex flex-row justify-center border-sm rounded-lg"
-        label="LANÇAMENTO PRODUTO"
+        label="Lançamento produto"
         :hide-details="true"
       />
     </v-col>
@@ -32,7 +32,7 @@ const { product } = storeToRefs(productSellStore);
       <Switch
         v-model="product!.additional_seal"
         class="d-flex flex-row justify-center border-sm rounded-lg"
-        label="SELO ADICIONAL"
+        label="Selo adicional"
         :hide-details="true"
       />
     </v-col>
