@@ -1,5 +1,5 @@
 import type { User } from "~/interfaces/User";
-import type { Grid, Column } from "~/interfaces/Grid";
+import type { Grid, Column, Row } from "~/interfaces/Grid";
 import type { CustomFilterGrid } from '~/interfaces/CustomFilterGrid.js'
 
 
@@ -19,7 +19,7 @@ export const useGridStore = defineStore("grids", () => {
 
     const dialogImport = ref<boolean>(false)
 
-    function get() {
+    async function get() {
         const { findModelName } = useModelStore();
 
         const model = findModelName();
@@ -29,14 +29,14 @@ export const useGridStore = defineStore("grids", () => {
 
         let grid: Grid;
         if (availableGrid.value.length == 0) {
-            $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
+            await $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
                 priority: "high",
                 key: `Grid-${model}`,
                 getCachedData(key, nuxtApp) {
                     return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
                 },
             })
-                .then((res) => {
+                .then(async (res) => {
                     if (res.error.value) throw res;
 
                     grid = res.data.value as Grid;
@@ -44,7 +44,7 @@ export const useGridStore = defineStore("grids", () => {
                     if (grid.resultCount > 0) {
                         set(grid);
                     } else {
-                        create();
+                        await create(model);
                     }
                 })
                 .catch((err) => {
@@ -66,18 +66,18 @@ export const useGridStore = defineStore("grids", () => {
         hiddenGrid.value = [];
     }
 
-    async function loadCustomGrids() {
-        const { findModelName } = useModelStore();
-
-        const model = findModelName();
-
+    async function loadCustomGrids(model: string) {
         const defaultGrid = await useNuxtApp().$customFetch<CustomFilterGrid>(`custom-filters?model=${model}`)
 
         return defaultGrid;
     }
 
     async function reset() {
-        const defaultGrid = await loadCustomGrids();
+        const { findModelName } = useModelStore();
+
+        const model = findModelName();
+
+        const defaultGrid = await loadCustomGrids(model);
 
         const mapDefaultGrid = useArrayMap(defaultGrid.rows, ({ label, align, sortable, attribute, width, type, initial_grid, sequence_grid }) => ({
             title: label,
@@ -113,7 +113,11 @@ export const useGridStore = defineStore("grids", () => {
     }
 
     async function update() {
-        const defaultGrid = await loadCustomGrids();
+        const { findModelName } = useModelStore();
+
+        const model = findModelName();
+
+        const defaultGrid = await loadCustomGrids(model);
 
         const mapDefaultGrid = useArrayMap(defaultGrid.rows, ({ label, align, sortable, attribute, width, type, initial_grid, sequence_grid }) => ({
             title: label,
@@ -166,10 +170,14 @@ export const useGridStore = defineStore("grids", () => {
     }
 
     async function importGrid(file: File | undefined) {
+        const { findModelName } = useModelStore();
+
+        const model = findModelName();
+
         dialogImport.value = false;
 
         if (file && file.name.includes('GRID')) {
-            const defaultGrid = await loadCustomGrids();
+            const defaultGrid = await loadCustomGrids(model);
 
             const mapDefaultGrid = useArrayMap(defaultGrid.rows, ({ label, align, sortable, attribute, width, type, initial_grid, sequence_grid }) => ({
                 title: label,
@@ -221,15 +229,11 @@ export const useGridStore = defineStore("grids", () => {
         linkElement.click()
     }
 
-    async function create() {
+    async function create(model: string) {
         const { data } = useAuthState();
         const user = data.value as User;
 
-        const { findModelName } = useModelStore();
-
-        const model = findModelName();
-
-        const defaultGrid = await loadCustomGrids();
+        const defaultGrid = await loadCustomGrids(model);
 
         const mapDefaultGrid = useArrayMap(defaultGrid.rows, ({ label, align, sortable, attribute, width, type, initial_grid, sequence_grid }) => ({
             title: label,
@@ -267,7 +271,7 @@ export const useGridStore = defineStore("grids", () => {
 
 
         try {
-            const res = await useNuxtApp().$customFetch<Grid>(`grid-configurations`, {
+            const res = await useNuxtApp().$customFetch<Row>(`grid-configurations`, {
                 method: 'POST',
                 body: {
                     model,
@@ -277,7 +281,22 @@ export const useGridStore = defineStore("grids", () => {
                 }
             })
 
-            set(res)
+            set({
+                rows: [
+                    {
+                        id: res.id,
+                        user_id: res.user_id,
+                        model: res.model,
+                        available_columns: res.available_columns,
+                        hidden_columns: res.hidden_columns,
+                        created_at: res.created_at,
+                        updated_at: res.updated_at,
+                        deleted_at: res.deleted_at
+                    }
+                ],
+                totalRecords: 1,
+                resultCount: 1
+            })
         } catch (error) {
             const err = error as { statusText: string; message: string };
 

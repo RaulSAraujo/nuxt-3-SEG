@@ -18,7 +18,7 @@ onBeforeRouteLeave((to, from, next) => {
 
 const filterStore = useFilterStore();
 
-filterStore.get();
+await filterStore.get();
 </script>
 
 <template>

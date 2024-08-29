@@ -70,7 +70,7 @@ if (props.routerFull == true || props.routerFull == false) {
   full.value = props.routerFull;
 }
 
-gridStore.get();
+await gridStore.get();
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 import type { CustomFilterGrid } from "~/interfaces/CustomFilterGrid";
-import type { Filter, Column, User, ModelAssociation } from "~/interfaces/Filter";
+import type { Filter, Column, User, ModelAssociation, FilterRow } from "~/interfaces/Filter";
 
 export const useFilterStore = defineStore("filters", () => {
     const drawer = ref<boolean>(false)
@@ -32,7 +32,7 @@ export const useFilterStore = defineStore("filters", () => {
                     return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
                 },
             })
-                .then((res) => {
+                .then(async (res) => {
                     if (res.error.value) throw res;
 
                     filter = res.data.value as Filter;
@@ -40,7 +40,7 @@ export const useFilterStore = defineStore("filters", () => {
                     if (filter.resultCount > 0) {
                         set(filter);
                     } else {
-                        create();
+                        await create(model);
                     }
                 })
                 .catch((err) => {
@@ -62,11 +62,7 @@ export const useFilterStore = defineStore("filters", () => {
         hiddenFilter.value = [];
     }
 
-    async function loadCustomGrids() {
-        const { findModelName } = useModelStore();
-
-        const model = findModelName();
-
+    async function loadCustomGrids(model: string) {
         const defaultGrid = await useNuxtApp().$customFetch<CustomFilterGrid>(`custom-filters?model=${model}`)
 
         const active = useArrayFilter(defaultGrid.rows, (f) => f.active === true)
@@ -102,9 +98,12 @@ export const useFilterStore = defineStore("filters", () => {
     }
 
     async function reset() {
+        const { findModelName } = useModelStore();
+        const model = findModelName();
+
         let defaultGrid: ModelAssociation[] = []
         try {
-            defaultGrid = await loadCustomGrids();
+            defaultGrid = await loadCustomGrids(model);
         } catch (error) {
             const err = error as { statusText: string; message: string };
 
@@ -128,7 +127,10 @@ export const useFilterStore = defineStore("filters", () => {
     }
 
     async function update() {
-        const defaultGrid = await loadCustomGrids();
+        const { findModelName } = useModelStore();
+        const model = findModelName();
+
+        const defaultGrid = await loadCustomGrids(model);
 
         const availableAndHiddenGrid = ref<Column[]>([]);
         availableAndHiddenGrid.value.push(...availableFilter.value, ...availableFilter.value)
@@ -171,10 +173,13 @@ export const useFilterStore = defineStore("filters", () => {
     }
 
     async function importGrid(file: File | undefined) {
+        const { findModelName } = useModelStore();
+        const model = findModelName();
+
         dialogImport.value = false;
 
         if (file && file.name.includes('GRID')) {
-            const defaultGrid = await loadCustomGrids();
+            const defaultGrid = await loadCustomGrids(model);
 
             availableFilter.value = []
             hiddenFilter.value = defaultGrid
@@ -215,15 +220,11 @@ export const useFilterStore = defineStore("filters", () => {
         linkElement.click()
     }
 
-    async function create() {
+    async function create(model: string) {
         const { data } = useAuthState();
         const user = data.value as User;
 
-        const { findModelName } = useModelStore();
-
-        const model = findModelName();
-
-        const defaultGrid = await loadCustomGrids();
+        const defaultGrid = await loadCustomGrids(model);
 
         const initial = useArrayFilter(defaultGrid, (f) => f.initial_filter === true)
         const hidden = useArrayFilter(defaultGrid, (f) => f.initial_filter === false)
@@ -238,7 +239,7 @@ export const useFilterStore = defineStore("filters", () => {
         });
 
         try {
-            const res = await useNuxtApp().$customFetch<Filter>(`custom-filters-user`, {
+            const res = await useNuxtApp().$customFetch<FilterRow>(`custom-filters-user`, {
                 method: 'POST',
                 body: {
                     model,
@@ -248,7 +249,23 @@ export const useFilterStore = defineStore("filters", () => {
                 }
             })
 
-            set(res)
+            set({
+                rows: [
+                    {
+                        id: res.id,
+                        user_id: res.user_id,
+                        model: res.model,
+                        available_filters: res.available_filters,
+                        hidden_filters: res.hidden_filters,
+                        created_at: res.created_at,
+                        updated_at: res.updated_at,
+                        deleted_at: res.deleted_at,
+                        User: res.User
+                    }
+                ],
+                totalRecords: 1,
+                resultCount: 1
+            })
         } catch (error) {
             const err = error as { statusText: string; message: string };
 
