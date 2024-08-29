@@ -33,14 +33,6 @@ const update = async () => {
 </script>
 
 <template>
-  <div class="d-flex flex-rows my-5">
-    <p class="text-h5 font-weight-bold mb-5">PERCENTUAIS FISCAIS / VALORES FISCAIS</p>
-
-    <v-spacer />
-
-    <v-btn color="primary" @click="update"> SALVAR </v-btn>
-  </div>
-
   <v-row dense>
     <v-col cols="12" sm="6" md="3" lg="3" xl="3">
       <TextField
@@ -121,4 +113,8 @@ const update = async () => {
       />
     </v-col>
   </v-row>
+
+  <div class="d-flex justify-end mt-2">
+    <v-btn color="primary" @click="update"> SALVAR </v-btn>
+  </div>
 </template>

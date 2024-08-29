@@ -1,25 +1,27 @@
 <script setup lang="ts"></script>
 
 <template>
-  <v-container :fluid="true">
-    <p class="text-h5 font-weight-bold mb-5">DETALHES DO PRODUTO</p>
+  <div>
+    <v-toolbar title="DETALHES DO PRODUTO" rounded="t-xl" />
 
-    <ProductDetails />
+    <v-container :fluid="true">
+      <ProductDetails />
 
-    <p class="text-h6 font-weight-medium my-3">ESTOQUE</p>
+      <p class="text-h6 font-weight-medium my-3">ESTOQUE</p>
 
-    <ProductDetailsStock />
+      <ProductDetailsStock />
 
-    <p class="text-h6 font-weight-medium my-3">ESTOQUE VIRTUAL TEMPORÁRIO</p>
+      <p class="text-h6 font-weight-medium my-3">ESTOQUE VIRTUAL TEMPORÁRIO</p>
 
-    <ProductDetailsVirtualStock />
+      <ProductDetailsVirtualStock />
 
-    <p class="text-h6 font-weight-medium my-3">OBSERVAÇÕES</p>
+      <p class="text-h6 font-weight-medium my-3">OBSERVAÇÕES</p>
 
-    <ProductDetailsObservation />
+      <ProductDetailsObservation />
 
-    <p class="text-h6 font-weight-medium my-3">EMBALAGEM / PESO</p>
+      <p class="text-h6 font-weight-medium my-3">EMBALAGEM / PESO</p>
 
-    <ProductDetailsPackage />
-  </v-container>
+      <ProductDetailsPackage />
+    </v-container>
+  </div>
 </template>

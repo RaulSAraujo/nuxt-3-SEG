@@ -1,13 +1,19 @@
 <script setup lang="ts"></script>
 
 <template>
-  <v-container fluid>
-    <p class="text-h5 font-weight-bold mb-5">TABELA DE CUSTOS</p>
+  <div>
+    <v-toolbar title="TABELA DE CUSTOS" rounded="t-xl" />
 
-    <ProductCostTable />
+    <v-container fluid>
+      <ProductCostTable />
 
-    <ProductCostTableMyTable />
+      <ProductCostTableMyTable />
+    </v-container>
 
-    <ProductCostTableInvoice />
-  </v-container>
+    <v-toolbar title="PERCENTUAIS FISCAIS / VALORES FISCAIS" />
+
+    <v-container fluid>
+      <ProductCostTableInvoice />
+    </v-container>
+  </div>
 </template>

@@ -1,13 +1,13 @@
 <script setup lang="ts"></script>
 
 <template>
-  <v-container fluid>
-    <div class="d-flex flex-row justify-space-between">
-      <span class="text-h5 font-weight-bold">STATUS DO PRODUTO</span>
-
+  <div>
+    <v-toolbar title="STATUS DO PRODUTO" rounded="t-xl" class="pr-4">
       <ProductStatusTableStatusAssociation />
-    </div>
+    </v-toolbar>
 
-    <ProductStatusTable />
-  </v-container>
+    <v-container fluid>
+      <ProductStatusTable />
+    </v-container>
+  </div>
 </template>
