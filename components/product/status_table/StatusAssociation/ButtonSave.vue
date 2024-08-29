@@ -105,7 +105,9 @@ const quotationStatusBloqueado = async () => {
 <template>
   <v-btn
     text="SALVAR"
-    color="blue"
+    color="primary"
+    width="8vw"
+    variant="flat"
     @click="
       update();
 

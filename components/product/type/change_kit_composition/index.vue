@@ -46,7 +46,7 @@ const close = () => {
 <template>
   <v-dialog transition="dialog-top-transition" width="500" persistent>
     <template #activator="{ props }">
-      <v-btn v-bind="props" variant="outlined" color="red" :text="'EDITAR KIT'" />
+      <v-btn v-bind="props" variant="flat" color="blue" :text="'EDITAR KIT'" />
     </template>
 
     <template #default="{ isActive }">

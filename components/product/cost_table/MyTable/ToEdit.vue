@@ -94,24 +94,13 @@ const updateQuotation = async () => {
 </script>
 
 <template>
-  <v-dialog
-    :retain-focus="false"
-    width="80%"
-    persistent
-    no-click-animation
-    content-class="rounded-xl"
-    transition="dialog-top-transition"
-  >
+  <v-dialog :retain-focus="false" width="80%" transition="dialog-top-transition">
     <v-sheet class="rounded-xl">
       <v-container>
-        <div class="d-flex flex-row">
+        <div class="d-flex flex-row my-2">
           <span class="text-h5 blue white--text">
             EDITAR TABELA DE CUSTO ID.{{ product?.Quotations![costTableIndex].id }}
           </span>
-
-          <v-spacer />
-
-          <v-btn icon="mdi-close" variant="plain" @click="$emit('disable')" />
         </div>
 
         <v-row dense>
@@ -225,7 +214,8 @@ const updateQuotation = async () => {
 
           <v-btn
             color="primary"
-            variant="text"
+            width="8vw"
+            variant="flat"
             :loading="loading"
             @click="updateQuotation"
           >

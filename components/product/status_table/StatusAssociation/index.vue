@@ -5,13 +5,13 @@ const items = ref<Row[]>();
 </script>
 
 <template>
-  <v-dialog transition="dialog-top-transition" width="400" persistent>
+  <v-dialog transition="dialog-top-transition" width="400px">
     <template #activator="{ props: activatorProps }">
       <v-btn
         v-bind="activatorProps"
-        color="pink"
+        color="primary"
         text="EDITAR STATUS"
-        variant="outlined"
+        variant="flat"
       />
     </template>
 
@@ -24,12 +24,12 @@ const items = ref<Row[]>();
         <v-card-actions>
           <v-spacer />
 
-          <v-btn text="FECHAR" color="red" @click="isActive.value = false" />
-
           <ProductStatusTableStatusAssociationButtonSave
             :items="items ?? []"
             @is-active="isActive.value = false"
           />
+
+          <v-spacer />
         </v-card-actions>
       </v-card>
     </template>

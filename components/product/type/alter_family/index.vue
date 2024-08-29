@@ -43,8 +43,8 @@ const close = () => {
     <template #activator="{ props }">
       <v-btn
         v-bind="props"
-        variant="outlined"
-        color="red"
+        variant="flat"
+        color="primary"
         text="TROCAR FAMILIA DO PRODUTO"
       />
     </template>
