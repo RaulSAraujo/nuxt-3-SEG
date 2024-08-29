@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import type { Client, ClientAddress, Response } from "~/interfaces/Client.js";
+import type { Client, ClientAddress, Response, Row } from "~/interfaces/Client.js";
 import { object, string, number as typeNumber, boolean } from "yup";
 
 const { params } = useRoute();
 
-const { data, error } = await $api<Client>(`clients?id=${params.id}`);
+const { data, error } = await $api<Row>(`clients?id=${params.id}`, {
+  key: "Cliente",
+  transform: (fetchData) => {
+    return ((fetchData as unknown) as Client).rows[0];
+  },
+});
 
 if (error.value) {
   $toast().error(`${error.value.statusText ?? error.value.message}`);
@@ -59,38 +64,38 @@ const { handleSubmit } = useForm<Response>({
     }),
   }),
   initialValues: {
-    id: data.value?.rows[0].id,
-    flag_client: data.value?.rows[0].flag_client,
-    name: data.value?.rows[0].name,
-    erp_client_id: data.value?.rows[0].erp_client_id,
-    gender: data.value?.rows[0].gender,
-    type: data.value?.rows[0].type,
-    cpf_cnpj: data.value?.rows[0].cpf_cnpj,
-    identity_number: data.value?.rows[0].identity_number,
-    born_date: dayjs(data.value?.rows[0].born_date, "YYYY-MM-DD").format("DD/MM/YYYY"),
-    email: data.value?.rows[0].email,
-    number1: data.value?.rows[0].number1,
-    number2: data.value?.rows[0].number2,
-    number3: data.value?.rows[0].number3,
-    identifier_number1: data.value?.rows[0].identifier_number1,
-    identifier_number2: data.value?.rows[0].identifier_number2,
-    identifier_number3: data.value?.rows[0].identifier_number3,
-    observation: data.value?.rows[0].observation,
-    created_at: data.value?.rows[0].created_at,
+    id: data.value?.id,
+    flag_client: data.value?.flag_client,
+    name: data.value?.name,
+    erp_client_id: data.value?.erp_client_id,
+    gender: data.value?.gender,
+    type: data.value?.type,
+    cpf_cnpj: data.value?.cpf_cnpj,
+    identity_number: data.value?.identity_number,
+    born_date: dayjs(data.value?.born_date, "YYYY-MM-DD").format("DD/MM/YYYY"),
+    email: data.value?.email,
+    number1: data.value?.number1,
+    number2: data.value?.number2,
+    number3: data.value?.number3,
+    identifier_number1: data.value?.identifier_number1,
+    identifier_number2: data.value?.identifier_number2,
+    identifier_number3: data.value?.identifier_number3,
+    observation: data.value?.observation,
+    created_at: data.value?.created_at,
     ClientAddresses: {
-      id: data.value?.rows[0].ClientAddresses[0].id,
-      client_id: data.value?.rows[0].ClientAddresses[0].client_id,
-      zipcode: data.value?.rows[0].ClientAddresses[0].zipcode,
-      street: data.value?.rows[0].ClientAddresses[0].street,
-      neighbourhood: data.value?.rows[0].ClientAddresses[0].neighbourhood,
-      complement: data.value?.rows[0].ClientAddresses[0].complement,
-      number: data.value?.rows[0].ClientAddresses[0].number,
-      city: data.value?.rows[0].ClientAddresses[0].city,
-      state: data.value?.rows[0].ClientAddresses[0].state,
-      country: data.value?.rows[0].ClientAddresses[0].country,
-      type: data.value?.rows[0].ClientAddresses[0].type,
-      created_at: data.value?.rows[0].ClientAddresses[0].created_at,
-      updated_at: data.value?.rows[0].ClientAddresses[0].updated_at,
+      id: data.value?.ClientAddresses[0].id,
+      client_id: data.value?.ClientAddresses[0].client_id,
+      zipcode: data.value?.ClientAddresses[0].zipcode,
+      street: data.value?.ClientAddresses[0].street,
+      neighbourhood: data.value?.ClientAddresses[0].neighbourhood,
+      complement: data.value?.ClientAddresses[0].complement,
+      number: data.value?.ClientAddresses[0].number,
+      city: data.value?.ClientAddresses[0].city,
+      state: data.value?.ClientAddresses[0].state,
+      country: data.value?.ClientAddresses[0].country,
+      type: data.value?.ClientAddresses[0].type,
+      created_at: data.value?.ClientAddresses[0].created_at,
+      updated_at: data.value?.ClientAddresses[0].updated_at,
     },
   },
 });
@@ -131,35 +136,35 @@ const { value: complement } = useField<string>("ClientAddresses.complement");
 const panel = ref([0]);
 
 const address2 = reactive<ClientAddress>({
-  id: data.value!.rows[0].ClientAddresses[1].id,
-  client_id: data.value!.rows[0].ClientAddresses[1].client_id,
-  country: data.value!.rows[0].ClientAddresses[1].country,
-  type: data.value!.rows[0].ClientAddresses[1].type,
-  zipcode: data.value!.rows[0].ClientAddresses[1].zipcode,
-  street: data.value!.rows[0].ClientAddresses[1].street,
-  neighbourhood: data.value!.rows[0].ClientAddresses[1].neighbourhood,
-  city: data.value!.rows[0].ClientAddresses[1].city,
-  state: data.value!.rows[0].ClientAddresses[1].state,
-  number: data.value!.rows[0].ClientAddresses[1].number,
-  complement: data.value!.rows[0].ClientAddresses[1].complement,
-  created_at: data.value!.rows[0].ClientAddresses[1].created_at,
-  updated_at: data.value!.rows[0].ClientAddresses[1].updated_at,
+  id: data.value!.ClientAddresses[1].id,
+  client_id: data.value!.ClientAddresses[1].client_id,
+  country: data.value!.ClientAddresses[1].country,
+  type: data.value!.ClientAddresses[1].type,
+  zipcode: data.value!.ClientAddresses[1].zipcode,
+  street: data.value!.ClientAddresses[1].street,
+  neighbourhood: data.value!.ClientAddresses[1].neighbourhood,
+  city: data.value!.ClientAddresses[1].city,
+  state: data.value!.ClientAddresses[1].state,
+  number: data.value!.ClientAddresses[1].number,
+  complement: data.value!.ClientAddresses[1].complement,
+  created_at: data.value!.ClientAddresses[1].created_at,
+  updated_at: data.value!.ClientAddresses[1].updated_at,
 });
 
 const address3 = reactive<ClientAddress>({
-  id: data.value!.rows[0].ClientAddresses[2].id,
-  client_id: data.value!.rows[0].ClientAddresses[2].client_id,
-  country: data.value!.rows[0].ClientAddresses[2].country,
-  type: data.value!.rows[0].ClientAddresses[2].type,
-  zipcode: data.value!.rows[0].ClientAddresses[2].zipcode,
-  street: data.value!.rows[0].ClientAddresses[2].street,
-  neighbourhood: data.value!.rows[0].ClientAddresses[2].neighbourhood,
-  city: data.value!.rows[0].ClientAddresses[2].city,
-  state: data.value!.rows[0].ClientAddresses[2].state,
-  number: data.value!.rows[0].ClientAddresses[2].number,
-  complement: data.value!.rows[0].ClientAddresses[2].complement,
-  created_at: data.value!.rows[0].ClientAddresses[2].created_at,
-  updated_at: data.value!.rows[0].ClientAddresses[2].updated_at,
+  id: data.value!.ClientAddresses[2].id,
+  client_id: data.value!.ClientAddresses[2].client_id,
+  country: data.value!.ClientAddresses[2].country,
+  type: data.value!.ClientAddresses[2].type,
+  zipcode: data.value!.ClientAddresses[2].zipcode,
+  street: data.value!.ClientAddresses[2].street,
+  neighbourhood: data.value!.ClientAddresses[2].neighbourhood,
+  city: data.value!.ClientAddresses[2].city,
+  state: data.value!.ClientAddresses[2].state,
+  number: data.value!.ClientAddresses[2].number,
+  complement: data.value!.ClientAddresses[2].complement,
+  created_at: data.value!.ClientAddresses[2].created_at,
+  updated_at: data.value!.ClientAddresses[2].updated_at,
 });
 
 const submit = handleSubmit(async (values) => {
@@ -204,8 +209,6 @@ const submit = handleSubmit(async (values) => {
         ClientAddresses: [address1, address2, address3],
       },
     });
-
-    
   } catch (error) {
     if (error instanceof Error) {
       $toast().error(error.message);
@@ -229,21 +232,19 @@ const submit = handleSubmit(async (values) => {
     </div>
 
     <v-sheet class="mx-2" rounded="xl" elevation="5">
-      <v-container fluid>
-        <v-form @submit.prevent="submit">
-          <div class="d-flex flex-row justify-space-between">
-            <p class="text-h5 font-weight-bold mb-5">NOVO CLIENTE</p>
+      <v-form @submit.prevent="submit">
+        <v-toolbar title="EDITAR CLIENTE" rounded="t-xl" class="pr-3">
+          <ClientOnly>
+            <ClientFlags v-model="flagClient" />
+          </ClientOnly>
+        </v-toolbar>
 
-            <ClientOnly>
-              <ClientFlags v-model="flagClient" />
-            </ClientOnly>
-          </div>
-
+        <v-container fluid>
           <v-row class="mt-2" dense justify="space-between">
             <v-col cols="7">
               <TextField
                 v-model="name"
-                label="NOME"
+                label="Nome"
                 hide-details="auto"
                 :error-messages="nameError"
               />
@@ -252,7 +253,7 @@ const submit = handleSubmit(async (values) => {
             <v-col cols="5">
               <div class="d-flex flex-row align-center mx-5">
                 <span class="mr-2" :class="!!genderError ? 'text-error' : 'text-grey'">
-                  SEXO :
+                  Sexo :
                 </span>
 
                 <ClientGender
@@ -266,7 +267,7 @@ const submit = handleSubmit(async (values) => {
             <v-col cols="4">
               <div class="d-flex flex-row align-center mx-5">
                 <span class="mr-2" :class="!!typeError ? 'text-error' : 'text-grey'">
-                  CLIENTE :
+                  Cliente :
                 </span>
 
                 <ClientType
@@ -282,7 +283,7 @@ const submit = handleSubmit(async (values) => {
               <TextField
                 v-model="cpfCnpj"
                 v-maska="!type ? '###.###.###-##' : '##.###.###/####-##'"
-                label="CPF/CNPJ"
+                label="Cpf/Cnpj"
                 hide-details="auto"
                 :placeholder="!type ? '___.___.___-__' : '__.___.___/____-__'"
                 :disabled="type != false && type != true"
@@ -294,7 +295,7 @@ const submit = handleSubmit(async (values) => {
               <TextField
                 v-model="identityNumber"
                 v-maska="!type ? '##.###.###-##' : '##.###.###-X'"
-                label="RG/IE"
+                label="Rg/Ie"
                 hide-details="auto"
                 :placeholder="!type ? '__.___.___-__' : '__.___.___-_'"
                 :disabled="type != false && type != true"
@@ -306,7 +307,7 @@ const submit = handleSubmit(async (values) => {
               <TextField
                 v-model="bornDate"
                 v-maska="'##/##/####'"
-                label="DATA NASCIMENTO"
+                label="Data nascimento"
                 placeholder="__/__/____"
                 hide-details="auto"
                 :error-messages="bornDateError"
@@ -316,7 +317,7 @@ const submit = handleSubmit(async (values) => {
             <v-col cols="3">
               <TextField
                 v-model="email"
-                label="E-MAIL"
+                label="E-mail"
                 hide-details="auto"
                 :error-messages="emailError"
               />
@@ -326,7 +327,7 @@ const submit = handleSubmit(async (values) => {
               <ClientTelephone
                 v-model="number1"
                 v-maska="'(##) #####-####'"
-                label="TELEFONE 1 (WHATSAPP)"
+                label="Telefone 1 (Whatsapp)"
                 placeholder="(__) _____-____"
                 prepend-inner-icon="mdi-phone"
                 hide-details="auto"
@@ -341,7 +342,7 @@ const submit = handleSubmit(async (values) => {
               <ClientTelephone
                 v-model="number2"
                 v-maska="'(##) #####-####'"
-                label="TELEFONE 2"
+                label="Telefone 2"
                 placeholder="(__) _____-____"
                 prepend-inner-icon="mdi-phone"
                 hide-details="auto"
@@ -356,7 +357,7 @@ const submit = handleSubmit(async (values) => {
               <ClientTelephone
                 v-model="number3"
                 v-maska="'(##) #####-####'"
-                label="TELEFONE 3"
+                label="Telefone 3"
                 placeholder="(__) _____-____"
                 prepend-inner-icon="mdi-phone"
                 hide-details="auto"
@@ -370,282 +371,282 @@ const submit = handleSubmit(async (values) => {
             <v-col cols="12">
               <TextArea
                 v-model="observation"
-                label="OBSERVAÇÕES DO CLIENTE"
+                label="Observações do cliente"
                 :hide-details="true"
               />
             </v-col>
           </v-row>
+        </v-container>
 
-          <v-expansion-panels
-            v-model="panel"
-            flat
-            mandatory
-            variant="accordion"
-            class="mt-2"
-          >
-            <v-expansion-panel>
-              <v-expansion-panel-title>ENDEREÇO DE FATURAMENTO</v-expansion-panel-title>
-              <v-expansion-panel-text>
-                <v-row dense class="mt-2">
-                  <v-col cols="3">
-                    <ClientViaCep
-                      v-model="zipcode"
-                      :error-messages="zipcodeError"
-                      :value="zipcode"
-                      alt="zipcodeBillingAddress"
-                      @update="
-                        (data) => {
-                          street = data.logradouro.toUpperCase();
-                          neighbourhood = data.bairro.toUpperCase();
-                          city = data.localidade.toUpperCase();
-                          state = data.uf.toUpperCase();
-                          complement = data.complemento.toUpperCase();
-                        }
-                      "
-                    />
-                  </v-col>
+        <v-expansion-panels
+          v-model="panel"
+          flat
+          mandatory
+          variant="accordion"
+          class="mt-2"
+        >
+          <v-expansion-panel>
+            <v-expansion-panel-title>ENDEREÇO DE FATURAMENTO</v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-row dense class="mt-2">
+                <v-col cols="3">
+                  <ClientViaCep
+                    v-model="zipcode"
+                    :error-messages="zipcodeError"
+                    :value="zipcode"
+                    alt="zipcodeBillingAddress"
+                    @update="
+                      (data) => {
+                        street = data.logradouro.toUpperCase();
+                        neighbourhood = data.bairro.toUpperCase();
+                        city = data.localidade.toUpperCase();
+                        state = data.uf.toUpperCase();
+                        complement = data.complemento.toUpperCase();
+                      }
+                    "
+                  />
+                </v-col>
 
-                  <v-col cols="3">
-                    <TextField
-                      v-model="city"
-                      label="CIDADE"
-                      alt="cityBillingAddress"
-                      append-inner-icon="mdi-city"
-                      hide-details="auto"
-                      :error-messages="cityError"
-                    />
-                  </v-col>
+                <v-col cols="3">
+                  <TextField
+                    v-model="city"
+                    label="Cidade"
+                    alt="cityBillingAddress"
+                    append-inner-icon="mdi-city"
+                    hide-details="auto"
+                    :error-messages="cityError"
+                  />
+                </v-col>
 
-                  <v-col cols="2">
-                    <TextField
-                      v-model="state"
-                      v-maska="'AA'"
-                      label="UF"
-                      alt="stateBillingAddress"
-                      hide-details="auto"
-                      :error-messages="stateError"
-                    />
-                  </v-col>
+                <v-col cols="2">
+                  <TextField
+                    v-model="state"
+                    v-maska="'AA'"
+                    label="Uf"
+                    alt="stateBillingAddress"
+                    hide-details="auto"
+                    :error-messages="stateError"
+                  />
+                </v-col>
 
-                  <v-col cols="4">
-                    <TextField
-                      v-model="neighbourhood"
-                      label="BAIRRO"
-                      alt="neighbourhoodBillingAddress"
-                      hide-details="auto"
-                      :error-messages="neighbourhoodError"
-                    />
-                  </v-col>
+                <v-col cols="4">
+                  <TextField
+                    v-model="neighbourhood"
+                    label="Bairro"
+                    alt="neighbourhoodBillingAddress"
+                    hide-details="auto"
+                    :error-messages="neighbourhoodError"
+                  />
+                </v-col>
 
-                  <v-col cols="9">
-                    <TextField
-                      v-model="street"
-                      label="RUA"
-                      alt="streetBillingAddress"
-                      append-inner-icon="mdi-road"
-                      hide-details="auto"
-                      :error-messages="streetError"
-                    />
-                  </v-col>
+                <v-col cols="9">
+                  <TextField
+                    v-model="street"
+                    label="Rua"
+                    alt="streetBillingAddress"
+                    append-inner-icon="mdi-road"
+                    hide-details="auto"
+                    :error-messages="streetError"
+                  />
+                </v-col>
 
-                  <v-col cols="3">
-                    <TextField
-                      v-model="number"
-                      label="NUMERO"
-                      alt="numberBillingAddress"
-                      append-inner-icon="mdi-numeric"
-                      :hide-details="true"
-                    />
-                  </v-col>
+                <v-col cols="3">
+                  <TextField
+                    v-model="number"
+                    label="Número"
+                    alt="numberBillingAddress"
+                    append-inner-icon="mdi-numeric"
+                    :hide-details="true"
+                  />
+                </v-col>
 
-                  <v-col cols="12">
-                    <TextField
-                      v-model="complement"
-                      label="COMPLEMENTO"
-                      alt="complementBillingAddress"
-                      :hide-details="true"
-                    />
-                  </v-col>
-                </v-row>
-              </v-expansion-panel-text>
-            </v-expansion-panel>
+                <v-col cols="12">
+                  <TextField
+                    v-model="complement"
+                    label="Complemento"
+                    alt="complementBillingAddress"
+                    :hide-details="true"
+                  />
+                </v-col>
+              </v-row>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
 
-            <v-expansion-panel>
-              <v-expansion-panel-title>ENDEREÇO DE COBRANÇA</v-expansion-panel-title>
-              <v-expansion-panel-text>
-                <v-row dense class="mt-2">
-                  <v-col cols="3">
-                    <ClientViaCep
-                      v-model="address2.zipcode"
-                      :value="address2.zipcode"
-                      alt="zipcodeCollectionAddress"
-                      @update="
-                        (data) => {
-                          address2.street = data.logradouro.toUpperCase();
-                          address2.neighbourhood = data.bairro.toUpperCase();
-                          address2.city = data.localidade.toUpperCase();
-                          address2.state = data.uf.toUpperCase();
-                          address2.complement = data.complemento.toUpperCase();
-                        }
-                      "
-                    />
-                  </v-col>
+          <v-expansion-panel>
+            <v-expansion-panel-title>ENDEREÇO DE COBRANÇA</v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-row dense class="mt-2">
+                <v-col cols="3">
+                  <ClientViaCep
+                    v-model="address2.zipcode"
+                    :value="address2.zipcode"
+                    alt="zipcodeCollectionAddress"
+                    @update="
+                      (data) => {
+                        address2.street = data.logradouro.toUpperCase();
+                        address2.neighbourhood = data.bairro.toUpperCase();
+                        address2.city = data.localidade.toUpperCase();
+                        address2.state = data.uf.toUpperCase();
+                        address2.complement = data.complemento.toUpperCase();
+                      }
+                    "
+                  />
+                </v-col>
 
-                  <v-col cols="3">
-                    <TextField
-                      v-model="address2.city"
-                      label="CIDADE"
-                      alt="CityCollectionAddress"
-                      append-inner-icon="mdi-city"
-                      hide-details="auto"
-                    />
-                  </v-col>
+                <v-col cols="3">
+                  <TextField
+                    v-model="address2.city"
+                    label="Cidade"
+                    alt="CityCollectionAddress"
+                    append-inner-icon="mdi-city"
+                    hide-details="auto"
+                  />
+                </v-col>
 
-                  <v-col cols="2">
-                    <TextField
-                      v-model="address2.state"
-                      v-maska="'AA'"
-                      label="UF"
-                      alt="stateCollectionAddress"
-                      hide-details="auto"
-                    />
-                  </v-col>
+                <v-col cols="2">
+                  <TextField
+                    v-model="address2.state"
+                    v-maska="'AA'"
+                    label="Uf"
+                    alt="stateCollectionAddress"
+                    hide-details="auto"
+                  />
+                </v-col>
 
-                  <v-col cols="4">
-                    <TextField
-                      v-model="address2.neighbourhood"
-                      label="BAIRRO"
-                      alt="neighbourhoodCollectionAddress"
-                      hide-details="auto"
-                    />
-                  </v-col>
+                <v-col cols="4">
+                  <TextField
+                    v-model="address2.neighbourhood"
+                    label="Bairro"
+                    alt="neighbourhoodCollectionAddress"
+                    hide-details="auto"
+                  />
+                </v-col>
 
-                  <v-col cols="9">
-                    <TextField
-                      v-model="address2.street"
-                      label="RUA"
-                      alt="streetCollectionAddress"
-                      append-inner-icon="mdi-road"
-                      hide-details="auto"
-                    />
-                  </v-col>
+                <v-col cols="9">
+                  <TextField
+                    v-model="address2.street"
+                    label="Rua"
+                    alt="streetCollectionAddress"
+                    append-inner-icon="mdi-road"
+                    hide-details="auto"
+                  />
+                </v-col>
 
-                  <v-col cols="3">
-                    <TextField
-                      v-model="address2.number"
-                      label="NUMERO"
-                      alt="numberCollectionAddress"
-                      append-inner-icon="mdi-numeric"
-                      :hide-details="true"
-                    />
-                  </v-col>
+                <v-col cols="3">
+                  <TextField
+                    v-model="address2.number"
+                    label="Número"
+                    alt="numberCollectionAddress"
+                    append-inner-icon="mdi-numeric"
+                    :hide-details="true"
+                  />
+                </v-col>
 
-                  <v-col cols="12">
-                    <TextField
-                      v-model="address2.complement"
-                      label="COMPLEMENTO"
-                      alt="complementCollectionAddress"
-                      :hide-details="true"
-                    />
-                  </v-col>
-                </v-row>
-              </v-expansion-panel-text>
-            </v-expansion-panel>
+                <v-col cols="12">
+                  <TextField
+                    v-model="address2.complement"
+                    label="Complemento"
+                    alt="complementCollectionAddress"
+                    :hide-details="true"
+                  />
+                </v-col>
+              </v-row>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
 
-            <v-expansion-panel>
-              <v-expansion-panel-title>ENDEREÇO DE ENTRADA</v-expansion-panel-title>
-              <v-expansion-panel-text>
-                <v-row dense class="mt-2">
-                  <v-col cols="3">
-                    <ClientViaCep
-                      v-model="address3.zipcode"
-                      :value="address3.zipcode"
-                      alt="ZipcodeEntryAddress"
-                      @update="
-                        (data) => {
-                          address3.street = data.logradouro.toUpperCase();
-                          address3.neighbourhood = data.bairro.toUpperCase();
-                          address3.city = data.localidade.toUpperCase();
-                          address3.state = data.uf.toUpperCase();
-                          address3.complement = data.complemento.toUpperCase();
-                        }
-                      "
-                    />
-                  </v-col>
+          <v-expansion-panel>
+            <v-expansion-panel-title>ENDEREÇO DE ENTRADA</v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-row dense class="mt-2">
+                <v-col cols="3">
+                  <ClientViaCep
+                    v-model="address3.zipcode"
+                    :value="address3.zipcode"
+                    alt="ZipcodeEntryAddress"
+                    @update="
+                      (data) => {
+                        address3.street = data.logradouro.toUpperCase();
+                        address3.neighbourhood = data.bairro.toUpperCase();
+                        address3.city = data.localidade.toUpperCase();
+                        address3.state = data.uf.toUpperCase();
+                        address3.complement = data.complemento.toUpperCase();
+                      }
+                    "
+                  />
+                </v-col>
 
-                  <v-col cols="3">
-                    <TextField
-                      v-model="address3.city"
-                      label="CIDADE"
-                      alt="CityEntryAddress"
-                      append-inner-icon="mdi-city"
-                      hide-details="auto"
-                    />
-                  </v-col>
+                <v-col cols="3">
+                  <TextField
+                    v-model="address3.city"
+                    label="Cidade"
+                    alt="CityEntryAddress"
+                    append-inner-icon="mdi-city"
+                    hide-details="auto"
+                  />
+                </v-col>
 
-                  <v-col cols="2">
-                    <TextField
-                      v-model="address3.state"
-                      v-maska="'AA'"
-                      label="UF"
-                      alt="StateEntryAddress"
-                      hide-details="auto"
-                    />
-                  </v-col>
+                <v-col cols="2">
+                  <TextField
+                    v-model="address3.state"
+                    v-maska="'AA'"
+                    label="Uf"
+                    alt="StateEntryAddress"
+                    hide-details="auto"
+                  />
+                </v-col>
 
-                  <v-col cols="4">
-                    <TextField
-                      v-model="address3.neighbourhood"
-                      label="BAIRRO"
-                      alt="NeighbourhoodEntryAddress"
-                      hide-details="auto"
-                    />
-                  </v-col>
+                <v-col cols="4">
+                  <TextField
+                    v-model="address3.neighbourhood"
+                    label="Bairro"
+                    alt="NeighbourhoodEntryAddress"
+                    hide-details="auto"
+                  />
+                </v-col>
 
-                  <v-col cols="9">
-                    <TextField
-                      v-model="address3.street"
-                      label="RUA"
-                      alt="StreetEntryAddress"
-                      append-inner-icon="mdi-road"
-                      hide-details="auto"
-                    />
-                  </v-col>
+                <v-col cols="9">
+                  <TextField
+                    v-model="address3.street"
+                    label="Rua"
+                    alt="StreetEntryAddress"
+                    append-inner-icon="mdi-road"
+                    hide-details="auto"
+                  />
+                </v-col>
 
-                  <v-col cols="3">
-                    <TextField
-                      v-model="address3.number"
-                      label="NUMERO"
-                      alt="NumberEntryAddress"
-                      append-inner-icon="mdi-numeric"
-                      :hide-details="true"
-                    />
-                  </v-col>
+                <v-col cols="3">
+                  <TextField
+                    v-model="address3.number"
+                    label="Número"
+                    alt="NumberEntryAddress"
+                    append-inner-icon="mdi-numeric"
+                    :hide-details="true"
+                  />
+                </v-col>
 
-                  <v-col cols="12">
-                    <TextField
-                      v-model="address3.complement"
-                      label="COMPLEMENTO"
-                      alt="ComplementEntryAddress"
-                      :hide-details="true"
-                    />
-                  </v-col>
-                </v-row>
-              </v-expansion-panel-text>
-            </v-expansion-panel>
-          </v-expansion-panels>
+                <v-col cols="12">
+                  <TextField
+                    v-model="address3.complement"
+                    label="Complemento"
+                    alt="ComplementEntryAddress"
+                    :hide-details="true"
+                  />
+                </v-col>
+              </v-row>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
 
-          <v-btn
-            class="mr-4 mb-4"
-            icon="mdi-content-save"
-            color="primary"
-            type="submit"
-            position="fixed"
-            location="bottom end"
-            style="z-index: 2"
-          />
-        </v-form>
-      </v-container>
+        <v-btn
+          class="mr-4 mb-4"
+          icon="mdi-content-save"
+          color="primary"
+          type="submit"
+          position="fixed"
+          location="bottom end"
+          style="z-index: 2"
+        />
+      </v-form>
     </v-sheet>
   </div>
 </template>

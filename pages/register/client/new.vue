@@ -152,21 +152,19 @@ const submit = handleSubmit(async (values) => {
     </div>
 
     <v-sheet class="mx-2" rounded="xl" elevation="5">
-      <v-container fluid>
-        <v-form @submit.prevent="submit">
-          <div class="d-flex flex-row justify-space-between">
-            <p class="text-h5 font-weight-bold mb-5">NOVO CLIENTE</p>
+      <v-form @submit.prevent="submit">
+        <v-toolbar title="NOVO CLIENTE" rounded="t-xl" class="pr-3">
+          <ClientOnly>
+            <ClientFlags v-model="flagClient" />
+          </ClientOnly>
+        </v-toolbar>
 
-            <ClientOnly>
-              <ClientFlags v-model="flagClient" />
-            </ClientOnly>
-          </div>
-
+        <v-container fluid>
           <v-row class="mt-2" dense justify="space-between">
             <v-col cols="7">
               <TextField
                 v-model="name"
-                label="NOME"
+                label="Nome"
                 hide-details="auto"
                 :error-messages="nameError"
               />
@@ -175,7 +173,7 @@ const submit = handleSubmit(async (values) => {
             <v-col cols="5">
               <div class="d-flex flex-row align-center mx-5">
                 <span class="mr-2" :class="!!genderError ? 'text-error' : 'text-grey'">
-                  SEXO :
+                  Sexo :
                 </span>
 
                 <ClientGender
@@ -189,7 +187,7 @@ const submit = handleSubmit(async (values) => {
             <v-col cols="4">
               <div class="d-flex flex-row align-center mx-5">
                 <span class="mr-2" :class="!!typeError ? 'text-error' : 'text-grey'">
-                  CLIENTE :
+                  Cliente :
                 </span>
 
                 <ClientType
@@ -205,7 +203,7 @@ const submit = handleSubmit(async (values) => {
               <TextField
                 v-model="cpfCnpj"
                 v-maska="!type ? '###.###.###-##' : '##.###.###/####-##'"
-                label="CPF/CNPJ"
+                label="Cpf/Cnpj"
                 hide-details="auto"
                 :placeholder="!type ? '___.___.___-__' : '__.___.___/____-__'"
                 :disabled="type != false && type != true"
@@ -217,7 +215,7 @@ const submit = handleSubmit(async (values) => {
               <TextField
                 v-model="identityNumber"
                 v-maska="!type ? '##.###.###-##' : '##.###.###-X'"
-                label="RG/IE"
+                label="Rg/ie"
                 hide-details="auto"
                 :placeholder="!type ? '__.___.___-__' : '__.___.___-_'"
                 :disabled="type != false && type != true"
@@ -229,7 +227,7 @@ const submit = handleSubmit(async (values) => {
               <TextField
                 v-model="bornDate"
                 v-maska="'##/##/####'"
-                label="DATA NASCIMENTO"
+                label="Data nascimento"
                 placeholder="__/__/____"
                 hide-details="auto"
                 :error-messages="bornDateError"
@@ -239,7 +237,7 @@ const submit = handleSubmit(async (values) => {
             <v-col cols="3">
               <TextField
                 v-model="email"
-                label="E-MAIL"
+                label="E-mail"
                 hide-details="auto"
                 :error-messages="emailError"
               />
@@ -249,7 +247,7 @@ const submit = handleSubmit(async (values) => {
               <ClientTelephone
                 v-model="number1"
                 v-maska="'(##) #####-####'"
-                label="TELEFONE 1 (WHATSAPP)"
+                label="Telefone 1 (Whatsapp)"
                 placeholder="(__) _____-____"
                 prepend-inner-icon="mdi-phone"
                 hide-details="auto"
@@ -264,7 +262,7 @@ const submit = handleSubmit(async (values) => {
               <ClientTelephone
                 v-model="number2"
                 v-maska="'(##) #####-####'"
-                label="TELEFONE 2"
+                label="Telefone 2"
                 placeholder="(__) _____-____"
                 prepend-inner-icon="mdi-phone"
                 hide-details="auto"
@@ -279,7 +277,7 @@ const submit = handleSubmit(async (values) => {
               <ClientTelephone
                 v-model="number3"
                 v-maska="'(##) #####-####'"
-                label="TELEFONE 3"
+                label="Telefone 3"
                 placeholder="(__) _____-____"
                 prepend-inner-icon="mdi-phone"
                 hide-details="auto"
@@ -290,9 +288,11 @@ const submit = handleSubmit(async (values) => {
               />
             </v-col>
           </v-row>
+        </v-container>
 
-          <p class="text-h5 font-weight-bold my-5">DADOS DE ENDEREÇO</p>
+        <v-toolbar title="DADOS DO ENDEREÇO" />
 
+        <v-container fluid>
           <v-row dense class="mt-2">
             <v-col cols="3">
               <ClientViaCep
@@ -314,7 +314,7 @@ const submit = handleSubmit(async (values) => {
             <v-col cols="3">
               <TextField
                 v-model="city"
-                label="CIDADE"
+                label="Cidade"
                 append-inner-icon="mdi-city"
                 hide-details="auto"
                 :error-messages="cityError"
@@ -325,7 +325,7 @@ const submit = handleSubmit(async (values) => {
               <TextField
                 v-model="state"
                 v-maska="'AA'"
-                label="UF"
+                label="Uf"
                 hide-details="auto"
                 :error-messages="stateError"
               />
@@ -334,7 +334,7 @@ const submit = handleSubmit(async (values) => {
             <v-col cols="4">
               <TextField
                 v-model="neighbourhood"
-                label="BAIRRO"
+                label="Bairro"
                 hide-details="auto"
                 :error-messages="neighbourhoodError"
               />
@@ -343,7 +343,7 @@ const submit = handleSubmit(async (values) => {
             <v-col cols="9">
               <TextField
                 v-model="street"
-                label="RUA"
+                label="Rua"
                 append-inner-icon="mdi-road"
                 hide-details="auto"
                 :error-messages="streetError"
@@ -353,35 +353,35 @@ const submit = handleSubmit(async (values) => {
             <v-col cols="3">
               <TextField
                 v-model="number"
-                label="NUMERO"
+                label="Número"
                 append-inner-icon="mdi-numeric"
                 :hide-details="true"
               />
             </v-col>
 
             <v-col cols="12">
-              <TextField v-model="complement" label="COMPLEMENTO" :hide-details="true" />
+              <TextField v-model="complement" label="Complemento" :hide-details="true" />
             </v-col>
 
             <v-col cols="12">
               <TextArea
                 v-model="observation"
-                label="OBSERVAÇÕES DO CLIENTE"
+                label="Observações do cliente"
                 :hide-details="true"
               />
             </v-col>
           </v-row>
+        </v-container>
 
-          <v-btn
-            class="mr-4 mb-4"
-            icon="mdi-content-save"
-            color="primary"
-            type="submit"
-            position="fixed"
-            location="bottom end"
-          />
-        </v-form>
-      </v-container>
+        <v-btn
+          class="mr-4 mb-4"
+          icon="mdi-content-save"
+          color="primary"
+          type="submit"
+          position="fixed"
+          location="bottom end"
+        />
+      </v-form>
     </v-sheet>
   </div>
 </template>

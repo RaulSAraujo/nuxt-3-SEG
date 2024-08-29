@@ -56,7 +56,7 @@ const findAddress = async () => {
 <template>
   <TextField
     v-maska="'#####-###'"
-    label="CEP"
+    label="Cep"
     :alt="alt"
     hide-details="auto"
     append-inner-icon="mdi-magnify"

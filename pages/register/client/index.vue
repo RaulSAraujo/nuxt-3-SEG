@@ -8,15 +8,18 @@ useHead({
   <div class="mt-5" rounded="t-xl" elevation="5">
     <span class="ml-5 text-h6 text-primary font-weight-black">CLIENTES</span>
 
-    <Filter
-      :activate-creation-button="true"
-      :disabled-menu="false"
-      @create="
-        navigateTo({
-          name: 'register-client-new',
-        })
-      "
-    />
+    <Filter :disabled-menu="false">
+      <template #button-create>
+        <v-btn
+          class="mr-2"
+          color="primary"
+          text="CRIAR"
+          :to="{
+            name: 'register-client-new',
+          }"
+        />
+      </template>
+    </Filter>
 
     <Table :show-select="true" :multi-sort="true" :router-full="false">
       <template #item.action="{ item }">
