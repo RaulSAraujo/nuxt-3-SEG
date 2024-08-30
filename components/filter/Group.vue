@@ -1,6 +1,23 @@
 <script setup lang="ts">
+import type { Filter } from "~/interfaces/Filter";
+
+const props = defineProps<{
+  filters: Filter | null;
+}>();
+
 const filterStore = useFilterStore();
 const { availableFilter, changeValuesFilter } = storeToRefs(filterStore);
+
+const { findModelName } = useModelStore();
+const model = findModelName();
+
+if (props.filters) {
+  if (props.filters.resultCount > 0) {
+    filterStore.set(props.filters);
+  } else {
+    await filterStore.create(model);
+  }
+}
 
 const { searchData } = useTableStore();
 

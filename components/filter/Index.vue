@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Filter, User } from "~/interfaces/Filter";
+
 defineProps<{
   disabledMenu: boolean;
 }>();
@@ -18,11 +20,25 @@ onBeforeRouteLeave((to, from, next) => {
 
 const filterStore = useFilterStore();
 
-await filterStore.get();
+const { findModelName } = useModelStore();
+const model = findModelName();
+
+const { data: user } = useAuth();
+
+const { data, status } = $api<Filter>(
+  `custom-filters-user?user_id=${(user.value as User).id}&model=${model}`,
+  {
+    key: `filter-${model}`,
+    lazy: true,
+    getCachedData(key, nuxtApp) {
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+    },
+  }
+);
 </script>
 
 <template>
-  <FilterGroup />
+  <FilterGroup v-if="status == 'success'" :filters="data" />
 
   <FilterButtons :disabled-menu="disabledMenu">
     <template #menu>

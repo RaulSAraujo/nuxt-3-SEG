@@ -16,40 +16,6 @@ export const useFilterStore = defineStore("filters", () => {
 
     const dialogImport = ref<boolean>(false)
 
-    function get() {
-        const { findModelName } = useModelStore();
-        const model = findModelName();
-
-        const { data } = useAuth();
-        const user = data.value as User;
-
-        let filter: Filter;
-        if (availableFilter.value.length == 0) {
-            $api(`custom-filters-user?user_id=${user.id}&model=${model}`, {
-                priority: "high",
-                key: `filter-${model}`,
-                getCachedData(key, nuxtApp) {
-                    return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
-                },
-            })
-                .then(async (res) => {
-                    if (res.error.value) throw res;
-
-                    filter = res.data.value as Filter;
-
-                    if (filter.resultCount > 0) {
-                        set(filter);
-                    } else {
-                        await create(model);
-                    }
-                })
-                .catch((err) => {
-                    $toast().error(err.error.value.cause ?? err.error.value.message);
-                });
-        }
-
-    }
-
     function set(value: Filter) {
         id.value = value.rows[0].id
         availableFilter.value = value.rows[0].available_filters
@@ -336,7 +302,6 @@ export const useFilterStore = defineStore("filters", () => {
         availableFilter,
         hiddenFilter,
         clearFilterProps,
-        get,
         set,
         reset,
         create,
