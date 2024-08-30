@@ -17,6 +17,8 @@ const { data } = $api<Row[]>("supplier", {
 
 const loading = ref(false);
 
+const loadingIndicator = useLoadingIndicator();
+
 const quotation = async () => {
   loading.value = true;
 
@@ -29,15 +31,41 @@ const quotation = async () => {
 
   const formData = new FormData();
   formData.append("file", file.value[0]);
-  formData.append("supplier", supplier.value);
 
   try {
-    await useNuxtApp().$customFetch("quotation/second-step", {
-      method: "POST",
-      body: formData,
-    });
+    const res = await useNuxtApp().$customFetch<{ filePath: string }>(
+      "quotation/persist-second-step",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
-    $toast().success("Operação finalizada.");
+    const { token } = useAuth();
+
+    const baseUrl = getBaseUrl();
+
+    const eventSource = new EventSource(
+      `${baseUrl}/quotation/second-step?authorization=${token.value}&supplier=${supplier.value}&path=${res?.filePath}`
+    );
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+
+      if (data.message.length > 0) {
+        $toast().info(data.message);
+      }
+
+      if (data.percentage) {
+        loadingIndicator.set(parseFloat(data.percentage));
+      }
+
+      if (data.message == "Importação finalizada") {
+        loadingIndicator.finish();
+
+        eventSource.close();
+      }
+    };
 
     loading.value = false;
   } catch (error) {
@@ -47,6 +75,19 @@ const quotation = async () => {
 
     loading.value = false;
   }
+};
+
+const getBaseUrl = () => {
+  const req = useRequestHeaders(["host"]);
+
+  const host = req.host || window.location.hostname;
+
+  let baseURL = useNuxtApp().$config.public.base_url_local as string;
+  if (host.includes("ddns")) {
+    baseURL = useNuxtApp().$config.public.base_url_external as string;
+  }
+
+  return baseURL;
 };
 
 const close = () => {
@@ -66,7 +107,7 @@ const close = () => {
       />
     </template>
 
-    <template #default>
+    <template #default="{ isActive }">
       <v-card title="2º IMPORTAR COTAÇÃO" rounded="xl">
         <template #subtitle>
           <v-btn
@@ -106,7 +147,13 @@ const close = () => {
               color="primary"
               :disabled="file.length === 0 || supplier === undefined"
               :loading="loading"
-              @click="quotation"
+              @click="
+                async () => {
+                  await quotation();
+
+                  isActive.value = false;
+                }
+              "
             />
           </div>
         </v-card-text>
