@@ -1,28 +1,28 @@
 <script setup lang="ts">
 import type { Weather } from "~/interfaces/Weather";
 
-const { data: weatherData, status } = useLazyAsyncData(
-  "Weather",
-  async () => {
-    const res = (await $fetch("/weather", {
-      baseURL: useRuntimeConfig().public.base_url_weather as string,
-      params: {
-        appid: useRuntimeConfig().public.key_weather,
-        lang: "pt_br",
-        Mode: "json",
-        id: "3463011",
-        units: "metric",
-      },
-    })) as Weather;
-
-    return res;
+const { data, status } = useLazyFetch("/weather", {
+  key: "Weather",
+  baseURL: useRuntimeConfig().public.base_url_weather as string,
+  params: {
+    appid: useRuntimeConfig().public.key_weather,
+    lang: "pt_br",
+    Mode: "json",
+    id: "3463011",
+    units: "metric",
   },
-  {
-    getCachedData(key, nuxtApp) {
-      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
-    },
-  }
-);
+  getCachedData(key, nuxtApp) {
+    return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+  },
+  transform: (fetchData: Weather) => ({
+    name: fetchData.name,
+    temp: fetchData.main.temp,
+    description: fetchData.weather[0].description,
+    icon: fetchData.weather[0].icon,
+    humidity: fetchData.main.humidity,
+    speed: fetchData.wind.speed,
+  }),
+});
 </script>
 
 <template>
@@ -40,18 +40,18 @@ const { data: weatherData, status } = useLazyAsyncData(
     >
       <div class="text-center">
         <v-icon class="mr-2" color="white">mdi-map-marker</v-icon>
-        <span class="text-h5 text-white font-weight-bold">{{ weatherData?.name }}</span>
+        <span class="text-h5 text-white font-weight-bold">{{ data?.name }}</span>
       </div>
       <div class="text-body-2 text-white text-center font-weight-regular">
-        <span>{{ weatherData?.main.temp }} º C</span>
+        <span>{{ data?.temp }} º C</span>
       </div>
       <div class="d-flex flex-row align-center justify-center">
         <span class="text-body-1 text-white">
-          {{ weatherData?.weather[0].description }}
+          {{ data?.description }}
         </span>
 
         <NuxtImg
-          :src="`https://openweathermap.org/img/wn/${weatherData?.weather[0].icon}.png`"
+          :src="`https://openweathermap.org/img/wn/${data?.icon}.png`"
           format="webp"
           loading="lazy"
         />
@@ -59,15 +59,11 @@ const { data: weatherData, status } = useLazyAsyncData(
       <div class="d-flex flex-rows align-center justify-center">
         <div>
           <v-icon class="mr-2" color="white">mdi-water</v-icon>
-          <span class="text-overline text-white">
-            {{ weatherData?.main.humidity }}%
-          </span>
+          <span class="text-overline text-white"> {{ data?.humidity }}% </span>
         </div>
         <div>
           <v-icon class="mr-2" color="white">mdi-weather-windy</v-icon>
-          <span class="text-overline text-white">
-            {{ weatherData?.wind.speed }}km/h
-          </span>
+          <span class="text-overline text-white"> {{ data?.speed }}km/h </span>
         </div>
       </div>
     </div>

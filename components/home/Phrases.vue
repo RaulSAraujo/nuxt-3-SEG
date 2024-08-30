@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import type { Phrase } from "~/interfaces/Phrase";
 
-const { data: phrasesData, status } = useLazyAsyncData(
-  "Phrases",
-  async () => {
-    const res = (await $fetch(
-      "https://pensador-api.vercel.app/?term=trabalho&max=1"
-    )) as Phrase;
-
-    return res.frases[0].texto;
-  },
+const { data, status } = useLazyFetch(
+  "https://pensador-api.vercel.app/?term=Elon Musk&max=1",
   {
+    key: "Phrases",
     getCachedData(key, nuxtApp) {
       return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
     },
+    transform: (fetchData: Phrase) => ({
+      text: fetchData.frases[0].texto,
+    }),
   }
 );
 </script>
@@ -39,7 +36,7 @@ const { data: phrasesData, status } = useLazyAsyncData(
       "
       class="px-2 rounded-lg text-center"
     >
-      <span class="text-caption text-white">{{ phrasesData }}</span>
+      <span class="text-caption text-white">{{ data?.text }}</span>
     </div>
   </v-skeleton-loader>
 </template>
