@@ -10,7 +10,7 @@ const dialog = ref<boolean>(false);
   <div class="mt-5">
     <span class="ml-5 text-h6 text-primary font-weight-black">FORNECEDORES</span>
 
-    <Filter :disabled-menu="false">
+    <Filter >
       <template #button-create>
         <SupplierCreation v-model="dialog" @close="dialog = false" />
       </template>

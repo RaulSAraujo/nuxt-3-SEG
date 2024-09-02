@@ -11,7 +11,7 @@ const { product } = storeToRefs(productSellStore);
   <div class="mt-5">
     <span class="ml-5 text-h6 text-primary font-weight-black">PRODUTO VENDA</span>
 
-    <Filter :disabled-menu="false" />
+    <Filter />
 
     <Table :show-select="true" :multi-sort="true">
       <template #item.action="{ item }">

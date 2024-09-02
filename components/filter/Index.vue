@@ -2,7 +2,10 @@
 import type { Filter, User } from "~/interfaces/Filter";
 
 defineProps<{
-  disabledMenu: boolean;
+  hideMenu?: boolean;
+  hideExcel?: boolean;
+  hideGrid?: boolean;
+  hideFilter?: boolean;
 }>();
 
 // Resetar props
@@ -40,7 +43,12 @@ const { data, status } = $api<Filter>(
 <template>
   <FilterGroup v-if="status == 'success'" :filters="data" />
 
-  <FilterButtons :disabled-menu="disabledMenu">
+  <FilterButtons
+    :hide-menu="hideMenu"
+    :hide-excel="hideExcel"
+    :hide-filter="hideFilter"
+    :hide-grid="hideGrid"
+  >
     <template #menu>
       <slot name="menu" />
     </template>

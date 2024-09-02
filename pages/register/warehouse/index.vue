@@ -8,7 +8,7 @@ useHead({
   <div class="mt-5">
     <span class="ml-5 text-h6 text-primary font-weight-black">ALMOXARIFADOS</span>
 
-    <Filter :disabled-menu="false" />
+    <Filter />
 
     <Table :show-select="true" :multi-sort="true" />
   </div>

@@ -14,7 +14,7 @@ const { data: classification } = await $api<ClassificationApparatus>(
   <div class="mt-5">
     <span class="ml-5 text-h6 text-primary font-weight-black">APARELHOS</span>
 
-    <Filter :disabled-menu="false">
+    <Filter >
       <template #button-create>
         <DeviceCreation :classification-items="classification!.rows" />
       </template>

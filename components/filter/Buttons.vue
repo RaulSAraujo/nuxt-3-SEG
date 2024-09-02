@@ -1,6 +1,9 @@
 <script setup lang="ts">
 defineProps<{
-  disabledMenu: boolean;
+  hideMenu?: boolean;
+  hideExcel?: boolean;
+  hideGrid?: boolean;
+  hideFilter?: boolean;
 }>();
 
 const filterStore = useFilterStore();
@@ -31,7 +34,12 @@ const clear = () => {
       Limpar Filtros
     </v-btn>
 
-    <FilterMenu :disabled="disabledMenu">
+    <FilterMenu
+      :hide-menu="hideMenu"
+      :hide-excel="hideExcel"
+      :hide-filter="hideFilter"
+      :hide-grid="hideGrid"
+    >
       <template #menu>
         <slot name="menu" />
       </template>

@@ -8,7 +8,7 @@ useHead({
   <div class="mt-5" rounded="t-xl" elevation="5">
     <span class="ml-5 text-h6 text-primary font-weight-black">CLIENTES</span>
 
-    <Filter :disabled-menu="false">
+    <Filter>
       <template #button-create>
         <v-btn
           class="mr-2"
