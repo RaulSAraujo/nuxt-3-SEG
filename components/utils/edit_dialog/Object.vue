@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  id: number;
+  id: string | number;
   attr: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any;
