@@ -1,25 +1,31 @@
 <script setup lang="ts">
 useHead({
-  titleTemplate: `Pedidos de compra - %s`,
+  titleTemplate: `Solicitação de compra - %s`,
 });
-
-const dialog = ref<boolean>(false);
 </script>
 
 <template>
-  <v-main>
-    <v-sheet class="mt-5" rounded="t-xl" elevation="5">
-      <Filter
-        :activate-creation-button="true"
-        :disabled-menu="false"
-        @create="dialog = true"
-      />
+  <div class="mt-5">
+    <span class="ml-5 text-h6 text-primary font-weight-black">SOLICITAÇÃO DE COMPRA</span>
 
-      <Table :show-select="true" :multi-sort="true">
-        <template #item.action="{ item }">
-          <Delete :id="item.id" />
-        </template>
-      </Table>
-    </v-sheet>
-  </v-main>
+    <Filter :disabled-menu="false" />
+
+    <Table :show-select="true" :multi-sort="true">
+      <template #item.action="{ item }">
+        <Delete :id="item.id" />
+      </template>
+
+      <template #item.user="{ item }">
+        <Tooltip :text="item.user" :vw="3" />
+      </template>
+
+      <template #item.cost="{ item }">
+        <ToLocaleString :value="item.cost" />
+      </template>
+
+      <template #item.status="{ item }">
+        <PurchaseRequestTemplateStatus :status="item.status" />
+      </template>
+    </Table>
+  </div>
 </template>
