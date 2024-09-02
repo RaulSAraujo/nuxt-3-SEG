@@ -1,0 +1,97 @@
+export interface StockTagControl {
+    rows: Row[];
+    totalRecords: number;
+    resultCount: number;
+}
+
+export interface Row {
+    id: number;
+    product_id: number;
+    erp_product_id: number;
+    name: string;
+    produto_chave: number;
+    erp_order_id: number | null;
+    ecom_order_id: number | null;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: null;
+    Product: Product;
+}
+
+export interface Product {
+    id: number;
+    availability: number;
+    type_id: number;
+    type: string;
+    erp_product_id: number;
+    supplier_preference_id: number;
+    package_id: number | null;
+    name: string;
+    produto_chave: number;
+    quantity: number;
+    virtual_quantity: number | null;
+    virtual_quantity_at: Date | null;
+    lead_time: number;
+    lead_time_at: Date;
+    virtual_stock_temporary: boolean;
+    virtual_stock_temporary_at: Date | null;
+    virtual_stock_permanent: boolean;
+    virtual_stock_permanent_at: null;
+    length: string;
+    width: string;
+    height: string;
+    gross_weight: string;
+    weight: string;
+    weight_cubic: string;
+    brand: string;
+    description: string;
+    erp_syncecom: boolean;
+    erp_category: null | string;
+    erp_color: null | string;
+    apparatus: string;
+    ncm: null | string;
+    cest: null | string;
+    saldo_total_c: null;
+    tipo_produto: number;
+    endereco_estoque: null | string;
+    unidade_c: string;
+    synced_from_erp_at: string;
+    observation: string;
+    observation_cod_fab: string;
+    erp_stock_movement_at: Date;
+    classificacao: null | string;
+    cost: string;
+    cost_at: Date;
+    liquidation: boolean;
+    promotion_price: null | string;
+    promotion_starts_at: Date | null;
+    promotion_ends_at: Date | null;
+    price: string;
+    counter_price: string;
+    price_table_id: number;
+    pendente: boolean;
+    model: string;
+    active: boolean;
+    image: boolean;
+    support: boolean | null;
+    warranty_days: number;
+    icms_percentage: string;
+    icms: string;
+    diff_icms_percentage: string;
+    diff_icms: string;
+    icms_st_percentage: string;
+    icms_st: string;
+    ipi_percentage: string;
+    ipi: string;
+    freight: string;
+    others_cost: string;
+    tax_factor: string;
+    quantity_purchased: number | null;
+    quantity_reserved: number | null;
+    description_ecom: null;
+    info: null;
+    ean: string;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: null;
+}
