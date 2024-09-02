@@ -45,13 +45,15 @@ const destroy = async () => {
       (e: Record<string, any>) => e.id == props.id
     );
     items.value.splice(index.value, 1);
+
+    loading.finish();
   } catch (error) {
     const err = error as { statusText: string; message: string };
 
     $toast().error(`${err.statusText ?? err.message}`);
-  }
 
-  loading.finish();
+    loading.finish();
+  }
 };
 </script>
 
