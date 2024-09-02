@@ -11,17 +11,17 @@ const { availableGrid, hiddenGrid } = storeToRefs(store);
 const el = ref<HTMLElement | null>(null);
 
 useSortable(el, availableGrid, {
-  handle: ".handle",
+  // handle: ".handle",
 });
 
 const active = computed(() =>
-  props.availableOrHidden ? hiddenGrid.value : availableGrid.value 
+  props.availableOrHidden ? hiddenGrid.value : availableGrid.value
 );
 </script>
 
 <template>
   <v-list ref="el">
-    <v-list-item v-for="(item, index) in active" :key="index" :title="item.title">
+    <v-list-item v-for="(item, index) in active" :key="item.key" :title="item.title">
       <template v-if="!availableOrHidden" #append>
         <v-icon class="handle" icon="mdi-arrow-all" color="blue" size="small" />
         <v-btn

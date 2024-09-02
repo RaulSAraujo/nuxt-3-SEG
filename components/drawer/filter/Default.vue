@@ -32,7 +32,11 @@ const setSize = (item: Column, value: number) => {
 
 <template>
   <v-list ref="el">
-    <v-list-item v-for="(item, index) in active" :key="index" :title="item.label">
+    <v-list-item
+      v-for="(item, index) in active"
+      :key="item.attribute"
+      :title="item.label"
+    >
       <template v-if="!availableOrHidden" #append>
         <v-icon class="handle" icon="mdi-arrow-all" color="blue" size="small" />
         <v-btn

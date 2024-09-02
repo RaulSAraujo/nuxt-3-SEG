@@ -28,30 +28,28 @@ export const useGridStore = defineStore("grids", () => {
         const user = data.value as User;
 
         let grid: Grid;
-        if (availableGrid.value.length == 0) {
-            await $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
-                priority: "high",
-                key: `Grid-${model}`,
-                getCachedData(key, nuxtApp) {
-                    return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
-                },
+
+        await $api(`grid-configurations?user_id=${user.id}&model=${model}`, {
+            priority: "high",
+            key: `Grid-${model}`,
+            getCachedData(key, nuxtApp) {
+                return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+            },
+        })
+            .then(async (res) => {
+                if (res.error.value) throw res;
+
+                grid = res.data.value as Grid;
+
+                if (grid.resultCount > 0) {
+                    set(grid);
+                } else {
+                    await create(model);
+                }
             })
-                .then(async (res) => {
-                    if (res.error.value) throw res;
-
-                    grid = res.data.value as Grid;
-
-                    if (grid.resultCount > 0) {
-                        set(grid);
-                    } else {
-                        await create(model);
-                    }
-                })
-                .catch((err) => {
-                    $toast().error(err.error.value.cause ?? err.error.value.message);
-                });
-        }
-
+            .catch((err) => {
+                $toast().error(err.error.value.cause ?? err.error.value.message);
+            });
     }
 
     function set(value: Grid) {
