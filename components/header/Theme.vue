@@ -66,7 +66,7 @@ async function toggleTheme() {
 <template>
   <v-btn
     icon="mdi-weather-night"
-    :color="!theme.global.current.value.dark ? 'grey' : 'blue'"
+    :color="!theme.global.current.value.dark ? '' : 'blue'"
     variant="plain"
     @click="toggleTheme()"
   />

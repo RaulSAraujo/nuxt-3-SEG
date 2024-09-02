@@ -33,7 +33,6 @@ const { data: pages, status } = useFetch<Page[]>("/api/pages", {
       <v-btn
         icon="mdi-face-agent"
         variant="plain"
-        color="grey"
         :to="{
           name: 'support-request',
         }"
