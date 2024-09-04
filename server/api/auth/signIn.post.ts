@@ -23,8 +23,8 @@ interface SignIn {
     success: boolean
 }
 
-const auth_pages = (pages: Page[]) => {
-    const auth_pages = useArrayMap(pages, (menu) => {
+const auth_pages = async (pages: Page[]) => {
+    const auth_pages = await useArrayMap(pages, (menu) => {
         const items = menu.items.filter((item) => item.auth && !item.child)
 
         if (items.length > 0) {
