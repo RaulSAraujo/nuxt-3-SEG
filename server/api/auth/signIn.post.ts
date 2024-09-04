@@ -27,7 +27,7 @@ const auth_pages = (pages: Page[]) => {
     const auth_pages = useArrayMap(pages, (menu) => {
         const items = menu.items.filter((item) => item.auth && !item.child)
 
-        if (items.length > 1) {
+        if (items.length > 0) {
             return {
                 ...menu,
                 items: menu.items.filter((item) => item.auth && !item.child),
@@ -83,7 +83,7 @@ export default defineEventHandler(async (event) => {
         }
     }
 
-    const AuthenticatedPages = auth_pages(pages);
+    const AuthenticatedPages = await auth_pages(pages);
 
     const filterMenu = useArrayFilter(AuthenticatedPages, (f) => f!.title !== 'Options')
 
