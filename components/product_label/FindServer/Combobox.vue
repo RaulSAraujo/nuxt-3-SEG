@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import type { Product, Row } from "~/interfaces/Product.js";
 
-const search = ref<string>("");
-const debounced = refDebounced<string>(search, 200);
+defineEmits(["change"]);
+
+const search = useState<string | Row | null>("input-creation-product", () => null);
+const debounced = refDebounced<string | Row | null>(search, 200);
 
 const productItems = ref<Row[]>([]);
+
 watch(
   () => debounced.value,
   async () => {
     if (typeof debounced.value == "string" && debounced.value.length >= 4) {
       try {
         const res = await useNuxtApp().$customFetch<Product>(
-          `product?name=${debounced.value}%&unique=true`
+          `product?name=${debounced.value}%&unique=true&full=false`
         );
 
         if (res.rows.length > 0) {
@@ -42,5 +45,7 @@ watch(
     :multiple="false"
     :hide-details="true"
     :return-object="true"
+    auto-select-first="exact"
+    @update:model-value="$emit('change', $event)"
   />
 </template>

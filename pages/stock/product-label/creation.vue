@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const quantity = ref();
+const quantity = ref<number>(1);
+
+const productLabelButtonAddProduct = ref();
 </script>
 
 <template>
@@ -16,30 +18,32 @@ const quantity = ref();
     </div>
 
     <v-sheet class="mx-2" rounded="xl" elevation="5">
+      <v-toolbar title="NOVA ETIQUETA DE PRODUTO" rounded="t-xl" class="mb-2" />
+
       <v-container>
-        <v-row>
-          <v-col cols="3">
-            <ProductLabelFindServer append-icon="mdi-barcode-scan" />
-          </v-col>
-          <v-col cols="2">
+        <div class="d-flex justify-space-between">
+          <div class="d-flex flex-rows" style="width: 30vw">
+            <ProductLabelFindServer @add="productLabelButtonAddProduct.add()" />
+
             <NumberInput
               v-model="quantity"
               label="Quantidade"
               :min="1"
               :hide-details="true"
+              class="mr-2"
+              style="max-width: 180px"
             />
-          </v-col>
-          <v-col cols="2">
-            <v-text-field
-              v-maska="'X'"
-              name="name"
-              label="label"
-              density="compact"
-              color="primary"
-              variant="outlined"
-            />
-          </v-col>
-        </v-row>
+          </div>
+
+          <ProductLabelButtonAddProduct
+            ref="productLabelButtonAddProduct"
+            :quantity="quantity"
+          />
+        </div>
+
+        <ProductLabelTable />
+
+        <ProductLabelButtonPrinter />
       </v-container>
     </v-sheet>
   </div>
