@@ -20,7 +20,7 @@ const productLabelButtonAddProduct = ref();
     <v-sheet class="mx-2" rounded="xl" elevation="5">
       <v-toolbar title="NOVA ETIQUETA DE PRODUTO" rounded="t-xl" class="mb-2" />
 
-      <v-container>
+      <v-container fluid>
         <div class="d-flex justify-space-between">
           <div class="d-flex flex-rows" style="width: 30vw">
             <ProductLabelFindServer @add="productLabelButtonAddProduct.add()" />
