@@ -548,14 +548,6 @@
                 "child": true
             },
             {
-                "icon": "mdi-tag-faces",
-                "title": "Nova etiqueta produto",
-                "name": "stock-product-tag",
-                "backUrl": "/product-label",
-                "auth": false,
-                "child": false
-            },
-            {
                 "icon": "mdi-package-variant",
                 "title": "Local de armazenagem",
                 "name": "stock-storage-location",
