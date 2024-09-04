@@ -123,10 +123,12 @@ export default defineNuxtConfig({
               success: colors.green.accent3,
               surface: colors.grey.lighten5,
               'surface-bright': colors.grey.lighten5,
-              'surface-light': colors.grey.lighten4,
+              'surface-light': colors.grey.lighten3,
               'surface-variant': colors.grey.darken3,
               'on-surface-variant': colors.grey.lighten3,
-              background: '#fafafa',
+            },
+            variables: {
+              'disabled-opacity': 0.60
             }
           },
         }
