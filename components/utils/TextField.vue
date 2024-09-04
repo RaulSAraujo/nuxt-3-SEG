@@ -6,6 +6,7 @@ defineProps<{
   disabled?: boolean | undefined;
   hideDetails?: boolean | "auto" | undefined;
   alt?: string;
+  loading?: boolean;
 }>();
 
 defineEmits(["enter"]);
@@ -23,6 +24,7 @@ defineEmits(["enter"]);
     :disabled="disabled"
     :hide-details="hideDetails || true"
     :placeholder="placeholder"
+    :loading="loading"
     @keypress.enter="$emit('enter')"
   />
 </template>

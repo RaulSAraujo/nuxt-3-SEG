@@ -11,6 +11,7 @@ defineProps<{
   menuOpenDefault?: boolean | undefined;
   returnObject?: boolean | undefined;
   alt?: string;
+  autoSelectFirst?: "exact" | boolean;
 }>();
 </script>
 
@@ -34,6 +35,7 @@ defineProps<{
       'max-height': '200',
     }"
     hide-details
+    :auto-select-first="autoSelectFirst"
   >
     <template v-if="multiple" #selection="{ item, index }">
       <span

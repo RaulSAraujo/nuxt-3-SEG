@@ -7,11 +7,13 @@ defineProps<{
   max?: number;
   step?: number;
   controlVariant?: "default" | "stacked" | "split";
+  alt?: string;
 }>();
 </script>
 
 <template>
   <v-number-input
+    :id="alt ?? label"
     :label="label"
     :min="min"
     :max="max"
