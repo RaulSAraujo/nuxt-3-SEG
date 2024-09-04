@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { Row } from "~/interfaces/Product.js";
 
+onUnmounted(() => {
+  items.value = [];
+});
+
 const items = useState<Row[]>("items-creation-label", () => []);
 
 const headers = ref([
@@ -18,7 +22,6 @@ const headers = ref([
   { title: "Comprimento", key: "length" },
   { title: "Peso", key: "weight" },
 ]);
-
 </script>
 
 <template>
