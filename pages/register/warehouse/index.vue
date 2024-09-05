@@ -10,6 +10,6 @@ useHead({
 
     <Filter />
 
-    <Table :show-select="true" :multi-sort="true" />
+    <Table show-select multi-sort />
   </div>
 </template>

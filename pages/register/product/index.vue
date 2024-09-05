@@ -21,7 +21,7 @@ const activateDialogToEdit = ref<boolean>(false);
       </template>
     </Filter>
 
-    <Table :show-select="true" :multi-sort="true" :router-full="true">
+    <Table show-select multi-sort router-full show-expand>
       <template #item.action="{ item }">
         <v-btn
           icon="mdi-pencil"
@@ -151,6 +151,14 @@ const activateDialogToEdit = ref<boolean>(false);
 
       <template #item.weight_cubic="{ item }">
         <span>{{ Math.ceil(parseFloat(item.weight_cubic ?? 0.0) * 1000) }}</span>
+      </template>
+
+      <template #expanded-row="{ columns, item }">
+        <tr>
+          <td :colspan="columns.length">
+            <span>{{ item.model }}</span>
+          </td>
+        </tr>
       </template>
     </Table>
 

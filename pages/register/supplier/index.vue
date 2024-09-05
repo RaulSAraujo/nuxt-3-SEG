@@ -16,7 +16,7 @@ const dialog = ref<boolean>(false);
       </template>
     </Filter>
 
-    <Table :show-select="true" :multi-sort="true">
+    <Table show-select multi-sort>
       <template #item.action="{ item }">
         <Delete :id="item.id" />
       </template>

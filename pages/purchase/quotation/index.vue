@@ -16,7 +16,7 @@ useHead({
       <FilterMenuGridButton />
     </div>
 
-    <Table :show-expand="true">
+    <Table show-expand>
       <template #item.not_found_file="{ item }">
         <ClientOnly>
           <v-btn

@@ -21,7 +21,7 @@ useHead({
       </template>
     </Filter>
 
-    <Table :show-select="true" :multi-sort="true" :router-full="false">
+    <Table show-select multi-sort router-full>
       <template #item.action="{ item }">
         <v-btn
           icon="mdi-pencil"
