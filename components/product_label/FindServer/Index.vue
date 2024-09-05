@@ -7,7 +7,7 @@ const activeScanMode = ref(true);
 <template>
   <ProductLabelFindServerCombobox v-if="activeScanMode" />
 
-  <ProductLabelFindServerScanMode v-else @add="$emit('add')" />
+  <ProductLabelFindServerScanMode v-else />
 
   <ProductLabelInternalProduct />
 

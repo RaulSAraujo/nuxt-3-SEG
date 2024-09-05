@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { Product, Row } from "~/interfaces/Product.js";
 
-defineEmits(["add"]);
-
 const scan = ref<string>("");
 const debounced = refDebounced<string>(scan, 200);
 
 const loading = ref<boolean>(false);
+const enterPress = useState("enter-press", () => false);
 
 const product = useState<Row | null>("input-creation-product", () => null);
 
@@ -53,9 +52,6 @@ watch(
     alt="scan-mode-input"
     label="Digite o código de fabricante"
     :loading="loading"
-    @keypress.enter="
-      $emit('add');
-      scan = '';
-    "
+    @keypress.enter="enterPress = true"
   />
 </template>

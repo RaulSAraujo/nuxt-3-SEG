@@ -7,6 +7,7 @@ const props = defineProps<{
 
 const product = useState<Row | null>("input-creation-product", () => null);
 const items = useState<Row[]>("items-creation-label", () => []);
+const enterPress = useState("enter-press", () => false);
 
 const add = () => {
   if (!product.value || typeof product.value != "object") {
@@ -23,6 +24,17 @@ const add = () => {
 
   product.value = null;
 };
+
+watch(
+  () => enterPress.value,
+  () => {
+    if (enterPress.value == true) {
+      setTimeout(() => add(), 200);
+    }
+
+    enterPress.value = false;
+  }
+);
 
 defineExpose({
   add,

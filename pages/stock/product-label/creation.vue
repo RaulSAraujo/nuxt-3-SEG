@@ -1,7 +1,5 @@
 <script setup lang="ts">
 const quantity = ref<number>(1);
-
-const productLabelButtonAddProduct = ref();
 </script>
 
 <template>
@@ -23,7 +21,7 @@ const productLabelButtonAddProduct = ref();
       <v-container fluid>
         <div class="d-flex justify-space-between">
           <div class="d-flex flex-rows" style="width: 30vw">
-            <ProductLabelFindServer @add="productLabelButtonAddProduct.add()" />
+            <ProductLabelFindServer />
 
             <NumberInput
               v-model="quantity"
@@ -35,10 +33,7 @@ const productLabelButtonAddProduct = ref();
             />
           </div>
 
-          <ProductLabelButtonAddProduct
-            ref="productLabelButtonAddProduct"
-            :quantity="quantity"
-          />
+          <ProductLabelButtonAddProduct :quantity="quantity" />
         </div>
 
         <ProductLabelTable />
