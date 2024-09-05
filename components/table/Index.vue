@@ -47,10 +47,7 @@ const parentSlots = computed(() => Object.keys(ctx));
  */
 
 const gridStore = useGridStore();
-const { availableGrid, drawer: drawerGrid } = storeToRefs(gridStore);
-
-const store = useFilterStore();
-const { drawer: drawerFilter } = storeToRefs(store);
+const { availableGrid } = storeToRefs(gridStore);
 
 const tableStore = useTableStore();
 const {
@@ -66,6 +63,8 @@ const {
 } = storeToRefs(tableStore);
 tableStore.findRouteMap();
 
+const expandedAll = ref(false);
+
 if (props.routerFull == true || props.routerFull == false) {
   full.value = props.routerFull;
 }
@@ -76,7 +75,7 @@ await gridStore.get();
 <template>
   <!-- @vue-ignore -->
   <v-data-table-server
-    v-model="selected"
+    v-model:select="selected"
     v-model:expanded="expanded"
     v-model:sort-by="sortBy"
     :headers="availableGrid"
@@ -126,15 +125,15 @@ await gridStore.get();
       <v-checkbox id="tableSelect" hide-details @click="selectAll(!allSelected)" />
     </template>
 
-    <template #header.data-table-expand="{ selectAll, allSelected }">
+    <template #header.data-table-expand>
       <v-btn
-        v-if="!allSelected"
+        v-if="!expandedAll"
         id="expandAll"
         icon="mdi-chevron-down"
         variant="plain"
         @click="
           () => {
-            selectAll(true);
+            expandedAll = true;
 
             items.forEach((i) => expanded.push(i));
           }
@@ -148,7 +147,7 @@ await gridStore.get();
         variant="plain"
         @click="
           () => {
-            selectAll(false);
+            expandedAll = false;
 
             expanded = [];
           }
@@ -159,9 +158,9 @@ await gridStore.get();
 
   <TableFooter />
 
-  <DrawerFilter v-if="drawerFilter" />
+  <DrawerFilter />
 
-  <DrawerGrid v-if="drawerGrid" />
+  <DrawerGrid />
 
   <TableFloatingButton :length="items.length" />
 </template>
