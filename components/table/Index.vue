@@ -75,7 +75,7 @@ await gridStore.get();
 <template>
   <!-- @vue-ignore -->
   <v-data-table-server
-    v-model:select="selected"
+    v-model="selected"
     v-model:expanded="expanded"
     v-model:sort-by="sortBy"
     :headers="availableGrid"
