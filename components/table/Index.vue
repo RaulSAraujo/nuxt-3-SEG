@@ -154,6 +154,10 @@ await gridStore.get();
         "
       />
     </template>
+
+    <template #loader="{ isActive }">
+      <v-progress-linear v-if="isActive" color="primary" indeterminate height="2" />
+    </template>
   </v-data-table-server>
 
   <TableFooter />
