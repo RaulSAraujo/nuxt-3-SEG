@@ -1,12 +1,10 @@
 module.exports = {
     apps: [
         {
-            name: 'front-new',
-            port: '3002',
-            script: './.output/server/index.mjs',
-            interpreter: 'node@22.7.0',
-            watch: false,
-            watch_delay: 1000,
+            name: 'new-front-seg',
+            port: '3000',
+            interpreter: 'node@20.17.0',
+            script: './.output/server/index.mjs'
         }
     ]
-}  
+}
