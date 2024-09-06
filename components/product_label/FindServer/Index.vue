@@ -19,7 +19,7 @@ const activeScanMode = ref(true);
       <v-btn
         v-bind="props"
         :icon="activeScanMode ? 'mdi-barcode-scan' : 'mdi-barcode-off'"
-        class="mx-2"
+        class="mr-2"
         color="blue"
         variant="plain"
         @click="activeScanMode = !activeScanMode"

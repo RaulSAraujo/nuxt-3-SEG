@@ -25,7 +25,13 @@ const headers = ref([
 </script>
 
 <template>
-  <v-data-table :items="items" :headers="headers" height="60vh" hide-default-footer>
+  <v-data-table
+    :items="items"
+    :headers="headers"
+    height="60vh"
+    disable-sort
+    hide-default-footer
+  >
     <template #item.action="{ index }">
       <v-btn
         icon="mdi-delete"
