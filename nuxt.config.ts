@@ -156,28 +156,30 @@ export default defineNuxtConfig({
         type: '',
         cookieName: 'auth.token',
         headerName: 'Authorization',
-        maxAgeInSeconds: 86400,
+        maxAgeInSeconds: 36000,
         sameSiteAttribute: 'lax',
       },
-      sessionDataType: {
-        id: 'number',
-        name: 'string',
-        username: 'string',
-        active: 'boolean',
-        is_admin: 'boolean',
-        group_id: 'number',
-        theme: 'boolean',
-        top_menu: 'boolean',
-        lateral_menu: 'boolean',
-        created_at: 'Date | null',
-        updated_at: 'Date | null',
-        deleted_at: 'Date | null',
-        profile_image: 'Buffer | null'
+      session: {
+        dataType: {
+          id: 'number',
+          name: 'string',
+          username: 'string',
+          active: 'boolean',
+          is_admin: 'boolean',
+          group_id: 'number',
+          theme: 'boolean',
+          top_menu: 'boolean',
+          lateral_menu: 'boolean',
+          created_at: 'Date | null',
+          updated_at: 'Date | null',
+          deleted_at: 'Date | null',
+          profile_image: 'Buffer | null'
+        }
       }
     },
-    session: {
-      enableRefreshOnWindowFocus: true,
-      enableRefreshPeriodically: false
+    sessionRefresh: {
+      enableOnWindowFocus: true,
+      enablePeriodically: false
     },
     globalAppMiddleware: {
       isEnabled: true
