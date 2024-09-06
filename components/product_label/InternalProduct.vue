@@ -54,19 +54,15 @@ const close = () => {
 <template>
   <v-dialog transition="dialog-top-transition" width="40vw" @after-leave="close">
     <template #activator="{ props: dialog }">
-      <v-tooltip location="top" text="Adicionar produtos #interno">
+      <v-tooltip location="top" text="Adicionar produtos #">
         <template #activator="{ props: tooltip }">
-          <v-btn
-            v-bind="mergeModels(dialog, tooltip)"
-            icon="mdi-tag-plus"
-            variant="plain"
-          />
+          <v-btn v-bind="mergeModels(dialog, tooltip)" icon="mdi-pound" variant="plain" />
         </template>
       </v-tooltip>
     </template>
 
     <template #default="{ isActive }">
-      <v-card rounded="xl" title="PESQUISAR PRODUTO #INTERNO">
+      <v-card rounded="xl" title="PESQUISAR PRODUTOS #">
         <template #text>
           <v-row dense class="mb-1">
             <v-col>
