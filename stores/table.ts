@@ -112,7 +112,7 @@ export const useTableStore = defineStore("table", () => {
         const filterStore = useFilterStore()
         const { availableFilter, changeValuesFilter } = storeToRefs(filterStore)
 
-        const dayjs = useDayjs();
+        const { databaseDate, isDate } = useDateConversion()
 
         const params = availableFilter.value.reduce(
             (acc: Record<string, AccValue>, { attribute, value }) => {
@@ -122,10 +122,14 @@ export const useTableStore = defineStore("table", () => {
                         const array = value.split(' - ');
 
                         for (let i = 0; i < array.length; i++) {
-                            array[i] = dayjs(array[i], 'DD/MM/YYYY').format("YYYY-MM-DD")
+                            array[i] = databaseDate(array[i])
                         }
 
                         value = array.join(',');
+                    }
+
+                    if (typeof value === 'string' && isDate(value)) {
+                        value = databaseDate(value)
                     }
 
                     acc[attribute] = value;

@@ -17,5 +17,9 @@ export default function () {
         return dayjs(date, "YYYY-MM-DDTHH:mm:ss").isValid() ? date : dayjs(date, "DD/MM/YYYY HH:mm:ss").format("YYYY-MM-DDTHH:mm:ss");
     }
 
-    return { brDate, brDateWithTime, databaseDate, databaseDateWithTime }
+    const isDate = (date: string) => {
+        return dayjs(date, "DD/MM/YYYY").isValid()
+    }
+
+    return { brDate, brDateWithTime, databaseDate, databaseDateWithTime, isDate }
 }
