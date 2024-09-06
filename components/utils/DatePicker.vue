@@ -13,6 +13,9 @@ const date = ref<string | Date | null>(!props.multiple ? new Date() : null);
 
 const save = () => {
   emit("save", date.value);
+
+  date.value = null;
+
   menu.value = false;
 };
 
