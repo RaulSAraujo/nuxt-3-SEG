@@ -9,6 +9,7 @@ const props = defineProps<{
   placeholder?: string | undefined;
   disabled?: boolean | undefined;
   hideDetails?: boolean | "auto" | undefined;
+  alt?: string;
 }>();
 
 const { inputRef, formattedValue, setValue } = useCurrencyInput({
@@ -29,6 +30,7 @@ watch(
 
 <template>
   <v-text-field
+    :id="alt || label"
     ref="inputRef"
     v-model="formattedValue"
     density="compact"
