@@ -8,7 +8,7 @@ const props = defineProps<{
   vw: number;
 }>();
 
-const emit = defineEmits(["updateText", "enter"]);
+const emit = defineEmits(["updateText"]);
 
 const { url } = useTableStore();
 
