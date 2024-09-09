@@ -121,8 +121,14 @@ await gridStore.get();
       <slot :name="slot" v-bind="props" />
     </template>
 
-    <template #header.data-table-select="{ selectAll, allSelected }">
-      <v-checkbox id="tableSelect" hide-details @click="selectAll(!allSelected)" />
+    <template #header.data-table-select="{ selectAll, allSelected, someSelected }">
+      <v-checkbox
+        id="tableSelect"
+        :value="!allSelected"
+        :indeterminate="someSelected && !allSelected"
+        hide-details
+        @click="selectAll(!allSelected)"
+      />
     </template>
 
     <template #header.data-table-expand>
@@ -165,6 +171,16 @@ await gridStore.get();
   <DrawerFilter />
 
   <DrawerGrid />
+
+  <BottomSheet>
+    <template #selection-group-button>
+      <slot name="selection-group-button" />
+    </template>
+
+    <template #selection-text>
+      <slot name="selection-text" />
+    </template>
+  </BottomSheet>
 
   <TableFloatingButton :length="items.length" />
 </template>
