@@ -13,7 +13,7 @@ const { product } = storeToRefs(productSellStore);
 
     <Filter />
 
-    <Table show-select multi-sort>
+    <Table show-select multi-sort show-expand>
       <template #item.action="{ item }">
         <v-btn
           icon="mdi-pencil"
@@ -60,6 +60,14 @@ const { product } = storeToRefs(productSellStore);
         <ToLocaleString
           :value="item.Kit ? item.Kit?.Products[0].price ?? 0 : item.sell_price ?? 0"
         />
+      </template>
+
+      <template #expanded-row="{ columns, item }">
+        <tr>
+          <td :colspan="columns.length">
+            <span>{{ item.model }}</span>
+          </td>
+        </tr>
       </template>
     </Table>
   </div>
