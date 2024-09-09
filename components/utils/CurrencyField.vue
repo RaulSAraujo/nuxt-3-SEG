@@ -3,7 +3,7 @@ import { useCurrencyInput } from "vue-currency-input";
 import { watch } from "vue";
 
 const props = defineProps<{
-  label: string;
+  label?: string;
   modelValue: number | string | null;
   clearable?: boolean | undefined;
   placeholder?: string | undefined;
