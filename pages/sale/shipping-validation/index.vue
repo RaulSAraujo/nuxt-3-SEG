@@ -8,7 +8,11 @@ useHead({
   <div class="mt-5">
     <span class="ml-5 text-h6 text-primary font-weight-black">VALIDAÇÃO DE ENVIO</span>
 
-    <Filter />
+    <Filter>
+      <template #menu>
+        <ShippingValidationMenuImportInvoice />
+      </template>
+    </Filter>
 
     <Table show-select multi-sort>
       <template #item.shipping_validated="{ item }">
