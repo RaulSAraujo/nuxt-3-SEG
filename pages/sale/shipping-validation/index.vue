@@ -75,6 +75,42 @@ useHead({
         />
       </template>
 
+      <template #item.date="{ item }">
+        <DateString :date="item.Order.date" />
+      </template>
+
+      <template #item.sending_date="{ item }">
+        <DateString :date="item.Order.sending_date" />
+      </template>
+
+      <template #item.marketplace_seller_name="{ item }">
+        <Tooltip :text="item.Order.marketplace_seller_name" :vw="5" />
+      </template>
+
+      <template #item.shipment="{ item }">
+        <Tooltip :text="item.Order.shipment" :vw="4" />
+      </template>
+
+      <template #item.shipment_integrator="{ item }">
+        <Tooltip :text="item.Order.shipment_integrator" :vw="5" />
+      </template>
+
+      <template #item.point_sale="{ item }">
+        <Tooltip :text="item.Order.point_sale" :vw="5" />
+      </template>
+
+      <template #item.invoice_number="{ item }">
+        {{ item.Order.invoice_number }}
+      </template>
+
+      <template #item.company_name="{ item }">
+        <Tooltip :text="item.Customer?.company_name ?? ''" :vw="5" />
+      </template>
+
+      <template #item.sending_code="{ item }">
+        {{ item.Customer?.sending_code ?? "" }}
+      </template>
+
       <template #selection-text>
         <span> | </span>
         <ShippingValidationDiffFreight />
