@@ -2,7 +2,7 @@
 const props = defineProps<{
   id: number;
   attr: string;
-  value: string;
+  value: string | null;
   vw: number;
 }>();
 
@@ -15,6 +15,8 @@ const menu = ref<boolean>(false);
 const comp = computed({
   get: () => props.value,
   set: async (value) => {
+    if (typeof value != "string") return;
+
     const res = await update(value);
     if (!res.success) return $toast().error(res.message);
 

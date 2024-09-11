@@ -4,7 +4,7 @@ import { mergeProps } from "vue";
 const props = defineProps<{
   id: number;
   attr: string;
-  text: string;
+  text: string | null;
   vw: number;
 }>();
 
@@ -33,6 +33,8 @@ const convertVwToPx = (vw: number) => {
 const comp = computed({
   get: () => props.text,
   set: async (value) => {
+    if (typeof value != "string") return;
+
     const res = await update(value);
     if (!res.success) return $toast().error(res.message);
 
