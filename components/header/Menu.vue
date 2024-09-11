@@ -35,7 +35,7 @@ defineProps<{
         :to="{ name: item.name }"
       >
         <template #prepend>
-          <v-icon :icon="item.icon" />
+          <v-icon :icon="`${item.icon}`" />
         </template>
 
         <v-list-item-title>

@@ -73,7 +73,7 @@ await gridStore.get();
 </script>
 
 <template>
-  <!-- @vue-ignore -->
+  <!-- @vue-skip -->
   <v-data-table-server
     v-model="selected"
     v-model:expanded="expanded"
@@ -98,7 +98,7 @@ await gridStore.get();
     <template
       v-for="header in availableGrid"
       :key="header.key"
-      #[`item.${header.key}`]="{ item }: Record<string, any>"
+      #[`item.${header.key}`]="{ item }"
     >
       <TableTemplatesDate v-if="header.type === 'DATE'" :value="item[header.key]" />
 
@@ -116,8 +116,7 @@ await gridStore.get();
       </template>
     </template>
 
-    <!-- @vue-skip -->
-    <template v-for="slot in parentSlots" :key="slot" #[slot]="props">
+    <template v-for="slot of parentSlots" :key="slot" #[slot]="props">
       <slot :name="slot" v-bind="props" />
     </template>
 

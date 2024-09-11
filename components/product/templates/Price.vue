@@ -24,7 +24,7 @@ const percentageDiscount = () => {
     "
   >
     {{
-      parseFloat(`${price}` ?? "0.00").toLocaleString("pt-BR", {
+      parseFloat(`${price ?? 0.0}`).toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL",
       })
@@ -64,11 +64,11 @@ const percentageDiscount = () => {
         })
       }}
     </span>
-    <br >
+    <br />
     <span> Desconto: {{ percentageDiscount() }}% </span>
-    <br >
+    <br />
     <span> Inicio: {{ $dayjs(`${promotionStartsAt}`).format("DD/MM/YYYY") }} </span>
-    <br >
+    <br />
     <span> Final: {{ $dayjs(promotionEndsAt).format("DD/MM/YYYY") }} </span>
   </v-tooltip>
 </template>
