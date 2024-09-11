@@ -12,9 +12,11 @@ const reprint = async () => {
   loading.start();
 
   try {
-    await useNuxtApp().$customFetch(`stock-tag-control?id=${props.id}`);
+    const res = await useNuxtApp().$customFetch<{ message: string }>(
+      `stock-tag-control/reprint?id=${props.id}`
+    );
 
-    $toast().success("Etiqueta gerada com sucesso");
+    $toast().success(res.message);
 
     loading.finish();
   } catch (error) {
