@@ -74,6 +74,13 @@ useHead({
           @update-text="item.observation = $event"
         />
       </template>
+
+      <template #selection-text>
+        <span> | </span>
+        <ShippingValidationDiffFreight />
+        <span> | </span>
+        <ShippingValidationTotalInvoice />
+      </template>
     </Table>
   </div>
 </template>
