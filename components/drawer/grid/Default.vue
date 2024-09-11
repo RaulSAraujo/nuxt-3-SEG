@@ -11,7 +11,7 @@ const { availableGrid, hiddenGrid } = storeToRefs(store);
 const el = ref<HTMLElement | null>(null);
 
 useSortable(el, availableGrid, {
-  // handle: ".handle",
+  handle: ".handle",
 });
 
 const active = computed(() =>
