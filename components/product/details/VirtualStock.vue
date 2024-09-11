@@ -3,17 +3,17 @@ const productStore = useProductStore();
 const { product } = storeToRefs(productStore);
 
 const dayjs = useDayjs();
-const { brDate } = useDateConversion();
+const { brDateWithTime } = useDateConversion();
 
 if (product.value) {
   if (product.value.virtual_stock_temporary_at) {
-    product.value.virtual_stock_temporary_at = brDate(
+    product.value.virtual_stock_temporary_at = brDateWithTime(
       `${product.value.virtual_stock_temporary_at}`
     );
   }
 
   if (product.value.virtual_stock_permanent_at) {
-    product.value.virtual_stock_permanent_at = brDate(
+    product.value.virtual_stock_permanent_at = brDateWithTime(
       `${product.value.virtual_stock_permanent_at}`
     );
   }
