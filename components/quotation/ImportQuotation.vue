@@ -1,19 +1,5 @@
 <script setup lang="ts">
-import type { Supplier, Row } from "~/interfaces/Supplier.js";
-
-const file = ref([]);
-
-const supplier = ref();
-
-const { data } = $api<Row[]>("supplier", {
-  key: "SupplierList",
-  getCachedData(key, nuxtApp) {
-    return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
-  },
-  transform: (fetchData) => {
-    return ((fetchData as unknown) as Supplier).rows;
-  },
-});
+const file = ref();
 
 const loading = ref(false);
 
@@ -30,7 +16,7 @@ const quotation = async () => {
   );
 
   const formData = new FormData();
-  formData.append("file", file.value[0]);
+  formData.append("file", file.value);
 
   try {
     const res = await useNuxtApp().$customFetch<{ filePath: string }>(
@@ -46,7 +32,7 @@ const quotation = async () => {
     const baseUrl = getBaseUrl();
 
     const eventSource = new EventSource(
-      `${baseUrl}/quotation/second-step?authorization=${token.value}&supplier=${supplier.value}&path=${res?.filePath}`
+      `${baseUrl}/quotation/second-step?authorization=${token.value}&path=${res?.filePath}`
     );
 
     eventSource.onmessage = (event) => {
@@ -91,8 +77,7 @@ const getBaseUrl = () => {
 };
 
 const close = () => {
-  file.value = [];
-  supplier.value = undefined;
+  file.value = undefined;
 };
 </script>
 
@@ -131,21 +116,11 @@ const close = () => {
             prepend-icon=""
           />
 
-          <v-combobox
-            v-model="supplier"
-            label="Selecione o fornecedor"
-            color="primary"
-            :items="data ?? []"
-            item-title="name"
-            item-value="id"
-            :return-object="false"
-          />
-
           <div class="d-flex justify-space-around">
             <v-btn
               text="SALVAR COTAÇÃO"
               color="primary"
-              :disabled="file.length === 0 || supplier === undefined"
+              :disabled="file == undefined"
               :loading="loading"
               @click="
                 async () => {
