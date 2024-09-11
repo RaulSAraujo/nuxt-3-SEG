@@ -13,13 +13,7 @@ const activateDialogToEdit = ref<boolean>(false);
   <div class="mt-5">
     <span class="ml-5 text-h6 text-primary font-weight-black">PRODUTO COMPRA</span>
 
-    <Filter>
-      <template #menu>
-        <ProductMenuUpdateAll />
-
-        <ProductMenuIntegration />
-      </template>
-    </Filter>
+    <Filter />
 
     <Table show-select multi-sort router-full show-expand>
       <template #item.action="{ item }">
@@ -159,6 +153,12 @@ const activateDialogToEdit = ref<boolean>(false);
             <span>{{ item.model }}</span>
           </td>
         </tr>
+      </template>
+
+      <template #selection-group-button>
+        <ProductBottomSheetUpdateAll />
+
+        <ProductBottomSheetIntegration />
       </template>
     </Table>
 

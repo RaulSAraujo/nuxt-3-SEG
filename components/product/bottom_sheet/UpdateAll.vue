@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Row } from "~/interfaces/Product.js";
-import { mergeProps } from "vue";
 
 const productStore = useProductStore();
 const { availabilityMap } = storeToRefs(productStore);
@@ -60,22 +59,13 @@ const update = async () => {
 <template>
   <v-dialog width="30vw">
     <template #activator="{ props: dialog }">
-      <v-tooltip
-        location="top"
-        text="ATUALIZAÇÃO EM MASSA"
-        style="
-          --v-theme-surface-variant: 103, 58, 183;
-          --v-theme-on-surface-variant: 255, 255, 255;
-        "
-      >
-        <template #activator="{ props: tooltip }">
-          <v-btn
-            v-bind="mergeProps(tooltip, dialog)"
-            icon="mdi-update"
-            style="color: rgb(103, 58, 183)"
-          />
-        </template>
-      </v-tooltip>
+      <v-btn
+        v-bind="dialog"
+        text="Atualização em massa"
+        prepend-icon="mdi-update"
+        stacked
+        style="color: rgb(103, 58, 183)"
+      />
     </template>
 
     <template #default="{ isActive }">

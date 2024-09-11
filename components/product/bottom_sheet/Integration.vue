@@ -41,21 +41,11 @@ const integrationSegEcom = async () => {
 </script>
 
 <template>
-  <v-tooltip
-    location="top"
+  <v-btn
+    prepend-icon="mdi-database-sync-outline"
     text="INTEGRAÇÃO SEG > ECOM"
-    style="
-      --v-theme-surface-variant: 0, 150, 136;
-      --v-theme-on-surface-variant: 255, 255, 255;
-    "
-  >
-    <template #activator="{ props }">
-      <v-btn
-        v-bind="props"
-        icon="mdi-database-sync-outline"
-        style="color: rgb(0, 150, 136)"
-        @click="integrationSegEcom"
-      />
-    </template>
-  </v-tooltip>
+    stacked
+    style="color: rgb(0, 150, 136)"
+    @click="integrationSegEcom"
+  />
 </template>
