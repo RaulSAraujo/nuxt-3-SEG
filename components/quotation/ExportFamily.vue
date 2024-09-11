@@ -7,7 +7,7 @@ interface FistStep {
   success: boolean;
 }
 
-const file = ref([]);
+const file = ref();
 
 const code = ref("ProdutoChave");
 const codeName = ref([
@@ -24,7 +24,7 @@ const extract = async () => {
   loading.value = true;
 
   const formData = new FormData();
-  formData.append("file", file.value[0]);
+  formData.append("file", file.value);
   formData.append("codeName", code.value);
 
   try {
