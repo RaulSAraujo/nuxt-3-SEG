@@ -29,10 +29,6 @@ useHead({
         <ShippingValidationTemplateTags :tags="item.tags" />
       </template>
 
-      <template #item.status="{ item }">
-        <span>{{ item.Order.status }}</span>
-      </template>
-
       <template #item.actual_freight_price="{ item }">
         <ToLocaleString :value="item.actual_freight_price" />
       </template>
@@ -81,6 +77,10 @@ useHead({
 
       <template #item.sending_date="{ item }">
         <DateString :date="item.Order.sending_date" />
+      </template>
+
+      <template #item.status="{ item }">
+        <Tooltip :text="item.Order.status" :vw="4" />
       </template>
 
       <template #item.marketplace_seller_name="{ item }">
