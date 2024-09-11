@@ -66,7 +66,16 @@ const reprint = async () => {
     <template #actions>
       <v-btn color="white" variant="plain" @click="snackbar = false"> Não </v-btn>
 
-      <v-btn color="white" variant="plain" @click="reprint"> Sim </v-btn>
+      <v-btn
+        color="white"
+        variant="plain"
+        @click="
+          reprint();
+          snackbar = false;
+        "
+      >
+        Sim
+      </v-btn>
     </template>
   </v-snackbar>
 </template>
