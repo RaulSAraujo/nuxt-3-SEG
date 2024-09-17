@@ -2,7 +2,7 @@
 const props = defineProps<{
   showSelect?: boolean;
   multiSort?: boolean;
-  routerFull?: boolean;
+  routerFull?: boolean | undefined;
   showExpand?: boolean;
 }>();
 
@@ -28,6 +28,8 @@ onBeforeRouteLeave((to, from, next) => {
     gridStore.clearGridProps();
 
     loading.value = true;
+
+    full.value = undefined;
 
     next();
   }
@@ -65,7 +67,7 @@ tableStore.findRouteMap();
 
 const expandedAll = ref(false);
 
-if (props.routerFull == true || props.routerFull == false) {
+if (props.routerFull == true) {
   full.value = props.routerFull;
 }
 
