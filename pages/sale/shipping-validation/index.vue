@@ -54,7 +54,7 @@ useHead({
       <template #item.freight_comment="{ item }">
         <EditDialogString
           :id="item.id"
-          :text="item.freight_comment"
+          :text="item.freight_comment ?? ''"
           attr="freight_comment"
           :vw="5"
           @update-text="item.freight_comment = $event"
