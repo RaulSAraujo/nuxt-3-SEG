@@ -46,10 +46,8 @@ const auth_pages = async (pages: Page[]) => {
 const getBaseUrl = (event: H3Event) => {
     const hostReq = getRequestHeader(event, 'host')
 
-    const host = hostReq || window.location.hostname;
-
     let baseURL = useRuntimeConfig().public.base_url_local as string;
-    if (host.includes('ddns')) {
+    if (hostReq?.includes('ddns')) {
         baseURL = useRuntimeConfig().public.base_url_external as string;
     }
 

@@ -49,6 +49,10 @@ async function toggleTheme() {
     },
   });
 
+  const userCookie = useCookie("auth.theme");
+
+  userCookie.value = `${theme.global.name.value === "dark" ? false : true}`;
+
   if (theme.global.name.value === "light") {
     document.documentElement.style.setProperty("--track-color", "#ffffff");
     document.documentElement.style.setProperty("--track-color-hover", "#b7b4b4");

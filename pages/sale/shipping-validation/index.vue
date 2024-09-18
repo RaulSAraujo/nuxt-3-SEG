@@ -92,7 +92,7 @@ useHead({
       </template>
 
       <template #item.shipment_integrator="{ item }">
-        <Tooltip :text="item.Order.shipment_integrator" :vw="5" />
+        <Tooltip :text="item.Order.shipment_integrator" :vw="4" />
       </template>
 
       <template #item.point_sale="{ item }">
@@ -100,15 +100,49 @@ useHead({
       </template>
 
       <template #item.invoice_number="{ item }">
-        {{ item.Order.invoice_number }}
+        <span>{{ item.Order.invoice_number }}</span>
       </template>
 
       <template #item.company_name="{ item }">
         <Tooltip :text="item.Customer?.company_name ?? ''" :vw="5" />
       </template>
 
+      <template #item.cpf="{ item }">
+        <Tooltip :text="item.Customer?.cnpj || item.Customer?.cpf" :vw="5" />
+      </template>
+
       <template #item.sending_code="{ item }">
-        {{ item.Customer?.sending_code ?? "" }}
+        <Tooltip :text="item.Order?.sending_code" :vw="5" />
+      </template>
+
+      <template #item.seller="{ item }">
+        <Tooltip :text="item.Order?.seller" :vw="5" />
+      </template>
+
+      <template #item.shipping_volume="{ item }">
+        <span v-if="item.SalesOrders.length > 0">
+          {{ item.SalesOrders[0].shipping_volume }}
+        </span>
+      </template>
+
+      <template #item.email="{ item }">
+        <Tooltip :text="item.Customer.email" :vw="5" />
+      </template>
+
+      <template #item.name="{ item }">
+        <Tooltip :text="item.Customer.name" :vw="5" />
+      </template>
+
+      <template #item.total="{ item }">
+        <ToLocaleString :value="item.Order.total" />
+      </template>
+
+      <template #item.delivery_time="{ item }">
+        <span v-if="item.Order.delivery_time">{{ item.Order.delivery_time }}</span>
+      </template>
+
+      <template #item.shipment_value="{ item }">
+        <span v-if="item.Order.shipment_value">{{ item.Order.shipment_value }}</span>
       </template>
 
       <template #selection-text>

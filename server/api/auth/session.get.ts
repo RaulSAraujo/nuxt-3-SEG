@@ -33,10 +33,8 @@ const parseJwt = (token: string) => {
 const getBaseUrl = (event: H3Event) => {
     const hostReq = getRequestHeader(event, 'host')
 
-    const host = hostReq || window.location.hostname;
-
     let baseURL = useRuntimeConfig().public.base_url_local as string;
-    if (host.includes('ddns')) {
+    if (hostReq?.includes('ddns')) {
         baseURL = useRuntimeConfig().public.base_url_external as string;
     }
 
@@ -51,7 +49,10 @@ export default eventHandler(async (event: H3Event) => {
 
     const decodeJwt = parseJwt(authHeaderValue)
 
-    const session = await useStorage('data').getItem(`profile_${decodeJwt.id}`)
+    const session = await useStorage<User>('data').getItem(`profile_${decodeJwt.id}`)
+
+    setCookie(event, 'auth.user_name', session?.name ?? '')
+    setCookie(event, 'auth.theme', `${session?.theme ?? ''}`)
 
     if (session) return session
 
@@ -67,6 +68,9 @@ export default eventHandler(async (event: H3Event) => {
     decodeJwt.profile_image = res as Buffer
 
     useStorage('data').setItem(`profile_${decodeJwt.id}`, decodeJwt)
+
+    setCookie(event, 'auth.user_name', decodeJwt?.name ?? '')
+    setCookie(event, 'auth.theme', `${decodeJwt?.theme ?? ''}`)
 
     return decodeJwt
 })
