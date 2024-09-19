@@ -17,7 +17,7 @@ const widthColumnText = (label: string | null) => {
   <v-tooltip
     v-if="widthColumnText(value ?? '') > parseFloat(`${maxWidth ?? 0.0}`)"
     location="top"
-    :text="value ?? ''"
+    :text="value?.toUpperCase() ?? ''"
     style="
       --v-theme-surface-variant: 25, 118, 210;
       --v-theme-on-surface-variant: 255, 255, 255;
@@ -32,11 +32,13 @@ const widthColumnText = (label: string | null) => {
         "
       >
         <span v-bind="props">
-          {{ value ?? "" }}
+          {{ value?.toUpperCase() ?? "" }}
         </span>
       </div>
     </template>
   </v-tooltip>
 
-  <span v-else style="white-space: nowrap !important">{{ value ?? "" }}</span>
+  <span v-else style="white-space: nowrap !important">
+    {{ value?.toUpperCase() ?? "" }}
+  </span>
 </template>
