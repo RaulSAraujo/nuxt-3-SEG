@@ -49,7 +49,7 @@ const parentSlots = computed(() => Object.keys(ctx));
  */
 
 const gridStore = useGridStore();
-const { availableGrid } = storeToRefs(gridStore);
+const { availableGrid, availableFormat } = storeToRefs(gridStore);
 
 const tableStore = useTableStore();
 const {
@@ -98,7 +98,7 @@ await gridStore.get();
     @update:options="tableStore.searchData"
   >
     <template
-      v-for="header in availableGrid"
+      v-for="header in availableFormat"
       :key="header.key"
       #[`item.${header.key}`]="{ item }"
     >
@@ -110,7 +110,12 @@ await gridStore.get();
       />
 
       <template v-else>
-        <template v-if="header.type === 'STRING' && typeof item[header.key] === 'string'">
+        <template
+          v-if="
+            (header.type === 'STRING' && typeof item[header.key] === 'string') ||
+            (header.type === 'ARRAY' && typeof item[header.key] === 'string')
+          "
+        >
           <TableTemplatesString :value="item[header.key]" :max-width="header.maxWidth" />
         </template>
 

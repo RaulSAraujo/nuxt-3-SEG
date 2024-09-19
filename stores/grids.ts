@@ -15,6 +15,8 @@ export const useGridStore = defineStore("grids", () => {
 
     const availableGrid = ref<Column[]>([])
 
+    const availableFormat = computed(() => [...availableGrid.value])
+
     const hiddenGrid = ref<Column[]>([])
 
     const dialogImport = ref<boolean>(false)
@@ -54,7 +56,24 @@ export const useGridStore = defineStore("grids", () => {
 
     function set(value: Grid) {
         id.value = value.rows[0].id
+
         availableGrid.value = value.rows[0].available_columns
+        if (availableGrid.value[0]?.key != "data-table-expand") {
+            availableGrid.value.splice(0, 0, {
+                title: "",
+                align: "",
+                sortable: false,
+                key: "data-table-expand",
+                maxWidth: null,
+                type: "expand",
+                initial_grid: false,
+            });
+        }
+
+        if (availableFormat.value[0]?.key == 'data-table-expand') {
+            availableFormat.value.splice(0, 1)
+        }
+
         hiddenGrid.value = value.rows[0].hidden_columns
     }
 
@@ -344,6 +363,7 @@ export const useGridStore = defineStore("grids", () => {
         drawer,
         switchDrawer,
         availableGrid,
+        availableFormat,
         hiddenGrid,
         clearGridProps,
         get,
