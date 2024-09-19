@@ -131,7 +131,7 @@ const updateQuotation = async () => {
                 <CurrencyField
                   v-model="product!.Quotations![costTableIndex].cost"
                   v-bind="props"
-                  label="Preço"
+                  label="Custo"
                   :hide-details="true"
                   @update:model-value="ChangeDateAndAvailabilityDate"
                 />
