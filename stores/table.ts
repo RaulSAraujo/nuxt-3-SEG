@@ -3,19 +3,28 @@ import type { RouteLocationNormalizedLoaded } from "#vue-router";
 export const useTableStore = defineStore("table", () => {
 
     const url = ref<string>('')
+
     const routerFull = ref<boolean | null | undefined>(undefined);
+
     const items = ref<object[]>([]);
+
     const totalItems = ref(0);
+
     const sortBy = ref<[{ key: string; order: string }]>();
+
     const loading = ref(true);
+
     const page = ref(1);
+
     const itemsPerPage = ref(10);
+
     const itemsPerPageoptions = ref([
         { value: 10, title: "10" },
         { value: 25, title: "25" },
         { value: 50, title: "50" },
         { value: 100, title: "100" },
     ]);
+
     const pageCount = computed(() => Math.ceil(totalItems.value / itemsPerPage.value));
 
     const selected = ref([])
@@ -58,6 +67,7 @@ export const useTableStore = defineStore("table", () => {
         'stock-separation-log': 'OrderPicking',
         'stock-product-label': 'stock-tag-control',
         'stock-parts-collection-management': 'PartsCollectionManagement',
+        'expedition-check-out': 'sales-order',
         'expedition-cut-time': 'CarrierCutTime',
         'manager-pendency': 'Pendency',
         'manager-tax-stock': 'TaxStock',
@@ -81,6 +91,8 @@ export const useTableStore = defineStore("table", () => {
         'option-index-log-access': 'LoginLog',
         'option-index-access': 'UsersAccessList',
     });
+
+    const othersParams = ref<object | undefined>()
 
     function findRouteMap() {
         const { name }: RouteLocationNormalizedLoaded = useRoute();
@@ -155,10 +167,11 @@ export const useTableStore = defineStore("table", () => {
                 full: routerFull.value,
                 'sort-field': sortfield || undefined,
                 'sort-type': sortType || undefined,
+                ...othersParams.value,
                 ...params,
             },
             retry: 3,
-            retryDelay: 100,
+            retryDelay: 500,
         }).then(async (res) => {
 
             items.value = res.rows;
@@ -175,5 +188,5 @@ export const useTableStore = defineStore("table", () => {
 
     };
 
-    return { url, routerFull, items, totalItems, sortBy, loading, page, itemsPerPage, itemsPerPageoptions, pageCount, selected, expanded, findRouteMap, searchData };
+    return { url, routerFull, items, totalItems, sortBy, loading, page, itemsPerPage, itemsPerPageoptions, pageCount, selected, expanded, findRouteMap, searchData, othersParams };
 })
