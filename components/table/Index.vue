@@ -4,6 +4,7 @@ const props = defineProps<{
   multiSort?: boolean;
   routerFull?: boolean | undefined;
   showExpand?: boolean;
+  othersParams?: object | undefined;
 }>();
 
 defineEmits(["loadItems"]);
@@ -35,6 +36,13 @@ onBeforeRouteLeave((to, from, next) => {
   }
 });
 
+// Remove expand header
+onMounted(() => {
+  if (!props.showExpand && availableGrid.value[0]?.key == "data-table-expand") {
+    availableGrid.value.splice(0, 1);
+  }
+});
+
 /**
  * Argumentos slots obtidos no componente pai passados para o filho
  * @constant ctx Obter os slots
@@ -62,6 +70,7 @@ const {
   routerFull: full,
   expanded,
   selected,
+  othersParams: otParams,
 } = storeToRefs(tableStore);
 tableStore.findRouteMap();
 
@@ -69,6 +78,10 @@ const expandedAll = ref(false);
 
 if (props.routerFull == true) {
   full.value = props.routerFull;
+}
+
+if (props.othersParams) {
+  otParams.value = props.othersParams;
 }
 
 await gridStore.get();
