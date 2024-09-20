@@ -8,7 +8,7 @@ const widthColumnText = (label: string | null) => {
   if (typeof label === "string" && label.length > 0) {
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
-    context!.font = "14px Poppins";
+    context!.font = "15px Poppins";
 
     return context?.measureText(label).actualBoundingBoxRight ?? 0;
   }
