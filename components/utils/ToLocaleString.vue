@@ -5,12 +5,14 @@ defineProps<{
 </script>
 
 <template>
-  <span>
-    {{
-      parseFloat(`${value || 0.0}`).toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      })
-    }}
-  </span>
+  <div>
+    <span class="text-truncate">
+      {{
+        parseFloat(`${value || 0.0}`).toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        })
+      }}
+    </span>
+  </div>
 </template>
