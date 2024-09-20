@@ -56,8 +56,9 @@ export const useGridStore = defineStore("grids", () => {
 
     function set(value: Grid) {
         id.value = value.rows[0].id
-
         availableGrid.value = value.rows[0].available_columns
+        hiddenGrid.value = value.rows[0].hidden_columns
+
         if (availableGrid.value[0]?.key != "data-table-expand") {
             availableGrid.value.splice(0, 0, {
                 title: "",
@@ -73,8 +74,6 @@ export const useGridStore = defineStore("grids", () => {
         if (availableFormat.value[0]?.key == 'data-table-expand') {
             availableFormat.value.splice(0, 1)
         }
-
-        hiddenGrid.value = value.rows[0].hidden_columns
     }
 
     function clearGridProps() {
