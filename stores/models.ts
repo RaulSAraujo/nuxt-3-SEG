@@ -37,6 +37,7 @@ export const useModelStore = defineStore("models", () => {
         'stock-separation-log': 'OrderPicking',
         'stock-product-label': 'StockTagControl',
         'stock-parts-collection-management': 'PartsCollectionManagement',
+        'expedition-check-out': 'SalesOrder',
         'expedition-cut-time': 'CarrierCutTime',
         'manager-pendency': 'Pendency',
         'manager-tax-stock': 'TaxStock',

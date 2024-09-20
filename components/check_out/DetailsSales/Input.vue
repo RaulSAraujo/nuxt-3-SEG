@@ -1,0 +1,19 @@
+<script setup lang="ts">
+const checkOutStore = useCheckOutStore();
+const { search } = storeToRefs(checkOutStore);
+</script>
+
+<template>
+  <v-text-field
+    id="InputSaleId"
+    v-model="search"
+    label="Informe o numero do pedido"
+    variant="outlined"
+    density="compact"
+    hide-details
+    append-icon="mdi-send"
+    class="mx-2"
+    @click:append="checkOutStore.loadSalesOrder()"
+    @keyup.enter="checkOutStore.loadSalesOrder()"
+  />
+</template>
