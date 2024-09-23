@@ -59,9 +59,10 @@ export const useGridStore = defineStore("grids", () => {
         availableGrid.value = value.rows[0].available_columns
         hiddenGrid.value = value.rows[0].hidden_columns
 
-        if (availableGrid.value[0]?.key != "data-table-expand") {
+        const find = availableGrid.value.find((e) => e.key == 'data-table-expand')
+        if (!find) {
             availableGrid.value.splice(0, 0, {
-                title: "",
+                title: "Expansível",
                 align: "",
                 sortable: false,
                 key: "data-table-expand",
@@ -71,8 +72,9 @@ export const useGridStore = defineStore("grids", () => {
             });
         }
 
-        if (availableFormat.value[0]?.key == 'data-table-expand') {
-            availableFormat.value.splice(0, 1)
+        const indexFormat = availableFormat.value.findIndex((e) => e.key == 'data-table-expand')
+        if (indexFormat > -1) {
+            availableFormat.value.splice(indexFormat, 1)
         }
     }
 
@@ -125,6 +127,24 @@ export const useGridStore = defineStore("grids", () => {
         } else {
             availableGrid.value = hidden.value
             hiddenGrid.value = []
+        }
+
+        const find = availableGrid.value.find((e) => e.key == 'data-table-expand')
+        if (!find) {
+            availableGrid.value.splice(0, 0, {
+                title: "Expansível",
+                align: "",
+                sortable: false,
+                key: "data-table-expand",
+                maxWidth: null,
+                type: "expand",
+                initial_grid: false,
+            });
+        }
+
+        const indexFormat = availableFormat.value.findIndex((e) => e.key == 'data-table-expand')
+        if (indexFormat > -1) {
+            availableFormat.value.splice(indexFormat, 1)
         }
     }
 

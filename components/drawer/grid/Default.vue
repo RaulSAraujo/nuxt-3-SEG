@@ -29,6 +29,7 @@ const active = computed(() =>
           color="red"
           size="small"
           variant="text"
+          :disabled="item.type == 'expand'"
           @click="store.remove(index, item)"
         />
       </template>
