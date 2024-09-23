@@ -32,6 +32,8 @@ onBeforeRouteLeave((to, from, next) => {
 
     full.value = undefined;
 
+    otParams.value = undefined;
+
     next();
   }
 });
