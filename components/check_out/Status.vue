@@ -83,13 +83,5 @@ eventSource.onerror = () => {
         </strong>
       </span>
     </v-col>
-    <v-col>
-      <span>
-        COLETADO:
-        <strong class="text-blue-darken-3">
-          {{ collected }}
-        </strong>
-      </span>
-    </v-col>
   </v-row>
 </template>
