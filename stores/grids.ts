@@ -111,6 +111,9 @@ export const useGridStore = defineStore("grids", () => {
         const initial = useArrayFilter(mapDefaultGrid, (f) => f.initial_grid === true)
         const hidden = useArrayFilter(mapDefaultGrid, (f) => f.initial_grid === false)
 
+        // Validar se expand esta ativo
+        const activeExpand = availableGrid.value.findIndex((e) => e.key == 'data-table-expand') > -1
+
         if (initial.value.length > 0) {
             const sortedAvailable = useSorted(initial, (a, b) => {
                 if (a.sequence_grid == null) return 1;
@@ -129,22 +132,25 @@ export const useGridStore = defineStore("grids", () => {
             hiddenGrid.value = []
         }
 
-        const find = availableGrid.value.find((e) => e.key == 'data-table-expand')
-        if (!find) {
-            availableGrid.value.splice(0, 0, {
-                title: "Expansível",
-                align: "",
-                sortable: false,
-                key: "data-table-expand",
-                maxWidth: null,
-                type: "expand",
-                initial_grid: false,
-            });
-        }
+        if (activeExpand) {
+            const find = availableGrid.value.find((e) => e.key == 'data-table-expand')
+            if (!find) {
+                availableGrid.value.splice(0, 0, {
+                    title: "Expansível",
+                    align: "",
+                    sortable: false,
+                    key: "data-table-expand",
+                    maxWidth: null,
+                    type: "expand",
+                    initial_grid: false,
+                });
+            }
 
-        const indexFormat = availableFormat.value.findIndex((e) => e.key == 'data-table-expand')
-        if (indexFormat > -1) {
-            availableFormat.value.splice(indexFormat, 1)
+            const indexFormat = availableFormat.value.findIndex((e) => e.key == 'data-table-expand')
+            if (indexFormat > -1) {
+                availableFormat.value.splice(indexFormat, 1)
+            }
+
         }
     }
 
