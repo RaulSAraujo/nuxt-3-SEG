@@ -3,6 +3,7 @@ import type { SalesOrder, ProductCheckout, Row as RowSalesOrder } from "~/interf
 import type { SaleData, Order } from "~/interfaces/SaleData.js";
 import type { StockTagControl, Row } from "~/interfaces/StockTagControl.js";
 import type { User } from "~/interfaces/User";
+import type { UserAnalysis } from "~/interfaces/UserAnalysis.js";
 
 export const useCheckOutStore = defineStore("checkout", () => {
 
@@ -510,6 +511,11 @@ export const useCheckOutStore = defineStore("checkout", () => {
     'ORIGIPARTS.COM': 'purple',
   })
 
+  const dateUserAnalysis = ref('');
+
+  const itemsUserAnalysis = ref<UserAnalysis>()
+
+  const loadingUserAnalysis = ref(false)
 
   return {
     search,
@@ -522,6 +528,9 @@ export const useCheckOutStore = defineStore("checkout", () => {
     verifyOrder,
     sellerMap,
     abbreviationPointSalerMap,
-    mapColorSeller
+    mapColorSeller,
+    dateUserAnalysis,
+    itemsUserAnalysis,
+    loadingUserAnalysis
   }
 })

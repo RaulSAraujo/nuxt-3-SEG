@@ -7,7 +7,7 @@ const { salesOrder, sellerMap } = storeToRefs(checkOutStore);
   <v-row dense align="center" justify="center" class="my-2">
     <v-col sm="2">
       <div class="d-flex">
-        <FilterMenuGridButton />
+        <CheckOutDetailsSalesMenu />
 
         <CheckOutDetailsSalesInput />
       </div>
