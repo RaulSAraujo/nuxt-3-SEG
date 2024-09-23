@@ -68,6 +68,7 @@ export const useTableStore = defineStore("table", () => {
         'stock-product-label': 'stock-tag-control',
         'stock-parts-collection-management': 'PartsCollectionManagement',
         'expedition-check-out': 'sales-order',
+        'expedition-check-out-history': 'sales-order',
         'expedition-cut-time': 'CarrierCutTime',
         'manager-pendency': 'Pendency',
         'manager-tax-stock': 'TaxStock',

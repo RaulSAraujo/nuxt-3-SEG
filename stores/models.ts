@@ -38,6 +38,7 @@ export const useModelStore = defineStore("models", () => {
         'stock-product-label': 'StockTagControl',
         'stock-parts-collection-management': 'PartsCollectionManagement',
         'expedition-check-out': 'SalesOrder',
+        'expedition-check-out-history': 'SalesOrder',
         'expedition-cut-time': 'CarrierCutTime',
         'manager-pendency': 'Pendency',
         'manager-tax-stock': 'TaxStock',
