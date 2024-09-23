@@ -46,8 +46,8 @@ const seller = computed(() => sellerMap.value[salesOrder.value!.id.length]);
   </v-dialog>
 </template>
 
-<style>
-.v-toolbar-title {
+<style scoped>
+::v-deep .v-toolbar-title {
   font-size: xx-large;
   font-weight: bold;
 }

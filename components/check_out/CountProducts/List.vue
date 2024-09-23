@@ -27,12 +27,12 @@ const { products } = storeToRefs(checkOutStore);
   </v-list>
 </template>
 
-<style>
-.v-list-item-title {
+<style scoped>
+::v-deep .v-list-item-title {
   font-size: 1.5rem;
 }
 
-.v-avatar.v-avatar--size-default {
+::v-deep .v-avatar.v-avatar--size-default {
   --v-avatar-height: 100px;
 }
 
