@@ -26,15 +26,15 @@
         <template #default>
           <v-row class="mx-2 mb-2" justify="space-between">
             <v-col cols="4">
-              <CheckOutDetailsSalesMenuUserAnalysisDatePicker />
+              <CheckOutUserAnalysisDatePicker />
             </v-col>
 
             <v-col cols="2">
-              <CheckOutDetailsSalesMenuUserAnalysisButton />
+              <CheckOutUserAnalysisButton />
             </v-col>
           </v-row>
 
-          <CheckOutDetailsSalesMenuUserAnalysisTable />
+          <CheckOutUserAnalysisTable />
         </template>
       </v-card>
     </template>

@@ -11,6 +11,7 @@ const { search } = storeToRefs(checkOutStore);
     variant="outlined"
     density="compact"
     hide-details
+    color="primary"
     append-icon="mdi-send"
     class="mx-2"
     @click:append="checkOutStore.loadSalesOrder()"

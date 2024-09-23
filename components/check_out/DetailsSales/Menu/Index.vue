@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <v-menu location="top" offset="5px 0px">
+  <v-menu location="top right" offset="5px 0px">
     <template #activator="{ props }">
       <v-btn
         v-bind="props"
@@ -13,7 +13,7 @@
     </template>
 
     <v-btn-toggle divided rounded="lg">
-      <CheckOutDetailsSalesMenuUserAnalysis />
+      <CheckOutDetailsSalesMenuUploadFiles />
 
       <FilterMenuGridButton />
     </v-btn-toggle>
