@@ -11,10 +11,6 @@ const { data } = useAuthState();
     <span class="ml-5 text-h6 text-primary font-weight-black">CHECKOUT</span>
 
     <v-container fluid>
-      <ClientOnly>
-        <CheckOutStatus />
-      </ClientOnly>
-
       <CheckOutDetailsSales />
     </v-container>
 
@@ -25,6 +21,12 @@ const { data } = useAuthState();
         created_at: $dayjs().format('YYYY-MM-DD'),
       }"
     >
+      <template #item.actions="{ item }">
+        <CheckOutTemplatePrintLabel :sale-id="item.sale_id" />
+
+        <CheckOutTemplatePrintInvoice :sale-id="item.sale_id" />
+      </template>
+
       <template #item.tag_id="{ item }">
         <CheckOutTemplateTags :tags="item.tag_id ?? []" />
       </template>
@@ -43,6 +45,10 @@ const { data } = useAuthState();
 
       <template #item.freight_value_validation="{ item }">
         <ToLocaleString :value="item.freight_value_validation" />
+      </template>
+
+      <template #item.sale_id="{ item }">
+        <CheckOutTemplateTray :sale-id="`${item.sale_id}`" :poin-sale="item.poin_sale" />
       </template>
     </Table>
 
