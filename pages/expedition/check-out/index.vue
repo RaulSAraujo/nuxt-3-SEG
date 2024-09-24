@@ -8,11 +8,52 @@ const { data } = useAuthState();
 
 <template>
   <div class="mt-5">
-    <span class="ml-5 text-h6 text-primary font-weight-black">CHECKOUT</span>
+    <v-row dense align="center" justify="space-between">
+      <v-col cols="2">
+        <span class="ml-5 text-h6 text-primary font-weight-black">CHECKOUT</span>
+      </v-col>
 
-    <v-container fluid>
-      <CheckOutDetailsSales />
-    </v-container>
+      <v-col cols="7">
+        <ClientOnly>
+          <CheckOutStatus />
+
+          <template #fallback>
+            <v-row dense justify="space-between" align="center">
+              <v-col>
+                <v-skeleton-loader color="transparent" type="heading" />
+              </v-col>
+              <v-col>
+                <v-skeleton-loader color="transparent" type="heading" />
+              </v-col>
+              <v-col>
+                <v-skeleton-loader color="transparent" type="heading" />
+              </v-col>
+              <v-col>
+                <v-skeleton-loader color="transparent" type="heading" />
+              </v-col>
+            </v-row>
+          </template>
+        </ClientOnly>
+      </v-col>
+    </v-row>
+
+    <Filter hide-excel>
+      <template #menu>
+        <CheckOutUserAnalysis />
+
+        <CheckOutUploadFiles />
+      </template>
+
+      <template #button-create>
+        <div class="d-flex">
+          <CheckOutInput />
+
+          <CheckOutSwitch />
+        </div>
+
+        <v-spacer />
+      </template>
+    </Filter>
 
     <Table
       multi-sort

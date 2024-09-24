@@ -22,7 +22,7 @@
     </template>
 
     <template #default>
-      <CheckOutDetailsSalesMenuUploadFilesStepper />
+      <CheckOutUploadFilesStepper />
     </template>
   </v-dialog>
 </template>

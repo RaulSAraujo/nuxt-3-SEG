@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const checkOutStore = useCheckOutStore();
 const { search } = storeToRefs(checkOutStore);
+
+const theme = useTheme();
 </script>
 
 <template>
@@ -11,9 +13,11 @@ const { search } = storeToRefs(checkOutStore);
     variant="outlined"
     density="compact"
     hide-details
-    color="primary"
     append-icon="mdi-send"
-    class="mx-2"
+    class="mx-5"
+    :color="theme.global.current.value.dark ? 'white' : 'black'"
+    bg-color="primary"
+    width="320px"
     @click:append="checkOutStore.loadSalesOrder()"
     @keyup.enter="checkOutStore.loadSalesOrder()"
   />
