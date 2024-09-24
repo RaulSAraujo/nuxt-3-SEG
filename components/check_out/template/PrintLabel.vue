@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  saleId: number;
+  saleId: number | string;
 }>();
 
 const { $customFetch } = useNuxtApp();
