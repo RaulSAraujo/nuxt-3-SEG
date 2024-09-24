@@ -166,5 +166,5 @@ export interface ProductCheckout {
     ean: string;
     created_at: Date;
     updated_at: Date;
-
+    tags: { tag_id: number; check: boolean }[]
 }

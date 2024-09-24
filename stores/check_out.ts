@@ -24,6 +24,8 @@ export const useCheckOutStore = defineStore("checkout", () => {
   const dialog = ref(false)
 
   async function loadSalesOrder() {
+    reset()
+
     loading.start()
 
     search.value = await getTag();
@@ -65,6 +67,8 @@ export const useCheckOutStore = defineStore("checkout", () => {
       search.value = "";
 
       $toast().error("A tag informada não possui vinculo com algum pedido.");
+
+      loading.finish()
     }
   };
 
@@ -162,6 +166,13 @@ export const useCheckOutStore = defineStore("checkout", () => {
           // Obtem a quantidade pela tag
           const quantityTag = tags.value.filter((item) => tag.name == item.name).length;
 
+          const tagsCheck = tags.value.map((e) => {
+            return {
+              tag_id: e.id,
+              check: false
+            }
+          })
+
           if (productInvoice.value) {
             if (quantityTag !== productInvoice.value.quantity) {
               $toast().warning(`O codigo ${tag.name} não foi completamente separado.`);
@@ -172,6 +183,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
               quantitySold: productInvoice.value?.quantity ?? 0,
               imageUrl: productTray.value?.ProductsSold.ProductSoldImage[0].http ?? "",
               countedQuantity: 0,
+              tags: tagsCheck
             });
           } else {
             products.value.push({
@@ -179,6 +191,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
               quantitySold: quantityTag,
               imageUrl: productTray.value?.ProductsSold.ProductSoldImage[0].http ?? "",
               countedQuantity: 0,
+              tags: tagsCheck
             });
           }
         }
@@ -200,11 +213,19 @@ export const useCheckOutStore = defineStore("checkout", () => {
           // Obtem a quantidade pela tag
           const quantityTag = tags.value.filter((item) => tag.name == item.name).length;
 
+          const tagsCheck = tags.value.map((e) => {
+            return {
+              tag_id: e.id,
+              check: false
+            }
+          })
+
           products.value.push({
             ...tag.Product,
             quantitySold: quantityTag,
             imageUrl: productTray.value?.ProductsSold.ProductSoldImage[0].http ?? "",
             countedQuantity: 0,
+            tags: tagsCheck
           });
         }
       }
@@ -249,6 +270,8 @@ export const useCheckOutStore = defineStore("checkout", () => {
     'COLETA ADIADA',
     'ARQUIVO RECEBIDO',
     'EM SEPARAÇÃO',
+    'CANCELADO',
+    'EM TRANSFERÊNCIA',
     'FATURADO',
   ]
 
@@ -347,11 +370,22 @@ export const useCheckOutStore = defineStore("checkout", () => {
     'ARQUIVO RECEBIDO',
   ]
 
+  const CanceledStatus = [
+    'CANCELADO',
+    'CANCELADO AUT',
+    'CANCELADO DEV',
+    'CANCELADO DEV AGILIZADA',
+    'CANCELADO DEV MEDIAÇÃO',
+    'CANCELADO ETQ',
+    'CANCELADO PELO DESTINATARIO',
+    'CANCELADO FULL',
+  ]
+
   function validStatus() {
     const { id, OrderStatus } = salesOrder.value!
 
     if (!desiredStatus.includes(OrderStatus.status)) {
-      if (OrderStatus.status === 'CANCELADO') {
+      if (CanceledStatus.includes(OrderStatus.status)) {
         removeTags(id)
       }
 
@@ -490,6 +524,16 @@ export const useCheckOutStore = defineStore("checkout", () => {
       $toast().info('Etiqueta provisoria ja emitida.')
     }
   };
+
+  function reset() {
+    salesOrder.value = undefined;
+
+    products.value = [];
+
+    box.value = '';
+
+    provisionalTagAlreadyPrinted.value = false;
+  }
 
   const abbreviationPointSalerMap = ref<{ [key: string]: string }>({
     SAC: 'SAC',

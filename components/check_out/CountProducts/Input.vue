@@ -32,14 +32,26 @@ const count = async () => {
   counted.value = "";
 
   // Busca do produto pelo produto chave
-  product = useArrayFind(products, (e) => e.produto_chave == tag.produto_chave).value;
+  product = useArrayFind(
+    products,
+    (e) => e.produto_chave == tag.produto_chave && e.countedQuantity !== e.quantitySold
+  ).value;
 
   // Caso não encontrar o produto pelo produto chave Tentará com o codigo de fabricante
   if (!product) {
-    product = useArrayFind(products, (e) => e.name == tag.name).value;
+    product = useArrayFind(
+      products,
+      (e) => e.name == tag.name && e.countedQuantity !== e.quantitySold
+    ).value;
   }
 
   if (product) {
+    const findTag = useArrayFind(product.tags, (e) => e.tag_id == tag.id_tag).value;
+
+    if (findTag?.check) {
+      return $toast().error(`Esta tag ja foi contabilizada.`);
+    }
+
     const stockTag = await $customFetch<StockTagControl>(
       `stock-tag-control?id=${tag.id_tag}`
     );
@@ -56,13 +68,17 @@ const count = async () => {
 
       product.countedQuantity += 1;
     }
+
+    if (findTag) {
+      findTag.check = true;
+    }
   } else {
     $toast().error("Erro, codigo invalido.");
   }
 
-  const fullCount = useArraySome(products, (e) => e.quantitySold === e.countedQuantity);
+  const fullCount = useArrayFilter(products, (e) => e.quantitySold === e.countedQuantity);
 
-  if (fullCount) {
+  if (fullCount.value.length === products.value.length) {
     checkOutStore.verifyOrder();
 
     setTimeout(() => {
@@ -83,6 +99,7 @@ const count = async () => {
       hide-details
       append-inner-icon="mdi-send"
       @click:append-inner="count"
+      @keypress.enter="count"
     />
   </div>
 </template>
