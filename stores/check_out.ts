@@ -235,19 +235,19 @@ export const useCheckOutStore = defineStore("checkout", () => {
     }
   };
 
+  const desiredStatuses = [
+    "AGUARDANDO ETIQUETA TRANSP.",
+    "ERRO ARQUIVO XML NF",
+    "ERRO DE IMPRESSÃO",
+    "ARQUIVO RECEBIDO",
+    "COLETA ADIADA",
+    "EM SEPARAÇÃO",
+    "FATURADO",
+  ];
+
   async function getHistory() {
     // Verificar se o produto possui historico com a contagem concluida
     const history = await $customFetch<SalesOrder>(`sales-order?sale_id=${search.value}`);
-
-    const desiredStatuses = [
-      "AGUARDANDO ETIQUETA TRANSP.",
-      "ERRO ARQUIVO XML NF",
-      "ERRO DE IMPRESSÃO",
-      "ARQUIVO RECEBIDO",
-      "COLETA ADIADA",
-      "EM SEPARAÇÃO",
-      "FATURADO",
-    ];
 
     provisionalTagAlreadyPrinted.value = history.rows.some((tag) => desiredStatuses.includes(tag.status))
 
@@ -265,7 +265,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
     box.value = res.box
   };
 
-  const statusForTemporaryTag = [
+  const statusForTemporaryTag = ref([
     'A ENVIAR',
     'AGUARDANDO ETIQUETA',
     'ERRO DE IMPRESSÃO',
@@ -276,7 +276,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
     'CANCELADO',
     'EM TRANSFERÊNCIA',
     'FATURADO',
-  ]
+  ])
 
   interface SalesOrderTag {
     sale_tag: string;
@@ -310,7 +310,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
         retry: 0
       })
 
-      if (statusForTemporaryTag.includes(saleTag.value.sale_tag)) {
+      if (statusForTemporaryTag.value.includes(saleTag.value.sale_tag)) {
         await tagProvisional() // Etiqueta temporaria
       }
     } catch (error) {
@@ -588,6 +588,8 @@ export const useCheckOutStore = defineStore("checkout", () => {
     verifyOrder,
     sellerMap,
     abbreviationPointSalerMap,
+    desiredStatuses,
+    statusForTemporaryTag,
     mapColorSeller,
     dateUserAnalysis,
     itemsUserAnalysis,

@@ -86,6 +86,7 @@ export interface TagID {
     name: string;
     description: string;
     produto_chave: number;
+    erp_product_id?: number;
 }
 
 export interface ProductCheckout {
