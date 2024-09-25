@@ -87,6 +87,8 @@ export const useGridStore = defineStore("grids", () => {
     async function loadCustomGrids(model: string) {
         const defaultGrid = await useNuxtApp().$customFetch<CustomFilterGrid>(`custom-filters?model=${model}`)
 
+        defaultGrid.rows = useArrayFilter(defaultGrid.rows, (e) => e.align != ' d-none').value
+
         return defaultGrid;
     }
 
