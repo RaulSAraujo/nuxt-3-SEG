@@ -74,6 +74,10 @@ const { data } = useAuthState();
         <CheckOutTemplatePrintInvoice :sale-id="item.sale_id" />
       </template>
 
+      <template #item.images="{ item }">
+        <LazyCheckOutTemplateImages :sale-id="item.sale_id" />
+      </template>
+
       <template #item.tag_id="{ item }">
         <CheckOutTemplateTags :tags="item.tag_id ?? []" />
       </template>
