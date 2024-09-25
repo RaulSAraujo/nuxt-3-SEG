@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const checkOutStore = useCheckOutStore();
-const { search } = storeToRefs(checkOutStore);
+const { search, inputSaleId } = storeToRefs(checkOutStore);
 
 const theme = useTheme();
 </script>
@@ -8,6 +8,7 @@ const theme = useTheme();
 <template>
   <v-text-field
     id="InputSaleId"
+    ref="inputSaleId"
     v-model="search"
     label="Informe o numero do pedido"
     variant="outlined"

@@ -5,6 +5,8 @@ import type { StockTagControl } from "~/interfaces/StockTagControl.js";
 const checkOutStore = useCheckOutStore();
 const { dialog, salesOrder, products } = storeToRefs(checkOutStore);
 
+const input = ref();
+
 const counted = ref();
 
 const { $customFetch } = useNuxtApp();
@@ -84,13 +86,21 @@ const count = async () => {
     setTimeout(() => {
       dialog.value = false;
     }, 100);
+  } else {
+    input.value.focus();
   }
 };
+
+// Focar no input de codigo de fabricante
+setTimeout(() => {
+  input.value.focus();
+}, 200);
 </script>
 
 <template>
   <div class="mt-1" style="width: 30vw; margin: auto">
     <v-text-field
+      ref="input"
       v-model="counted"
       variant="solo"
       placeholder="INSIRA O CODIGO DE FABRICANTE"

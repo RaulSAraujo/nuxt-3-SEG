@@ -15,12 +15,21 @@ const seller = computed(() => sellerMap.value[salesOrder.value!.id.length]);
 <template>
   <v-dialog v-model="dialog" width="80vw" persistent no-click-animation>
     <v-toolbar
-      :title="`${seller} - ${abbreviationPointSalerMap[salesOrder!.point_sale]}`"
       :color="mapColorSeller[seller]"
       rounded="t-xl"
       flat
+      extended
+      extension-height="20"
       class="text-white text-center mb-1"
-    />
+    >
+      <template #default>
+        <div class="ma-auto py-2">
+          <span class="text-h2 font-weight-bold">
+            {{ seller }} - {{abbreviationPointSalerMap[salesOrder!.point_sale]}}
+          </span>
+        </div>
+      </template>
+    </v-toolbar>
 
     <v-card
       title="CONTAGEM DOS PRODUTOS"
@@ -46,9 +55,4 @@ const seller = computed(() => sellerMap.value[salesOrder.value!.id.length]);
   </v-dialog>
 </template>
 
-<style scoped>
-::v-deep .v-toolbar-title {
-  font-size: xx-large;
-  font-weight: bold;
-}
-</style>
+<style scoped></style>

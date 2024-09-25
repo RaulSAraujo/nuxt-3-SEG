@@ -23,6 +23,9 @@ export const useCheckOutStore = defineStore("checkout", () => {
 
   const dialog = ref(false)
 
+  // Ref do input sale id
+  const inputSaleId = ref();
+
   async function loadSalesOrder() {
     reset()
 
@@ -284,6 +287,14 @@ export const useCheckOutStore = defineStore("checkout", () => {
 
   const saleTag = ref<SalesOrderTag>()
 
+  const statusMapping: { [key: string]: string } = {
+    'AGUARDANDO ETIQUETA': 'AGUARDANDO ETIQUETA TRANSP.',
+    'ERRO DE IMPRESSÃO': 'AGUARDANDO ETIQUETA TRANSP.',
+    'ERRO XML': 'ERRO ARQUIVO XML NF',
+    'ETIQUETA INEXISTENTE': 'EMBALADO',
+    'IMPRESSÃO CONCLUÍDA': 'EMBALADO',
+  }
+
   async function verifyOrder() {
     if (!loading.isLoading.value) {
       loading.start()
@@ -295,7 +306,9 @@ export const useCheckOutStore = defineStore("checkout", () => {
     if (!validate) return
 
     try {
-      saleTag.value = await $customFetch<SalesOrderTag>(`sales-order/tag?id=${id}`)
+      saleTag.value = await $customFetch<SalesOrderTag>(`sales-order/tag?id=${id}`, {
+        retry: 0
+      })
 
       if (statusForTemporaryTag.includes(saleTag.value.sale_tag)) {
         await tagProvisional() // Etiqueta temporaria
@@ -311,15 +324,11 @@ export const useCheckOutStore = defineStore("checkout", () => {
 
       loading.finish()
 
-      return
-    }
+      setTimeout(() => {
+        inputSaleId.value.focus()
+      }, 200);
 
-    const statusMapping: { [key: string]: string } = {
-      'AGUARDANDO ETIQUETA': 'AGUARDANDO ETIQUETA TRANSP.',
-      'ERRO DE IMPRESSÃO': 'AGUARDANDO ETIQUETA TRANSP.',
-      'ERRO XML': 'ERRO ARQUIVO XML NF',
-      'ETIQUETA INEXISTENTE': 'EMBALADO',
-      'IMPRESSÃO CONCLUÍDA': 'EMBALADO',
+      return
     }
 
     let textStatus
@@ -354,6 +363,10 @@ export const useCheckOutStore = defineStore("checkout", () => {
 
     // Adicionando historico
     await setHistory()
+
+    setTimeout(() => {
+      inputSaleId.value.focus()
+    }, 200);
   };
 
   const desiredStatus = [
@@ -442,7 +455,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
           sale_id: id,
           user: user.name,
           initial_status: OrderStatus.status,
-          status: saleTag.value?.sale_tag ?? OrderStatus.status,
+          status: statusMapping[saleTag.value?.sale_tag ?? OrderStatus.status],
           produto_chave: ProductsSold[0].ProductsSold.reference,
           description: ProductsSold[0].ProductsSold.original_name,
           weight_cubic: ProductsSold[0].ProductsSold.weight_cubic,
@@ -460,10 +473,10 @@ export const useCheckOutStore = defineStore("checkout", () => {
         }
       })
 
-      $toast().info(`Status do pedido ${(saleTag.value?.sale_tag ?? OrderStatus.status).toLowerCase()}`)
+      // $toast().info(`Status do pedido ${(saleTag.value?.sale_tag ?? OrderStatus.status).toLowerCase()}`)
 
       const tableStore = useTableStore();
-      const { items, itemsPerPage } = storeToRefs(tableStore);
+      const { items, itemsPerPage, totalItems } = storeToRefs(tableStore);
 
       items.value.splice(0, 0, {
         ...res,
@@ -480,7 +493,9 @@ export const useCheckOutStore = defineStore("checkout", () => {
         deleted_at: null
       });
 
-      if (items.value.length == itemsPerPage.value) {
+      totalItems.value += 1
+
+      if (items.value.length >= itemsPerPage.value) {
         items.value.pop()
       }
     } catch (error) {
@@ -491,7 +506,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
   };
 
   async function tagProvisional() {
-    if (!provisionalTagAlreadyPrinted) {
+    if (!provisionalTagAlreadyPrinted.value) {
 
       const { id, point_sale, shipment, MarketplaceOrder } = salesOrder.value!
 
@@ -500,6 +515,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
 
       try {
         await $customFetch('sales-order/tag-temporary', {
+          method: 'POST',
           body: {
             id,
             seller: MarketplaceOrder[0]?.MarketplaceOrder.marketplace_seller_name || sellerMap.value[id.length],
@@ -575,6 +591,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
     mapColorSeller,
     dateUserAnalysis,
     itemsUserAnalysis,
-    loadingUserAnalysis
+    loadingUserAnalysis,
+    inputSaleId
   }
 })

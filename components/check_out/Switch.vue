@@ -24,6 +24,7 @@ const changeMypackage = () => {
 
 <template>
   <v-switch
+    id="switchMyPackages"
     v-model="activeMyPackages"
     inset
     label="MEUS PACOTES"

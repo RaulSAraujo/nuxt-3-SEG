@@ -33,7 +33,7 @@ const { products } = storeToRefs(checkOutStore);
 }
 
 ::v-deep .v-avatar.v-avatar--size-default {
-  --v-avatar-height: 100px;
+  --v-avatar-height: 150px;
 }
 
 .text-count {
