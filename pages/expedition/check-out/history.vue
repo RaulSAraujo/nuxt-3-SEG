@@ -27,7 +27,13 @@ useHead({
 
     <Table multi-sort>
       <template #item.actions="{ item }">
-        <CheckOutTemplatePrintLabel :sale-id="item.sale_id" />
+        <CheckOutTemplatePrintLabel
+          :sale-id="item.sale_id"
+          :poin-sale="item.poin_sale"
+          :seller="item.seller"
+          :shipment-mode="item.shipment_mode"
+          :tags="item.tag_id"
+        />
 
         <CheckOutTemplatePrintInvoice :sale-id="item.sale_id" />
       </template>
