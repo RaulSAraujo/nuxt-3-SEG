@@ -55,18 +55,14 @@ if (shipmentOrders.value.length == 0) {
   shipmentOrders.value.push(...uniqueCompanies);
 }
 
-const loading = ref(false);
-
 const { capitalizeFirstLetter } = useCapitalize();
 
 const upload = async () => {
-  loading.value = true;
-
   const formData = new FormData();
   formData.append("file", file.value);
 
   try {
-    await $customFetch(`sales-order/upload-pdf`, {
+    const res = await $customFetch(`sales-order/upload-pdf`, {
       method: "POST",
       params: {
         type: type.value,
@@ -76,15 +72,13 @@ const upload = async () => {
       },
       body: formData,
     });
+
+    $toast().success(`${res}`);
   } catch (error) {
     const err = error as { statusText: string; data: { error: string } };
 
     $toast().error(`${capitalizeFirstLetter(err.data.error) ?? err.statusText}`);
-
-    loading.value = false;
   }
-
-  loading.value = false;
 };
 
 watch(
@@ -143,7 +137,6 @@ watch(
               variant="plain"
               block
               size="160px"
-              :loading="loading"
               @click="upload"
             >
               <template #default>
