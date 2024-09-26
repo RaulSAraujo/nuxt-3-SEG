@@ -1,9 +1,7 @@
 <script setup lang="ts">
-// @ts-ignore
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import Highlight from "@tiptap/extension-highlight";
-import TextAlign from "@tiptap/extension-text-align";
 
 const props = defineProps<{
   content?: string | undefined;
@@ -11,7 +9,7 @@ const props = defineProps<{
 }>();
 
 const editor = useEditor({
-  content: props.content ?? "",
+  content: props.content ?? "<br/> <br/>",
   editorProps: {
     attributes: {
       class:
@@ -26,9 +24,6 @@ const editor = useEditor({
     TaskItem.configure({
       nested: true,
     }),
-    TextAlign.configure({
-      types: ["heading", "paragraph"],
-    }),
   ],
 });
 
@@ -40,10 +35,18 @@ defineExpose({ editor });
 </script>
 
 <template>
-  <ClientOnly>
-    <div v-if="editor" class="pa-3">
-      <div class="d-flex justify-space-between">
-        <v-btn-toggle dark multiple variant="outlined" color="primary">
+  <div>
+    <div class="d-flex">
+      <ClientOnly>
+        <v-btn-toggle
+          v-if="editor"
+          dark
+          multiple
+          variant="outlined"
+          color="primary"
+          divided
+          class="mx-1"
+        >
           <v-btn
             icon="mdi-format-bold"
             :color="editor.isActive('bold') ? 'primary' : 'secondary'"
@@ -66,51 +69,20 @@ defineExpose({ editor });
           />
         </v-btn-toggle>
 
-        <v-btn-toggle dark mandatory variant="outlined" color="primary">
-          <v-btn
-            icon="mdi-format-paragraph"
-            :class="{ 'is-active': editor.isActive('paragraph') }"
-            @click="editor.chain().focus().setParagraph().run()"
-          />
+        <template #fallback>
+          <v-skeleton-loader width="150px" color="transparent" type="heading" />
+        </template>
+      </ClientOnly>
 
-          <v-btn
-            icon="mdi-format-header-1"
-            :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
-            @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-          />
-
-          <v-btn
-            icon="mdi-format-header-2"
-            :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
-            @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-          />
-
-          <v-btn
-            icon="mdi-format-header-3"
-            :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
-            @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-          />
-
-          <v-btn
-            icon="mdi-format-header-4"
-            :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
-            @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
-          />
-
-          <v-btn
-            icon="mdi-format-header-5"
-            :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
-            @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
-          />
-
-          <v-btn
-            icon="mdi-format-header-6"
-            :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
-            @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
-          />
-        </v-btn-toggle>
-
-        <v-btn-toggle dark variant="outlined" color="primary">
+      <ClientOnly>
+        <v-btn-toggle
+          v-if="editor"
+          dark
+          variant="outlined"
+          color="primary"
+          divided
+          class="mx-1"
+        >
           <v-btn
             icon="mdi-format-list-bulleted"
             :class="{ 'is-active': editor.isActive('bulletList') }"
@@ -125,21 +97,28 @@ defineExpose({ editor });
 
           <v-btn
             icon="mdi-format-list-checks"
-            @click="editor.chain().focus().toggleTaskList().run()"
             :class="{ 'is-active': editor.isActive('taskList') }"
+            @click="editor.chain().focus().toggleTaskList().run()"
           />
         </v-btn-toggle>
 
-        <v-btn-toggle dark variant="outlined" color="primary">
-          <v-btn
-            icon="mdi-code-tags"
-            :class="{ 'is-active': editor.isActive('code') }"
-            @click="editor.chain().focus().toggleCode().run()"
-          />
+        <template #fallback>
+          <v-skeleton-loader width="150px" color="transparent" type="heading" />
+        </template>
+      </ClientOnly>
 
+      <ClientOnly>
+        <v-btn-toggle
+          v-if="editor"
+          dark
+          variant="outlined"
+          color="primary"
+          divided
+          class="mx-1"
+        >
           <v-btn
             icon="mdi-lightning-bolt"
-            :class="{ 'is-active': editor.isActive('highlight') }"
+            :class="{ 'is-active': editor.isActive('Highlight') }"
             @click="editor.chain().focus().toggleHighlight().run()"
           />
 
@@ -149,50 +128,24 @@ defineExpose({ editor });
           />
         </v-btn-toggle>
 
-        <v-btn-toggle dark mandatory variant="outlined" color="primary">
-          <v-btn
-            icon="mdi-format-align-left"
-            @click="editor.chain().focus().setTextAlign('left').run()"
-            :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
-          />
-          <v-btn
-            icon="mdi-format-align-center"
-            @click="editor.chain().focus().setTextAlign('center').run()"
-            :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
-          />
-          <v-btn
-            icon="mdi-format-align-right"
-            @click="editor.chain().focus().setTextAlign('right').run()"
-            :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
-          />
-        </v-btn-toggle>
-
-        <v-btn-toggle dark variant="outlined" color="primary">
-          <v-btn
-            @click="editor.chain().focus().undo().run()"
-            :disabled="!editor.can().chain().focus().undo().run()"
-          >
-            undo
-          </v-btn>
-
-          <v-btn
-            @click="editor.chain().focus().redo().run()"
-            :disabled="!editor.can().chain().focus().redo().run()"
-          >
-            redo
-          </v-btn>
-        </v-btn-toggle>
-      </div>
-
-      <TiptapEditorContent :editor="editor" />
+        <template #fallback>
+          <v-skeleton-loader width="100px" color="transparent" type="heading" />
+        </template>
+      </ClientOnly>
     </div>
-  </ClientOnly>
+
+    <ClientOnly>
+      <TiptapEditorContent v-if="editor" :editor="editor" />
+
+      <template #fallback>
+        <v-skeleton-loader color="transparent" type="heading@3" />
+      </template>
+    </ClientOnly>
+  </div>
 </template>
 
 <style>
 .tiptap {
-  border: 1px solid #555252;
-  border-radius: 8px;
   padding: 8px 10px 8px 15px;
   margin: 20px;
 }
@@ -245,7 +198,8 @@ ul[data-type="taskList"] {
   padding: 0.1rem 0.3rem;
 }
 
-.tiptap:hover {
-  border: 1px solid white;
+.tiptap:focus-visible {
+  border: 1px solid transparent;
+  outline: transparent auto 0px;
 }
 </style>
