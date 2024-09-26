@@ -19,7 +19,7 @@ const active = computed(() => selected.value.length > 0);
           color="primary"
           density="compact"
           :ripple="false"
-          class="pa-0"
+          class="pa-0 mx-1"
           @click="selected = []"
         />
 

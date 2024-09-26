@@ -13,5 +13,7 @@ const valueTotal = computed(() =>
 </script>
 
 <template>
-  <span> Total: <ToLocaleString :value="valueTotal" /> </span>
+  <span class="mx-1">Total:</span>
+
+  <ToLocaleString :value="valueTotal" class="mx-1" />
 </template>

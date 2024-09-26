@@ -13,5 +13,5 @@ const totalItems = computed(() =>
 </script>
 
 <template>
-  <span> Total items: {{ totalItems }} </span>
+  <span class="mx-1"> Total items: {{ totalItems }} </span>
 </template>
