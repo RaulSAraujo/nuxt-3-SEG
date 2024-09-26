@@ -1,5 +1,6 @@
 import { useArrayFilter, useArrayMap } from "@vueuse/core"
 import type { Operation } from "~/interfaces/Operation"
+import useCapitalize from "~/composables/useCapitalize"
 import type { Page } from "~/interfaces/Page"
 import type { H3Event } from 'h3'
 
@@ -55,41 +56,49 @@ const getBaseUrl = (event: H3Event) => {
 }
 
 export default defineEventHandler(async (event) => {
-    const { username, password } = await readBody(event)
+    try {
+        const { username, password } = await readBody(event)
 
-    const baseUrl = getBaseUrl(event)
+        const baseUrl = getBaseUrl(event)
 
-    const response = await $fetch<SignIn>(`${baseUrl}/login`, {
-        method: 'POST',
-        body: {
-            username,
-            password
-        },
-    })
+        const response = await $fetch<SignIn>(`${baseUrl}/login`, {
+            method: 'POST',
+            body: {
+                username,
+                password
+            },
+        })
 
-    const operations = response.operations as Operation[]
-    const pages = await useStorage('assets:server').getItem(`pages.json`) as Page[]
-    for (const operation of operations) {
-        if (operation.name === "Ver") {
-            for (const page of pages) {
-                const findMenu = page.items.find(subMenu => operation.back_url === subMenu.backUrl)
+        const operations = response.operations as Operation[]
+        const pages = await useStorage('assets:server').getItem(`pages.json`) as Page[]
+        for (const operation of operations) {
+            if (operation.name === "Ver") {
+                for (const page of pages) {
+                    const findMenu = page.items.find(subMenu => operation.back_url === subMenu.backUrl)
 
-                if (findMenu) {
-                    findMenu.auth = true
+                    if (findMenu) {
+                        findMenu.auth = true
+                    }
                 }
             }
         }
+
+        const AuthenticatedPages = await auth_pages(pages);
+
+        const filterMenu = useArrayFilter(AuthenticatedPages, (f) => f!.title !== 'Options')
+
+        await useStorage('data').setItem(`group_id_${response.group_id}:pages`, filterMenu.value)
+
+        const filterOptions = useArrayFilter(AuthenticatedPages, (f) => f!.title === 'Options')
+
+        await useStorage('data').setItem(`group_id_${response.group_id}:pages_options`, filterOptions.value[0])
+
+        return response
+    } catch (error) {
+        const { capitalizeFirstLetter } = useCapitalize();
+
+        const err = error as { statusText: string; data: { message: string } };
+
+        return new Error(`${capitalizeFirstLetter(err.data.message) ?? err.statusText}`)
     }
-
-    const AuthenticatedPages = await auth_pages(pages);
-
-    const filterMenu = useArrayFilter(AuthenticatedPages, (f) => f!.title !== 'Options')
-
-    await useStorage('data').setItem(`group_id_${response.group_id}:pages`, filterMenu.value)
-
-    const filterOptions = useArrayFilter(AuthenticatedPages, (f) => f!.title === 'Options')
-
-    await useStorage('data').setItem(`group_id_${response.group_id}:pages_options`, filterOptions.value[0])
-
-    return response
 })

@@ -1,12 +1,12 @@
-<script setup>
+<script setup lang="ts">
 const { handleSubmit } = useForm({
   validationSchema: {
-    username(value) {
+    username(value: string) {
       if (value?.length > 0) return true;
 
       return "Username required.";
     },
-    password(value) {
+    password(value: string) {
       if (value?.length > 0) return true;
 
       return "Password required.";
@@ -26,7 +26,9 @@ const submit = handleSubmit(async (values) => {
       redirect: true,
     });
   } catch (error) {
-    $toast().error(error.statusMessage ?? "OCorreu um erro.");
+    const err = error as { statusText: string; data: { message: string } };
+
+    $toast().error(`${err.data.message ?? err.statusText}`);
   }
 });
 </script>
@@ -57,9 +59,7 @@ const submit = handleSubmit(async (values) => {
     />
 
     <v-row no-gutters justify="center" class="mx-10 mt-6">
-      <v-btn block height="35" color="primary" type="submit">
-        ENTRAR
-      </v-btn>
+      <v-btn block height="35" color="primary" type="submit"> ENTRAR </v-btn>
     </v-row>
   </v-form>
 </template>
