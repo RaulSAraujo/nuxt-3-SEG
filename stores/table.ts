@@ -91,6 +91,7 @@ export const useTableStore = defineStore("table", () => {
         'option-index-user': 'User',
         'option-index-log-access': 'LoginLog',
         'option-index-access': 'UsersAccessList',
+        'support-request': 'support-request',
     });
 
     const othersParams = ref<object | undefined>()

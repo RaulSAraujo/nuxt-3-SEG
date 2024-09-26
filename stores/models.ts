@@ -61,6 +61,7 @@ export const useModelStore = defineStore("models", () => {
         'option-index-user': 'User',
         'option-index-log-access': 'LoginLog',
         'option-index-access': 'UsersAccessList',
+        'support-request': 'SupportRequest',
     });
 
     function findModelName() {

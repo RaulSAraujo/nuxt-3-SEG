@@ -70,6 +70,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/test-utils',
     'nuxt-payload-analyzer',
+    'nuxt-tiptap-editor'
   ],
 
   css: ['@/assets/style.css'],
@@ -195,6 +196,10 @@ export default defineNuxtConfig({
     plugins: ['relativeTime', 'utc', 'timezone', 'customParseFormat'],
     defaultLocale: 'pt-br',
     defaultTimezone: 'America/Sao_Paulo',
+  },
+
+  tiptap: {
+    prefix: 'Tiptap',
   },
 
   sourcemap: {
