@@ -4,6 +4,8 @@ useHead({
 });
 
 const { data } = useAuthState();
+
+const { brDateWithTime } = useDateConversion();
 </script>
 
 <template>
@@ -96,6 +98,10 @@ const { data } = useAuthState();
 
       <template #item.freight_value_validation="{ item }">
         <ToLocaleString :value="item.freight_value_validation" />
+      </template>
+
+      <template #item.created_at="{ item }">
+        <span>{{ brDateWithTime(item.created_at) }}</span>
       </template>
 
       <template #item.sale_id="{ item }">
