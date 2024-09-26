@@ -2,14 +2,14 @@
 import type { Phrase } from "~/interfaces/Phrase";
 
 const { data, status } = useLazyFetch(
-  "https://pensador-api.vercel.app/?term=Elon Musk&max=1",
+  "https://pensador-api.vercel.app/?term=Elon Musk&max=10",
   {
     key: "Phrases",
     getCachedData(key, nuxtApp) {
       return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
     },
     transform: (fetchData: Phrase) => ({
-      text: fetchData.frases[0].texto,
+      text: fetchData.frases[Math.floor(Math.random() * 10)].texto,
     }),
   }
 );
