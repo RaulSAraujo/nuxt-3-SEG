@@ -9,7 +9,8 @@ const active = computed(() => selected.value.length > 0);
   <v-bottom-sheet v-model="active" :scrim="false">
     <v-sheet class="d-flex align-center px-5 py-2" height="75px">
       <v-badge color="primary" :content="selected.length" inline class="mr-1" />
-      <div class="text-button-sheet">
+
+      <div class="d-flex align-center text-button-sheet">
         <span>items selecionados | </span>
 
         <v-btn
@@ -32,7 +33,7 @@ const active = computed(() => selected.value.length > 0);
   </v-bottom-sheet>
 </template>
 
-<style>
+<style scoped>
 .text-button-sheet {
   font-size: 0.85rem;
   font-weight: 500;

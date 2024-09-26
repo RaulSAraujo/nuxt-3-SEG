@@ -13,5 +13,7 @@ const freightInvoice = computed(() =>
 </script>
 
 <template>
-  <span> FATURA TOTAL: <ToLocaleString :value="freightInvoice" /> </span>
+  <span class="mx-1"> FATURA TOTAL: </span>
+
+  <ToLocaleString :value="freightInvoice" class="mx-1" />
 </template>

@@ -13,5 +13,7 @@ const diffFreight = computed(() =>
 </script>
 
 <template>
-  <span> DIFF FRETE TOTAL: <ToLocaleString :value="diffFreight" /> </span>
+  <span class="mx-1">DIFF FRETE TOTAL:</span>
+
+  <ToLocaleString :value="diffFreight" class="mx-1" />
 </template>
