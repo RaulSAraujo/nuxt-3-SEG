@@ -393,7 +393,7 @@
             },
             {
                 "icon": "mdi-cart-percent",
-                "title": "Venda de aparelhos",
+                "title": "Aparelhos à venda",
                 "name": "sale-sell-device",
                 "backUrl": "/sell-device",
                 "auth": false,

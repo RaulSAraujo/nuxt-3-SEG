@@ -29,6 +29,7 @@ export const useModelStore = defineStore("models", () => {
         'sale-verification-order': 'SalesOrdersSeparation',
         'sale-warranty': 'WarrantyRma',
         'sale-shipping-verification': 'SalesOrder',
+        'sale-sell-device': 'SellDevice',
         'service-order': 'ServiceOrder',
         'service-cash-control': 'ReceptionCashControl',
         'service-crm': 'Crm',

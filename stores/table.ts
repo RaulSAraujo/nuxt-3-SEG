@@ -59,6 +59,7 @@ export const useTableStore = defineStore("table", () => {
         'sale-verification-order': 'SalesOrdersSeparation',
         'sale-warranty': 'WarrantyRma',
         'sale-shipping-verification': 'SalesOrder',
+        'sale-sell-device': 'sell-device',
         'service-order': 'ServiceOrder',
         'service-cash-control': 'ReceptionCashControl',
         'service-crm': 'Crm',
