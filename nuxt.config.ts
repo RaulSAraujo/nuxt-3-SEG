@@ -70,7 +70,8 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/test-utils',
     'nuxt-payload-analyzer',
-    'nuxt-tiptap-editor'
+    'nuxt-tiptap-editor',
+    'nuxt-easy-lightbox'
   ],
 
   css: ['@/assets/style.css'],
