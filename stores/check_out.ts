@@ -280,9 +280,9 @@ export const useCheckOutStore = defineStore("checkout", () => {
 
   interface SalesOrderTag {
     sale_tag: string;
-    nameShipping: string;
-    nfKey: string;
-    shipping_volume: string
+    nameShipping?: string;
+    nfKey?: string;
+    shipping_volume?: string
   }
 
   const saleTag = ref<SalesOrderTag>()
@@ -318,7 +318,9 @@ export const useCheckOutStore = defineStore("checkout", () => {
 
       $toast().error(`${err.data.error ?? err.statusText}`);
 
-      await setHistory() // Adicionando historico
+      saleTag.value = {
+        sale_tag: err.data.error,
+      }
 
       await tagProvisional() // Etiqueta temporaria
 
@@ -328,7 +330,6 @@ export const useCheckOutStore = defineStore("checkout", () => {
         inputSaleId.value.focus()
       }, 200);
 
-      return
     }
 
     let textStatus
@@ -338,25 +339,12 @@ export const useCheckOutStore = defineStore("checkout", () => {
       textStatus = statusMapping[saleTag.value!.sale_tag] || ''
     }
 
-    try {
-      if (textStatus !== '') {
-        // Alteração de status na tray.
-        await $customFetch('sales-order/status', {
-          method: 'POST',
-          body: {
-            id,
-            status: textStatus,
-          }
-        })
-      } else {
-        const text = saleTag.value.sale_tag.charAt(0).toUpperCase() + saleTag.value.sale_tag.slice(1).toLowerCase()
+    if (textStatus !== '') {
+      await setStatusTray(id, textStatus)
+    } else {
+      const text = saleTag.value.sale_tag.charAt(0).toUpperCase() + saleTag.value.sale_tag.slice(1).toLowerCase()
 
-        $toast().error(text)
-      }
-    } catch (error) {
-      const err = error as { statusText: string; message: string };
-
-      $toast().error(`${err.statusText ?? err.message}`);
+      $toast().error(text)
     }
 
     loading.finish()
@@ -540,6 +528,24 @@ export const useCheckOutStore = defineStore("checkout", () => {
       $toast().info('Etiqueta provisoria ja emitida.')
     }
   };
+
+  async function setStatusTray(id: string, textStatus: string) {
+    try {
+      // Alteração de status na tray.
+      await $customFetch('sales-order/status', {
+        method: 'POST',
+        body: {
+          id,
+          status: textStatus,
+        }
+      })
+
+    } catch (error) {
+      const err = error as { statusText: string; message: string };
+
+      $toast().error(`${err.statusText ?? err.message}`);
+    }
+  }
 
   function reset() {
     salesOrder.value = undefined;
