@@ -36,7 +36,7 @@ const printer = async () => {
       },
     });
 
-    $toast().error(`${res.sale_tag}`);
+    $toast().success(`${res.sale_tag}`);
 
     if (statusForTemporaryTag.value.includes(res.sale_tag)) {
       const stringTags = props.tags.map((item) => item.id).join(",");

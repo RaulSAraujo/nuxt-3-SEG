@@ -28,7 +28,7 @@ const printer = async () => {
       },
     });
 
-    $toast().error(`${res.sale_tag}`);
+    $toast().success(`${res.sale_tag}`);
 
     loading.value = false;
   } catch (error) {
