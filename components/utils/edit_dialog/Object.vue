@@ -10,18 +10,39 @@ const props = defineProps<{
   itemValue: string;
 }>();
 
-const emit = defineEmits(["save"]);
+const emit = defineEmits(["updateText"]);
+
+const { url } = useTableStore();
 
 const menu = ref<boolean>(false);
 
 const comp = computed({
   get: () => props.value,
-  set: (value) => {
+  set: async (value) => {
+    const res = await update(value);
+    if (!res.success) return $toast().error(res.message);
+
     menu.value = false;
 
-    emit("save", value);
+    emit("updateText", value);
   },
 });
+
+const update = (value: string) => {
+  interface Response {
+    message: string;
+    result: [];
+    success: boolean;
+  }
+
+  return useNuxtApp().$customFetch<Response>(url, {
+    method: "PUT",
+    body: {
+      id: props.id,
+      [props.attr]: value,
+    },
+  });
+};
 </script>
 
 <template>
