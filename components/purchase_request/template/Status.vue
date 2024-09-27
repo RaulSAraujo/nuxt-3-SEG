@@ -1,7 +1,10 @@
 <script setup lang="ts">
 defineProps<{
+  id: number;
   status: string;
 }>();
+
+defineEmits(["updateText"]);
 
 const list = [
   { text: "COMPRAR" },
@@ -32,12 +35,13 @@ const color = (text: string) => {
 
 <template>
   <EditDialogObject
-    id="input-status"
+    :id="id"
     :items="list"
     item-title="text"
     item-value="text"
     attr="status"
     :value="status"
+    @update-text="$emit('updateText', $event)"
   >
     <template #default="props">
       <v-chip v-bind="props" :color="color(status)" size="small">

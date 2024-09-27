@@ -26,8 +26,14 @@ useHead({
         <Delete :id="item.id" />
       </template>
 
-      <template #item.user="{ item }">
-        <Tooltip :text="item.user" :vw="3" />
+      <template #item.reservation="{ item }">
+        <Tooltip
+          v-if="!item.reservation.includes('ID')"
+          :text="item.reservation"
+          :vw="5"
+        />
+
+        <PurchaseRequestTemplateTray v-else :sale-id="item.reservation" />
       </template>
 
       <template #item.cost="{ item }">
@@ -35,7 +41,11 @@ useHead({
       </template>
 
       <template #item.status="{ item }">
-        <PurchaseRequestTemplateStatus :status="item.status" />
+        <PurchaseRequestTemplateStatus
+          :id="item.id"
+          :status="item.status"
+          @update-text="item.status = $event"
+        />
       </template>
 
       <template #item.sending_limit_at="{ item }">
