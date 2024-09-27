@@ -5,6 +5,7 @@ const props = defineProps<{
   routerFull?: boolean | undefined;
   showExpand?: boolean;
   othersParams?: object | undefined;
+  rowProps?: Function;
 }>();
 
 defineEmits(["loadItems"]);
@@ -110,6 +111,7 @@ await gridStore.get();
     density="compact"
     hide-default-footer
     return-object
+    :row-props="rowProps"
     @update:options="tableStore.searchData"
   >
     <template

@@ -41,6 +41,7 @@ export const useModelStore = defineStore("models", () => {
         'expedition-check-out': 'SalesOrder',
         'expedition-check-out-history': 'SalesOrder',
         'expedition-cut-time': 'CarrierCutTime',
+        'expedition-shipping-urgency': 'ShippingUrgency',
         'manager-pendency': 'Pendency',
         'manager-tax-stock': 'TaxStock',
         'integration-sync-errors': 'ProductSyncErrors',
