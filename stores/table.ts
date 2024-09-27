@@ -132,7 +132,7 @@ export const useTableStore = defineStore("table", () => {
         const { databaseDate, isDate } = useDateConversion()
 
         const params = availableFilter.value.reduce(
-            (acc: Record<string, AccValue>, { attribute, value }) => {
+            (acc: Record<string, AccValue>, { attribute, value, layout_filters }) => {
                 if (validateValue(value)) {
                     // Formatação do input array data.
                     if (typeof value === 'string' && value.split(' - ').length === 2) {
@@ -147,6 +147,10 @@ export const useTableStore = defineStore("table", () => {
 
                     if (typeof value === 'string' && isDate(value)) {
                         value = databaseDate(value)
+                    }
+
+                    if(typeof value === 'string' && layout_filters?.approximate){
+                        value = `%${value}%`
                     }
 
                     acc[attribute] = value;
