@@ -12,10 +12,6 @@ useHead({
       <template #button-create>
         <CutTimeCreation />
       </template>
-
-      <template #menu>
-          <CutTimeImportCutTime />
-      </template>
     </Filter>
 
     <Table multi-sort>
