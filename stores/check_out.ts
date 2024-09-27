@@ -23,6 +23,8 @@ export const useCheckOutStore = defineStore("checkout", () => {
 
   const dialog = ref(false)
 
+  const { capitalizeFirstLetter } = useCapitalize()
+
   // Ref do input sale id
   const inputSaleId = ref();
 
@@ -316,7 +318,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
     } catch (error) {
       const err = error as { statusText: string; data: { error: string } };
 
-      $toast().error(`${err.data.error ?? err.statusText}`);
+      $toast().error(capitalizeFirstLetter(`${err.data.error ?? err.statusText}`));
 
       saleTag.value = {
         sale_tag: err.data.error,
@@ -342,9 +344,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
     if (textStatus !== '') {
       await setStatusTray(id, textStatus)
     } else {
-      const text = saleTag.value.sale_tag.charAt(0).toUpperCase() + saleTag.value.sale_tag.slice(1).toLowerCase()
-
-      $toast().error(text)
+      $toast().error(capitalizeFirstLetter(saleTag.value.sale_tag))
     }
 
     loading.finish()
@@ -420,7 +420,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
     } catch (error) {
       const err = error as { statusText: string; message: string };
 
-      $toast().error(`${err.statusText ?? err.message}`);
+      $toast().error(capitalizeFirstLetter(`${err.statusText ?? err.message}`));
     }
   };
 
@@ -443,7 +443,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
           sale_id: id,
           user: user.name,
           initial_status: OrderStatus.status,
-          status: statusMapping[saleTag.value?.sale_tag ?? OrderStatus.status],
+          status: statusMapping[saleTag.value?.sale_tag ?? ''] ?? OrderStatus.status,
           produto_chave: ProductsSold[0].ProductsSold.reference,
           description: ProductsSold[0].ProductsSold.original_name,
           weight_cubic: ProductsSold[0].ProductsSold.weight_cubic,
@@ -489,7 +489,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
     } catch (error) {
       const err = error as { statusText: string; message: string };
 
-      $toast().error(`${err.statusText ?? err.message}`);
+      $toast().error(capitalizeFirstLetter(`${err.statusText ?? err.message}`));
     }
   };
 
@@ -522,7 +522,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
       } catch (error) {
         const err = error as { statusText: string; message: string };
 
-        $toast().error(`${err.statusText ?? err.message}`);
+        $toast().error(capitalizeFirstLetter(`${err.statusText ?? err.message}`));
       }
     } else {
       $toast().info('Etiqueta provisoria ja emitida.')
