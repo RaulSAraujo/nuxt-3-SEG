@@ -70,7 +70,7 @@ export const useTableStore = defineStore("table", () => {
         'stock-parts-collection-management': 'PartsCollectionManagement',
         'expedition-check-out': 'sales-order',
         'expedition-check-out-history': 'sales-order',
-        'expedition-cut-time': 'CarrierCutTime',
+        'expedition-cut-time': 'carrier-cut-time',
         'manager-pendency': 'Pendency',
         'manager-tax-stock': 'TaxStock',
         'integration-sync-errors': 'ProductSyncErrors',
