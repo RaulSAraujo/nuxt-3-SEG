@@ -19,7 +19,13 @@ export default defineNuxtPlugin({
       headers: {
         Authorization: `${token.value}`,
       },
-      async onResponseError({ response }) {
+      onRequest({ options }) {
+        options.headers = {
+          ...options.headers,
+          Authorization: `${token.value}`,
+        }
+      },
+      onResponseError({ response }) {
         if (response.status === 401) {
           signOut()
 
