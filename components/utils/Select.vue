@@ -4,10 +4,10 @@ const props = defineProps<{
   value?: [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: Array<any>;
-  itemTitle: string;
-  itemValue: string;
+  itemTitle?: string;
+  itemValue?: string;
   clearable?: boolean | undefined;
-  multiple: boolean | undefined;
+  multiple?: boolean | undefined;
   returnObject?: boolean | undefined;
   alt?: string;
 }>();
@@ -21,7 +21,7 @@ const toggle = () => {
   if (likesAll.value) {
     emit("like", []);
   } else {
-    const map = useArrayMap(props.items, (item) => item[props.itemValue]);
+    const map = useArrayMap(props.items, (item) => item[props.itemValue!]);
     emit("like", map.value);
   }
 };
@@ -34,7 +34,7 @@ const toggle = () => {
     color="primary"
     variant="outlined"
     :label="label"
-    :multiple="multiple"
+    :multiple="multiple ?? false"
     :clearable="clearable"
     :items="items"
     :item-title="itemTitle"
