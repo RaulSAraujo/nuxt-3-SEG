@@ -7,6 +7,8 @@ const props = defineProps<{
   status: string;
 }>();
 
+const emit = defineEmits(["updateStatus"]);
+
 const statusRequest = ref([
   "EM ABERTO",
   "EM ANÁLISE",
@@ -16,11 +18,36 @@ const statusRequest = ref([
   "CONCLUIDO",
 ]);
 
-const newStatus = computed(() => props.status);
+const newStatus = ref(props.status);
+
+const { $customFetch } = useNuxtApp();
+
+watch(
+  () => newStatus.value,
+  async () => {
+    try {
+      const res = await $customFetch<{ message: string }>(`support-request`, {
+        method: "PUT",
+        body: {
+          id: props.id,
+          status: newStatus.value,
+        },
+      });
+
+      emit("updateStatus", newStatus.value);
+
+      $toast().success(res.message);
+    } catch (error) {
+      const err = error as { statusText: string; data: { error: string } };
+
+      $toast().error(`${err.data.error ?? err.statusText}`);
+    }
+  }
+);
 </script>
 
 <template>
-  <v-toolbar rounded="t-xl">
+  <v-toolbar color="primary" rounded="t-xl">
     <template #title>
       <span>#{{ id }}</span>
       <span> - </span>
@@ -28,7 +55,7 @@ const newStatus = computed(() => props.status);
       <span> - </span>
       <SupportRequestTemplatePriority :priority="priority" />
       <span> - </span>
-      <span>{{ title }}</span>
+      <span>{{ title.toUpperCase() }}</span>
     </template>
 
     <template #append>
@@ -37,12 +64,11 @@ const newStatus = computed(() => props.status);
       <Select
         v-model="newStatus"
         :items="statusRequest"
-        item-title=""
-        item-value=""
         :clearable="false"
         :multiple="false"
         class="mx-3"
         width="200px"
+        max-height-menu="350"
       />
     </template>
   </v-toolbar>

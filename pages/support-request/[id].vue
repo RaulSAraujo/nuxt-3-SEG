@@ -50,6 +50,7 @@ const { brDateWithTime } = useDateConversion();
         :priority="data!.priority"
         :title="data!.title"
         :status="data!.status"
+        @update-status="data!.status = $event"
       />
 
       <v-timeline side="end">
@@ -71,14 +72,21 @@ const { brDateWithTime } = useDateConversion();
           </template>
 
           <v-card
-            :title="item.User.name"
             :subtitle="brDateWithTime(`${item.created_at}`)"
             variant="outlined"
             rounded="xl"
             class="border-sm"
           >
+            <template #title>
+              <span class="text-primary">{{ item.User.name }}</span>
+            </template>
+
             <template #text>
-              <div v-html="item.comment" class="mb-5" />
+              <Tiptap
+                :editable="false"
+                :remove-buttons="true"
+                :content="item.comment ?? ''"
+              />
 
               <Galery :images="item.file_paths" />
             </template>
