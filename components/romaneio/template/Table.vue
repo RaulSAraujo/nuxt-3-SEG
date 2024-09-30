@@ -2,7 +2,7 @@
 import type { SalesOrder } from "~/interfaces/SalesCollections.js";
 
 defineProps<{
-  SalesOrders: SalesOrder[];
+  salesOrders: SalesOrder[];
 }>();
 
 const headers = ref([
@@ -25,7 +25,7 @@ const headers = ref([
 
 <template>
   <v-data-table
-    :items="SalesOrders"
+    :items="salesOrders"
     :headers="headers"
     disable-sort
     disable-filtering
@@ -47,6 +47,26 @@ const headers = ref([
 
     <template #item.description="{ item }">
       <Tooltip :text="item.description" :vw="5" />
+    </template>
+
+    <template #item.collect_company="{ item }">
+      <Tooltip :text="item.collect_company" :vw="5" />
+    </template>
+
+    <template #item.shipment_mode="{ item }">
+      <Tooltip :text="item.shipment_mode" :vw="5" />
+    </template>
+
+    <template #item.poin_sale="{ item }">
+      <Tooltip :text="item.poin_sale" :vw="5" />
+    </template>
+
+    <template #item.seller="{ item }">
+      <Tooltip :text="item.seller" :vw="5" />
+    </template>
+
+    <template #item.tracking_id="{ item }">
+      <Tooltip :text="item.tracking_id" :vw="5" />
     </template>
 
     <template #item.created_at="{ item }">

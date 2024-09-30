@@ -35,7 +35,7 @@ useHead({
       <template #expanded-row="{ columns, item }">
         <tr>
           <td :colspan="columns.length" class="pa-0">
-            <RomaneioTemplateTable :SalesOrders="item.SalesOrders" />
+            <RomaneioTemplateTable :sales-orders="item.SalesOrders" />
           </td>
         </tr>
       </template>
