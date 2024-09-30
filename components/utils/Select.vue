@@ -10,6 +10,7 @@ const props = defineProps<{
   multiple?: boolean | undefined;
   returnObject?: boolean | undefined;
   alt?: string;
+  maxHeightMenu?: string | null;
 }>();
 
 const likesAll = computed(() => props.value!.length === props.items.length);
@@ -42,7 +43,7 @@ const toggle = () => {
     :return-object="returnObject"
     :menu-props="{
       // @ts-ignore
-      'max-height': '200',
+      'max-height': maxHeightMenu ?? '200',
     }"
     hide-details
   >
