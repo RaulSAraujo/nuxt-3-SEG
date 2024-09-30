@@ -9,7 +9,7 @@ const props = defineProps<{
 }>();
 
 const editor = useEditor({
-  content: props.content ?? "<br/> <br/>",
+  content: props.content ?? "",
   editorProps: {
     attributes: {
       class:
@@ -138,7 +138,7 @@ defineExpose({ editor });
       <TiptapEditorContent v-if="editor" :editor="editor" />
 
       <template #fallback>
-        <v-skeleton-loader color="transparent" type="heading@3" />
+        <v-skeleton-loader color="transparent" type="heading" />
       </template>
     </ClientOnly>
   </div>

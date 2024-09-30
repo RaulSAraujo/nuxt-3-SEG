@@ -2,6 +2,8 @@
 useHead({
   titleTemplate: `Chamados - %s`,
 });
+
+const { data } = useAuthState();
 </script>
 
 <template>
@@ -21,8 +23,23 @@ useHead({
       </template>
     </Filter>
 
-    <Table show-expand>
+    <Table
+      :others-params="{
+        user_id: data?.id,
+      }"
+    >
       <template #item.action="{ item }">
+        <v-btn
+          icon="mdi-pencil"
+          variant="plain"
+          size="small"
+          color="primary"
+          :to="{
+            name: 'support-request-id',
+            params: { id: item.id },
+          }"
+        />
+
         <Delete :id="item.id" />
       </template>
 
@@ -32,14 +49,6 @@ useHead({
 
       <template #item.priority="{ item }">
         <SupportRequestTemplatePriority :priority="item.priority" />
-      </template>
-
-      <template #expanded-row="{ columns, item }">
-        <tr>
-          <td :colspan="columns.length">
-            <Tiptap :content="item.description" :editable="false" />
-          </td>
-        </tr>
       </template>
     </Table>
   </div>

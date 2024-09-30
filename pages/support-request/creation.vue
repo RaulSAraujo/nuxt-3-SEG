@@ -41,17 +41,26 @@ const { capitalizeFirstLetter } = useCapitalize();
 
 const { data: user } = useAuth();
 
+const images = ref([]);
+
 const create = async () => {
   loading.value = true;
+
+  const formData = new FormData();
+  for (const img of images.value) {
+    formData.append("files", img);
+  }
+  formData.append("title", form.title);
+  formData.append("classification", `${form.classification}`);
+  formData.append("priority", `${form.priority}`);
+  formData.append("status", form.status);
+  formData.append("user_id", `${(user.value as User).id}`);
+  formData.append("comment", tiptap.value.editor.getHTML());
 
   try {
     await $customFetch(`support-request`, {
       method: "POST",
-      body: {
-        ...form,
-        description: tiptap.value.editor.getHTML(),
-        user_id: (user.value as User).id,
-      },
+      body: formData,
     });
 
     router.push({ name: "support-request" });
@@ -84,7 +93,7 @@ const create = async () => {
       />
     </div>
 
-    <v-sheet rounded="lg">
+    <v-sheet rounded="lg" class="pb-3">
       <v-toolbar title="NOVO CHAMADO" rounded="t-lg" />
 
       <v-row dense class="ma-2">
@@ -96,6 +105,7 @@ const create = async () => {
             :items="classificationList"
             variant="outlined"
             density="compact"
+            color="primary"
             hide-details
           />
         </v-col>
@@ -109,6 +119,7 @@ const create = async () => {
             item-value="value"
             variant="outlined"
             density="compact"
+            color="primary"
             hide-details
           />
         </v-col>
@@ -120,19 +131,51 @@ const create = async () => {
         label="TÍTULO"
         variant="outlined"
         density="compact"
+        color="primary"
         hide-details
         class="mx-3"
-      ></v-text-field>
+      />
 
-      <Tiptap ref="tiptap" :editable="true" />
+      <div class="divTipTap mx-3 mt-5 mb-2 px-3 py-5">
+        <Tiptap ref="tiptap" :editable="true" />
+
+        <v-btn text="ANEXAR ARQUIVOS" color="primary" variant="outlined" class="mx-3">
+          <template #default>
+            <v-file-input
+              id="fileImage"
+              v-model="images"
+              prepend-icon="mdi-close"
+              hide-details
+              hide-input
+              multiple
+              class="fileImage"
+              accept="image/jpeg,image/png"
+            />
+            ANEXAR ARQUIVOS
+          </template>
+        </v-btn>
+
+        <v-btn text="SALVAR" base-color="primary" :loading="loading" @click="create" />
+      </div>
+
+      <GaleryFiles :images="images" @remove-images="images.splice($event, 1)" />
     </v-sheet>
-
-    <v-fab
-      icon="mdi-content-save"
-      color="primary"
-      style="position: fixed; bottom: 105px; right: 60px"
-      :loading="loading"
-      @click="create"
-    />
   </div>
 </template>
+
+<style>
+.divTipTap {
+  border: 1px solid rgb(25, 118, 210);
+  border-radius: 20px;
+}
+
+.fileImage {
+  display: block;
+}
+
+.fileImage .v-icon {
+  width: 100%;
+  position: absolute;
+  opacity: 0;
+}
+</style>
