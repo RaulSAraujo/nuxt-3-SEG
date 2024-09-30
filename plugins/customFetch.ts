@@ -22,6 +22,7 @@ export default defineNuxtPlugin({
       onRequest({ options }) {
         options.headers = {
           ...options.headers,
+          // @ts-ignore
           Authorization: `${token.value}`,
         }
       },

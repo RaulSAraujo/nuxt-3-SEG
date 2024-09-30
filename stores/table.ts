@@ -72,6 +72,7 @@ export const useTableStore = defineStore("table", () => {
         'expedition-check-out-history': 'sales-order',
         'expedition-cut-time': 'carrier-cut-time',
         'expedition-shipping-urgency': 'shipping-urgency',
+        'expedition-romaneio': 'sales-collection',
         'manager-pendency': 'Pendency',
         'manager-tax-stock': 'TaxStock',
         'integration-sync-errors': 'ProductSyncErrors',
