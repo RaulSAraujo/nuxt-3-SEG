@@ -635,14 +635,6 @@
                 "child": false
             },
             {
-                "icon": "mdi-timeline-check-outline",
-                "title": "Gerencial checkout",
-                "name": "expedition-manager-check-out",
-                "backUrl": "/manage-checkout",
-                "auth": false,
-                "child": false
-            },
-            {
                 "icon": "",
                 "title": "",
                 "name": "expedition-check-out-history",
