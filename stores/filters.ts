@@ -233,9 +233,9 @@ export const useFilterStore = defineStore("filters", () => {
                 resultCount: 1
             })
         } catch (error) {
-            const err = error as { statusText: string; message: string };
+            const err = error as { statusText: string; data: { error: string } };
 
-            return $toast().error(`${err.statusText ?? err.message}`);
+            return $toast().error(`${err.data.error ?? err.statusText}`);
         }
     }
 
