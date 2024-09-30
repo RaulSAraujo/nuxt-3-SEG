@@ -11,10 +11,14 @@ const { $customFetch } = useNuxtApp();
 
 const salesOrder = ref<Row[]>([]);
 
+const loading = ref(false);
+
 const fetchItems = async () => {
   if (!shipment.value) {
     return $toast().error("Informe uma transportadora.");
   }
+
+  loading.value = true;
 
   const res = await $customFetch<SalesOrder>("sales-order", {
     query: {
@@ -34,6 +38,8 @@ const fetchItems = async () => {
       salesOrder.value.push(e);
     }
   });
+
+  loading.value = false;
 };
 </script>
 
@@ -51,17 +57,27 @@ const fetchItems = async () => {
     </div>
 
     <v-sheet rounded="lg">
-      <v-toolbar title="NOVO ROMANEIO" rounded="t-lg" />
+      <v-toolbar title="NOVO ROMANEIO" rounded="t-lg">
+        <template #append>
+          <span class="text-body-2 mr-2">{{ salesOrder.length }} PEDIDOS EMBALADOS</span>
+        </template>
+      </v-toolbar>
 
       <v-row dense class="my-2">
         <v-col cols="12" sm="12" md="3" lg="3" xl="2">
           <RomaneioShipment v-model="shipment" />
         </v-col>
         <v-col>
-          <TextField label="Pedidos não coletados" />
+          <RomaneioInputRemove :items="salesOrder" />
         </v-col>
         <v-col cols="3" class="d-flex justify-end">
-          <v-btn text="PESQUISAR" color="primary" class="mr-3" @click="fetchItems" />
+          <v-btn
+            text="PESQUISAR"
+            color="primary"
+            class="mr-3"
+            :loading="loading"
+            @click="fetchItems"
+          />
         </v-col>
       </v-row>
 
@@ -70,8 +86,8 @@ const fetchItems = async () => {
 
     <RomaneioButtonCreation
       :items="salesOrder"
-      :collect_company="shipment"
-      :quantity_orders="salesOrder.length"
+      :collect-company="shipment ?? ''"
+      :quantity-orders="salesOrder.length ?? 0"
       @clear="salesOrder = []"
     />
   </div>
