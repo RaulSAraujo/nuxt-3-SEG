@@ -6,6 +6,7 @@ import Highlight from "@tiptap/extension-highlight";
 const props = defineProps<{
   content?: string | undefined;
   editable: boolean;
+  removeButtons?: boolean;
 }>();
 
 const editor = useEditor({
@@ -36,7 +37,7 @@ defineExpose({ editor });
 
 <template>
   <div>
-    <div class="d-flex">
+    <div v-if="!removeButtons" class="d-flex">
       <ClientOnly>
         <v-btn-toggle
           v-if="editor"
