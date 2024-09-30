@@ -59,6 +59,10 @@ export const useCheckOutStore = defineStore("checkout", () => {
         }
 
         search.value = "";
+
+        if (!loading.isLoading.value) {
+          loading.finish();
+        }
       } catch (error) {
         loading.finish();
 
