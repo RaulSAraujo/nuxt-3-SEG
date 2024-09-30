@@ -4,10 +4,10 @@ defineProps<{
   value?: [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: Array<any>;
-  itemTitle: string;
-  itemValue: string;
+  itemTitle?: string;
+  itemValue?: string;
   clearable?: boolean | undefined;
-  multiple: boolean | undefined;
+  multiple?: boolean | undefined;
   menuOpenDefault?: boolean | undefined;
   returnObject?: boolean | undefined;
   alt?: string;
@@ -27,7 +27,7 @@ defineProps<{
     :items="items"
     :item-title="itemTitle"
     :item-value="itemValue"
-    :multiple="multiple"
+    :multiple="multiple ?? false"
     :menu="menuOpenDefault"
     :return-object="returnObject"
     :menu-props="{
