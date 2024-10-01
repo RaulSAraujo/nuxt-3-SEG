@@ -56,6 +56,10 @@ const updateFromResponse = (event: { result: Row[] }) => {
           @response="updateFromResponse"
         />
       </template>
+
+      <template #item.cost_pref="{ item }">
+        <ToLocaleString :value="item.cost_pref" />
+      </template>
     </Table>
   </div>
 </template>
