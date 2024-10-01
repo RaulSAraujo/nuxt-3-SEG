@@ -96,9 +96,9 @@ const update = (value: string) => {
       <div
         v-else-if="widthColumnText(text ?? '') < convertVwToPx(vw) && !text"
         v-bind="menuProp"
-        :style="`cursor: pointer; width: ${vw}vw`"
+        :style="`cursor: pointer; width: ${vw}vw;margin: auto`"
       >
-        <v-label />
+        <v-btn variant="plain" block />
       </div>
 
       <span v-else v-bind="menuProp" style="cursor: pointer">
