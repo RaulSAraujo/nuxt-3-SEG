@@ -112,10 +112,12 @@ const update = (value: string) => {
           <template #text>
             <v-text-field
               v-model="proxyModel.value"
+              v-maska="'X'"
               density="compact"
               color="primary"
               :clearable="true"
               hide-details
+              @click:clear="proxyModel.value = ''"
             />
           </template>
 
