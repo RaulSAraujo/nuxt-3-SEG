@@ -50,6 +50,10 @@ const { data } = useAuthState();
       <template #item.priority="{ item }">
         <SupportRequestTemplatePriority :priority="item.priority" />
       </template>
+
+      <template #item.days_since_opened="{ item }">
+        <span>{{ item.days_since_opened }}</span>
+      </template>
     </Table>
   </div>
 </template>
