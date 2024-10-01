@@ -6,7 +6,13 @@ const active = computed(() => selected.value.length > 0);
 </script>
 
 <template>
-  <v-bottom-sheet v-model="active" :scrim="false">
+  <v-bottom-sheet
+    v-model="active"
+    persistent
+    :scrim="false"
+    no-click-animation
+    scroll-strategy="reposition"
+  >
     <v-sheet class="d-flex align-center px-5 py-2" height="75px">
       <v-badge color="primary" :content="selected.length" inline class="mr-1" />
 
