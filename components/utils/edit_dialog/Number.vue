@@ -5,7 +5,7 @@ const props = defineProps<{
   value: number;
 }>();
 
-const emit = defineEmits(["updateText", "enter"]);
+const emit = defineEmits(["updateText", "enter", "response"]);
 
 const { url } = useTableStore();
 
@@ -20,6 +20,7 @@ const comp = computed({
     menu.value = false;
 
     emit("updateText", value);
+    emit("response", res);
   },
 });
 
@@ -49,7 +50,7 @@ const update = (value: number) => {
     :close-on-content-click="false"
   >
     <template #activator="{ props: menuProp }">
-      <span v-bind="menuProp" style="cursor: pointer">
+      <span v-bind="menuProp" class="d-flex" style="cursor: pointer">
         {{ value }}
       </span>
     </template>
