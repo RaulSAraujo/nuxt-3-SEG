@@ -37,7 +37,14 @@ const { data: pages, status } = useFetch<Page[]>("/api/pages", {
           name: 'support-request',
         }"
       />
-      <HeaderNotifications />
+      <ClientOnly>
+        <HeaderNotifications />
+
+        <template #fallback>
+          <v-skeleton-loader width="60px" color="transparent" type="heading" />
+        </template>
+      </ClientOnly>
+
       <HeaderTheme />
       <HeaderAvatar />
     </template>

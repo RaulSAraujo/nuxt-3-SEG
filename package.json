@@ -23,6 +23,7 @@
     "nuxt-easy-lightbox": "^1.0.2",
     "nuxt-payload-analyzer": "^0.1.4",
     "nuxt-tiptap-editor": "^2.0.0",
+    "nuxt3-socket.io": "^0.3.1",
     "pinia": "^2.1.7",
     "sortablejs": "^1.15.2",
     "vue-currency-input": "^3.1.0",

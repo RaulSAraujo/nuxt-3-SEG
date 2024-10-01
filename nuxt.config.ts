@@ -71,7 +71,8 @@ export default defineNuxtConfig({
     '@nuxt/test-utils',
     'nuxt-payload-analyzer',
     'nuxt-tiptap-editor',
-    'nuxt-easy-lightbox'
+    'nuxt-easy-lightbox',
+    'nuxt3-socket.io'
   ],
 
   css: ['@/assets/style.css'],

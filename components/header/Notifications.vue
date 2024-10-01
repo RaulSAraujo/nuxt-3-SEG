@@ -3,47 +3,68 @@ import type { User } from "~/interfaces/User";
 
 const now = useNow({ interval: 1000 });
 
-const selected = ref<{ id: number; author: string; message: string; date: string }[]>([]);
-// watch(selected, (newValue, oldValue) => {
-//   console.log(newValue);
-//   console.log(oldValue);
-// });
+interface Notifications {
+  id: number;
+  author: string;
+  message: string;
+  date: string;
+}
+
+const selected = ref<Notifications[]>([]);
 
 const { data } = useAuthState();
 const user = data.value as User;
 
-let ws: WebSocket | undefined;
-const notifications = useState<
-  { id: number; author: string; message: string; date: string }[]
->(() => []);
+const notifications = useState<Notifications[]>(() => []);
 
-const connect = async () => {
-  const url = `ws://http://192.168.1.10:2001/api/chat-ws?user_id=${user.id}&group_id=${user.group_id}`;
+const { $io } = useNuxtApp();
 
-  if (ws) {
-    console.log("ws", "Closing previous connection before reconnecting...");
+const socket = $io("http://192.168.1.10:2001", {
+  query: {
+    user_id: user.id,
+    group_id: user.group_id,
+  },
+});
 
-    ws.close();
-  }
+// Evento disparado quando a novas notificações
+socket.on("newNotification", (msg: Notifications[]) => {
+  notifications.value.splice(0, 0, ...msg);
+});
 
-  console.log("ws", "Connecting to", url, "...");
-  ws = new WebSocket(url);
+// Evento que recebe as notificações antigas que não foram lidas
+socket.on("previousNotifications", (msg: Notifications[]) => {
+  notifications.value = [];
 
-  ws.addEventListener("newNotification", (event) => {
-    console.log(event);
+  notifications.value.push(...msg.sort((a, b) => b.id - a.id));
+});
+
+const readAll = () => {
+  notifications.value.forEach((element) => {
+    selected.value.push(element);
   });
-
-  await new Promise((resolve) => ws!.addEventListener("open", resolve));
-  console.log("ws", "Connected!");
 };
 
-onMounted(() => {
-  const host = window.location.hostname;
+const readNotifier = (active: boolean) => {
+  if (active === false && selected.value.length > 0) {
+    for (const notification of selected.value) {
+      socket.emit("readedNotification", {
+        user_id: user.id,
+        notification_id: notification.id,
+      });
+    }
 
-  if (!host.includes("ddns")) {
-    // connect();
+    const newArray = selected.value.sort((a, b) => b.id - a.id);
+
+    newArray.forEach((n: Notifications) => {
+      const index = useArrayFindIndex(notifications, (e: Notifications) => e.id == n.id)
+        .value;
+
+      notifications.value.splice(index, 1);
+    });
+
+    selected.value = [];
   }
-});
+};
 </script>
 
 <template>
@@ -53,9 +74,16 @@ onMounted(() => {
     location="bottom"
     transition="slide-y-transition"
     :close-on-content-click="false"
+    @update:model-value="readNotifier"
   >
     <template #activator="{ props }">
-      <v-badge color="blue" bordered :content="notifications.length">
+      <v-badge
+        color="blue"
+        bordered
+        :content="notifications.length"
+        offset-y="10"
+        offset-x="10"
+      >
         <v-btn v-bind="props" icon="mdi-bell" variant="plain" />
       </v-badge>
     </template>
@@ -65,24 +93,28 @@ onMounted(() => {
       :selectable="true"
       select-strategy="leaf"
       lines="one"
-      density="compact"
-      width="250px"
+      density="default"
+      width="350px"
       class="rounded-xl"
     >
       <v-row no-gutters justify="space-between" align="center" class="mx-4 my-2">
         <span class="text-body-1">NOTIFICAÇÕES</span>
 
-        <v-btn icon="mdi-notification-clear-all" variant="plain" density="compact" />
-        <!-- @click="readAll()" -->
+        <v-btn
+          icon="mdi-notification-clear-all"
+          variant="plain"
+          density="compact"
+          @click="readAll()"
+        />
       </v-row>
 
       <v-divider />
 
       <v-virtual-scroll
         :items="notifications"
-        height="250px"
+        min-height="250px"
+        max-height="350px"
         item-height="64px"
-        class="my-2"
         style="
           --width-scrollbar: 5px;
           --track-color: rgba(0, 0, 0, 0);
