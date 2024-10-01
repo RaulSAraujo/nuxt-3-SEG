@@ -54,6 +54,7 @@ export const useTableStore = defineStore("table", () => {
         'purchase-pending-price': 'PurchaseControlProduct',
         'purchase-validate-price-ml': 'ValidatePricePercentage',
         'purchase-validate-stock-virtual': 'ValidateVirtualStock',
+        'purchase-minimum-stock': 'minimum-stock',
         'sale-order': 'SalesOrder',
         'sale-shipping-validation': 'shipping-validation',
         'sale-verification-order': 'SalesOrdersSeparation',

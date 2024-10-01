@@ -328,7 +328,16 @@
                 "backUrl": "/validate-virtual-stock",
                 "auth": false,
                 "child": false
+            },
+            {
+                "icon": "mdi-file-alert",
+                "title": "Estoque mínimo",
+                "name": "purchase-minimum-stock",
+                "backUrl": "/minimum-stock",
+                "auth": false,
+                "child": false
             }
+
         ]
     },
     {
