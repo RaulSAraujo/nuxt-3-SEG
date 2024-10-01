@@ -31,9 +31,12 @@ watch(itemsPerPage, () => {
           :items="itemsPerPageoptions"
           item-title="title"
           item-value="value"
-          max-width="90px"
+          max-width="110px"
           hide-details
-          class="align-self-center"
+          hide-selected
+          :menu-props="{
+            location: 'top',
+          }"
         />
 
         <v-pagination v-model="page" :length="pageCount" :total-visible="7" />
