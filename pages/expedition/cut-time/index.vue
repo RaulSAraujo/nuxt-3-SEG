@@ -30,6 +30,7 @@ useHead({
           :text="item.collection_time_to"
           :vw="5"
           attr="collection_time_to"
+          @update-text="item.collection_time_to = $event"
         />
       </template>
 
@@ -39,6 +40,7 @@ useHead({
           :text="item.collection_time_from"
           :vw="5"
           attr="collection_time_from"
+          @update-text="item.collection_time_from = $event"
         />
       </template>
 
@@ -48,6 +50,7 @@ useHead({
           :text="item.cutoff_time"
           :vw="5"
           attr="cutoff_time"
+          @update-text="item.cutoff_time = $event"
         />
       </template>
 
@@ -57,11 +60,18 @@ useHead({
           :value="item.collection"
           :vw="5"
           attr="collection"
+          @update-text="item.collection = $event"
         />
       </template>
 
       <template #item.company="{ item }">
-        <EditDialogString :id="item.id" :text="item.company" :vw="10" attr="company" />
+        <EditDialogString
+          :id="item.id"
+          :text="item.company"
+          :vw="10"
+          attr="company"
+          @update-text="item.company = $event"
+        />
       </template>
     </Table>
   </div>
