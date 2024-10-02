@@ -5,8 +5,15 @@ const props = defineProps<{
   routerFull?: boolean | undefined;
   showExpand?: boolean;
   othersParams?: object | undefined;
-  rowProps?: Function;
+  rowProps?: object | undefined;
 }>();
+
+interface Headers {
+  title: string;
+  key: string;
+  width?: number;
+  align?: "start" | "center" | "end";
+}
 
 defineEmits(["loadItems"]);
 
@@ -91,12 +98,11 @@ await gridStore.get();
 </script>
 
 <template>
-  <!-- @vue-skip -->
   <v-data-table-server
     v-model="selected"
     v-model:expanded="expanded"
     v-model:sort-by="sortBy"
-    :headers="availableGrid"
+    :headers="availableGrid as Headers[]"
     :items="items"
     item-value="id"
     select-strategy="all"
@@ -119,24 +125,30 @@ await gridStore.get();
       :key="header.key"
       #[`item.${header.key}`]="{ item }"
     >
-      <TableTemplatesDate v-if="header.type === 'DATE'" :value="item[header.key]" />
+      <TableTemplatesDate
+        v-if="header.type === 'DATE'"
+        :value="item[header.key as keyof typeof item]"
+      />
 
       <TableTemplatesBoolean
         v-else-if="header.type === 'BOOLEAN'"
-        :value="item[header.key]"
+        :value="item[header.key as keyof typeof item]"
       />
 
       <template v-else>
         <template
           v-if="
-            (header.type === 'STRING' && typeof item[header.key] === 'string') ||
-            (header.type === 'ARRAY' && typeof item[header.key] === 'string')
+            (header.type === 'STRING' && typeof item[header.key as keyof typeof item] === 'string') ||
+            (header.type === 'ARRAY' && typeof item[header.key as keyof typeof item] === 'string')
           "
         >
-          <TableTemplatesString :value="item[header.key]" :max-width="header.maxWidth" />
+          <TableTemplatesString
+            :value="item[header.key as keyof typeof item]"
+            :max-width="header.maxWidth"
+          />
         </template>
 
-        <span v-else>{{ item[header.key] }}</span>
+        <span v-else>{{ item[header.key as keyof typeof item] }}</span>
       </template>
     </template>
 
@@ -163,7 +175,7 @@ await gridStore.get();
         @click="
           () => {
             expandedAll = true;
-
+            // @ts-ignore
             items.forEach((i) => expanded.push(i));
           }
         "

@@ -10,7 +10,7 @@ export const useTableStore = defineStore("table", () => {
 
     const totalItems = ref(0);
 
-    const sortBy = ref<[{ key: string; order: string }]>();
+    const sortBy = ref<[{ key: string; order: boolean | "desc" | "asc" | undefined }]>();
 
     const loading = ref(true);
 
@@ -29,7 +29,7 @@ export const useTableStore = defineStore("table", () => {
 
     const selected = ref([])
 
-    const expanded = ref<Array<object>>([]);
+    const expanded = ref<readonly string[]>([]);
 
     const routeMap = ref<{ [key: string]: string }>({
         'register-product': 'product',
