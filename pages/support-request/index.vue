@@ -47,8 +47,12 @@ const { data } = useAuthState();
         <span>{{ item.User.name.toUpperCase() }}</span>
       </template>
 
+      <template #item.classification="{ item }">
+        <SupportRequestTemplateClassification :classification="item.classification" />
+      </template>
+
       <template #item.priority="{ item }">
-        <SupportRequestTemplatePriority :priority="item.priority" />
+        <SupportRequestTemplatePriority :priority="item.priority" icon-or-text="icon" />
       </template>
 
       <template #item.days_since_opened="{ item }">
