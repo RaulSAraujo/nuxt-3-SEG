@@ -19,6 +19,7 @@ const theme = useTheme();
     :color="theme.global.current.value.dark ? 'white' : 'black'"
     bg-color="primary"
     width="320px"
+    autocomplete="off"
     @click:append="checkOutStore.loadSalesOrder()"
     @keyup.enter="checkOutStore.loadSalesOrder()"
   />
