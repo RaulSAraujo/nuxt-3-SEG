@@ -29,11 +29,9 @@ const { product } = storeToRefs(productSellStore);
       </template>
 
       <template #item.availability="{ item }">
-        <ProductSellTemplatesAvailability
-          :availability="item.Family?.SellPreference?.availability ?? ''"
-          :pavailability-histories="
-            item.Family?.SellPreference?.PAvailabilityHistories ?? null
-          "
+        <TemplatesAvailability
+          :availability="item.Family?.SellPreference?.availability"
+          :pavailability-histories="item.Family?.SellPreference?.PAvailabilityHistories"
         />
       </template>
 

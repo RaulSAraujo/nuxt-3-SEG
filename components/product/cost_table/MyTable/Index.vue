@@ -6,7 +6,14 @@ const { product, costTableIndex } = storeToRefs(productStore);
 
 const activateDialogToEdit = ref(false);
 
-const headers = ref([
+interface Headers {
+  title: string;
+  key: string;
+  width?: number;
+  align?: "start" | "center" | "end";
+}
+
+const headers = ref<Headers[]>([
   { title: "Ações", key: "action" },
   { title: "Id", key: "id" },
   { title: "Id produto", key: "product_id" },
@@ -15,7 +22,7 @@ const headers = ref([
   { title: "Nome arquivo", key: "filename" },
   { title: "Custo", key: "cost", width: 110 },
   { title: "Custo em", key: "cost_at" },
-  { title: "Disponibilidade", key: "availability" },
+  { title: "Disponibilidade", key: "availability", align: "center" },
   { title: "Disponibilidade em", key: "availability_at" },
   { title: "Lead time", key: "lead_time" },
   { title: "Lead time em", key: "lead_time_at" },
@@ -60,7 +67,7 @@ const headers = ref([
     </template>
 
     <template #item.availability="{ item }: Record<string, any>">
-      <ProductCostTableMyTableTemplatesAvailability :availability="item.availability" />
+      <TemplatesAvailability :availability="item.availability" />
     </template>
 
     <template #item.cost="{ item }: Record<string, any>">

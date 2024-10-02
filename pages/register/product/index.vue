@@ -39,7 +39,7 @@ const activateDialogToEdit = ref<boolean>(false);
       </template>
 
       <template #item.availability="{ item }">
-        <ProductTemplatesAvailability
+        <TemplatesAvailability
           :availability="item.availability"
           :pavailability-histories="item.PAvailabilityHistories"
           @dblclick="

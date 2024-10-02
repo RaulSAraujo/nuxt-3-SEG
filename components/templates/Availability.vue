@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import type { PAvailabilityHistory } from "~/interfaces/ProductSell.js";
+import type { PAvailabilityHistory } from "~/interfaces/Product.js";
 
 defineProps<{
-  availability: number | string;
-  pavailabilityHistories: PAvailabilityHistory[] | null;
+  availability: number | null | undefined;
+  pavailabilityHistories?: PAvailabilityHistory[];
 }>();
 
+defineEmits(["dblclick"]);
+
 const availabilityToTextMap = ref<Record<number, string>>({
+  0: "Não definido",
   1: "Disponivel",
   2: "Disponivel(est)",
   3: "Indisponivel com previsão",
@@ -15,32 +18,35 @@ const availabilityToTextMap = ref<Record<number, string>>({
   6: "Bloqueado",
   7: "Não encontrado",
 });
+
+const color = (availability: number | null | undefined) => {
+  if (availability == 1) return "green";
+  if (availability == 2) return "light-green-lighten-1";
+  if (availability == 3) return "cyan";
+  if (availability == 4) return "blue-darken-4";
+  if (availability == 5) return "grey-darken-2";
+  if (availability == 6) return "yellow-darken-1";
+  if (availability == 7) return "red-darken-3";
+
+  return "black";
+};
 </script>
 
 <template>
-  <v-tooltip
-    style="
-      --v-theme-surface-variant: 25, 118, 210;
-      --v-theme-on-surface-variant: 255, 255, 255;
-    "
-  >
+  <v-tooltip :content-class="`bg-${color(availability)}`">
     <template #activator="{ props }">
-      <v-img
+      <v-icon
         v-bind="props"
-        width="15px"
-        class="mx-auto"
-        :src="`/icons/disp${availability}.gif`"
-        :alt="`disp-${availability}`"
+        icon="mdi-circle"
+        :color="color(availability)"
+        size="15"
+        @dblclick="$emit('dblclick')"
       />
     </template>
     <template #default>
-      <span class="text-body-2"
-        >ATUAL:
-        {{
-          typeof availability == "number"
-            ? availabilityToTextMap[availability]
-            : "Não definido"
-        }}
+      <span class="text-body-2">
+        ATUAL:
+        {{ availabilityToTextMap[availability ?? 0] }}
       </span>
       <div v-if="pavailabilityHistories">
         <span

@@ -38,9 +38,9 @@ const headers = ref([
 
     <template #item.availability="{ item }">
       <div class="d-flex align-center" style="height: 15px; width: 15px">
-        <QuotationTemplatesAvailability :availability="item.availability_after ?? ''" />
+        <TemplatesAvailability :availability="item.availability_after" />
         <v-icon size="x-small" class="mx-1">mdi-arrow-right</v-icon>
-        <QuotationTemplatesAvailability :availability="item.availability_before ?? ''" />
+        <TemplatesAvailability :availability="item.availability_before" />
       </div>
     </template>
 
