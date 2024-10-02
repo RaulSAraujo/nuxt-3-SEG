@@ -20,6 +20,18 @@ const availabilityToTextMap = ref<Record<number, string>>({
 });
 
 const color = (availability: number | null | undefined) => {
+  if (availability == 1) return "radial-gradient(circle, #4CAF50, #8BC34A)";
+  if (availability == 2) return "radial-gradient(circle, #8BC34A, #7CB342)";
+  if (availability == 3) return "radial-gradient(circle, #00BCD4, #26C6DA)";
+  if (availability == 4) return "radial-gradient(circle, #1E88E5, #2196F3)";
+  if (availability == 5) return "radial-gradient(circle, #9E9E9E, #757575)";
+  if (availability == 6) return "radial-gradient(circle, #FFEB3B, #FDD835)";
+  if (availability == 7) return "radial-gradient(circle, #F44336, #E53935)";
+
+  return "radial-gradient(circle, #000000, #212121)";
+};
+
+const colorTooltip = (availability: number | null | undefined) => {
   if (availability == 1) return "green";
   if (availability == 2) return "light-green-lighten-1";
   if (availability == 3) return "cyan";
@@ -33,12 +45,16 @@ const color = (availability: number | null | undefined) => {
 </script>
 
 <template>
-  <v-tooltip :content-class="`bg-${color(availability)}`">
+  <v-tooltip :content-class="`bg-${colorTooltip(availability)} text-white`">
     <template #activator="{ props }">
       <v-icon
         v-bind="props"
         icon="mdi-circle"
-        :color="color(availability)"
+        :style="{
+          background: color(availability),
+          '-webkit-background-clip': 'text',
+          '-webkit-text-fill-color': 'transparent',
+        }"
         size="15"
         @dblclick="$emit('dblclick')"
       />

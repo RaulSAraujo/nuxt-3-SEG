@@ -11,7 +11,16 @@ defineProps<{
     <div v-if="productId == id">
       <v-tooltip location="bottom" text="Pref. Venda" content-class="bg-green">
         <template #activator="{ props }">
-          <v-icon v-bind="props" icon="mdi-circle" color="green" size="15" />
+          <v-icon
+            v-bind="props"
+            icon="mdi-circle"
+            size="15"
+            :style="{
+              background: 'radial-gradient(circle, #4CAF50, #8BC34A)',
+              '-webkit-background-clip': 'text',
+              '-webkit-text-fill-color': 'transparent',
+            }"
+          />
         </template>
       </v-tooltip>
     </div>
@@ -22,7 +31,11 @@ defineProps<{
             v-bind="props"
             class="mt-n4"
             icon="mdi-circle"
-            color="green-darken-4"
+            :style="{
+              background: 'radial-gradient(circle, #43A047, #2E7D32)',
+              '-webkit-background-clip': 'text',
+              '-webkit-text-fill-color': 'transparent',
+            }"
             size="15"
           />
         </template>
