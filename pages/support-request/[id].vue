@@ -28,6 +28,8 @@ const { data, status } = $api<Row>(`support-request`, {
 });
 
 const { brDateWithTime } = useDateConversion();
+
+const { $config } = useNuxtApp();
 </script>
 
 <template>
@@ -68,7 +70,14 @@ const { brDateWithTime } = useDateConversion();
           width="90vw"
         >
           <template #icon>
-            <span> {{ item.User.name.substring(0, 2).toUpperCase() }} </span>
+            <v-img
+              :src="`${$config.public.base_url_file_manager}/user-photos?userId=${item.user_id}&type=image`"
+              aspect-ratio="1"
+              rounded="xl"
+              cover
+            />
+
+            <!-- <span> {{ item.User.name.substring(0, 2).toUpperCase() }} </span> -->
           </template>
 
           <v-card
