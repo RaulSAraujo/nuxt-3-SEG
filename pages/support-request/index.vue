@@ -2,8 +2,6 @@
 useHead({
   titleTemplate: `Chamados - %s`,
 });
-
-const { data } = useAuthState();
 </script>
 
 <template>
@@ -23,11 +21,7 @@ const { data } = useAuthState();
       </template>
     </Filter>
 
-    <Table
-      :others-params="{
-        user_id: data?.id,
-      }"
-    >
+    <Table>
       <template #item.action="{ item }">
         <v-btn
           icon="mdi-pencil"
