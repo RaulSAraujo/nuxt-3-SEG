@@ -3,7 +3,7 @@ import type { TagID } from "~/interfaces/SalesOrder.js";
 const props = defineProps<{
   saleId: number | string;
   seller: string;
-  poinSale: string;
+  pointSale: string;
   shipmentMode: string;
   tags: TagID[];
 }>();
@@ -47,7 +47,7 @@ const printer = async () => {
         body: {
           id: props.saleId,
           seller: props.seller,
-          point_sale: props.poinSale,
+          pointSale: props.pointSale,
           shipment: props.shipmentMode,
           stringTags,
           stringFab,
