@@ -206,6 +206,13 @@ export default defineNuxtConfig({
     prefix: 'Tiptap',
   },
 
+  socket: {
+    addPlugin: true,
+    serverOptions: {
+      path: 'http://192.168.1.10:2001',
+    }
+  },
+
   sourcemap: {
     server: true,
     client: true

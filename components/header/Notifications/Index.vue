@@ -15,6 +15,10 @@ const user = data.value as User;
 
 const notifications = useState<Notifications[]>("Notifications", () => []);
 
+// Close socket default
+const socketDefault = useSocket();
+socketDefault.close();
+
 const { $io } = useNuxtApp();
 
 const socket = $io("http://192.168.1.10:2001", {
