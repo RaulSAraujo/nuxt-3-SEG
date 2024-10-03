@@ -12,7 +12,6 @@ const emit = defineEmits(["updateStatus"]);
 const statusRequest = ref([
   "EM ABERTO",
   "EM ANÁLISE",
-  "NA FILA",
   "REPROVADO",
   "EM ANDAMENTO",
   "CONCLUIDO",
