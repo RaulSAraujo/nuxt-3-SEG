@@ -60,6 +60,7 @@ export default defineNuxtConfig({
   },
 
   modules: [
+    '@nuxt/devtools',
     'vuetify-nuxt-module',
     "@nuxt/image",
     "@nuxt/eslint",
@@ -69,7 +70,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     'dayjs-nuxt',
     '@vueuse/nuxt',
-    '@nuxt/test-utils',
+    '@nuxt/test-utils/module',
     'nuxt-payload-analyzer',
     'nuxt-tiptap-editor',
     'nuxt-easy-lightbox',
