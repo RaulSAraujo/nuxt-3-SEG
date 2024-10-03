@@ -4,14 +4,31 @@ import type { User } from "~/interfaces/User";
 const { data, signOut } = useAuth();
 
 const user = data.value as User;
+
+const { $config } = useNuxtApp();
 </script>
 
 <template>
   <v-menu location="bottom" transition="slide-y-transition" offset="12 20">
     <template #activator="{ props }">
-      <v-btn icon v-bind="props" class="mx-5">
-        <v-avatar :image="`data:image/jpeg;base64,${user.profile_image}`" size="50" />
-      </v-btn>
+      <ClientOnly>
+        <v-avatar
+          v-bind="props"
+          :image="`${$config.public.base_url_file_manager}/user-photos?userId=${user.id}&type=image`"
+          size="50"
+          class="mx-5"
+          style="cursor: pointer"
+        />
+
+        <template #fallback>
+          <v-skeleton-loader
+            width="50px"
+            color="transparent"
+            type="avatar"
+            class="ml-4 mr-6"
+          />
+        </template>
+      </ClientOnly>
     </template>
 
     <v-list lines="one" density="compact" nav class="rounded-xl">

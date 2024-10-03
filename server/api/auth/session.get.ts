@@ -30,17 +30,6 @@ const parseJwt = (token: string) => {
     return JSON.parse(token).data as User
 }
 
-const getBaseUrl = (event: H3Event) => {
-    const hostReq = getRequestHeader(event, 'host')
-
-    let baseURL = useRuntimeConfig().public.base_url_local as string;
-    if (hostReq?.includes('ddns')) {
-        baseURL = useRuntimeConfig().public.base_url_external as string;
-    }
-
-    return baseURL
-}
-
 export default eventHandler(async (event: H3Event) => {
     const authHeaderValue = getRequestHeader(event, 'authorization')
     if (typeof authHeaderValue === 'undefined') {
@@ -55,17 +44,6 @@ export default eventHandler(async (event: H3Event) => {
     setCookie(event, 'auth.theme', `${session?.theme ?? ''}`)
 
     if (session) return session
-
-    const baseUrl = getBaseUrl(event)
-
-    const res = await $fetch(`${baseUrl}/user/profile-picture?user_id=${decodeJwt.id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': authHeaderValue
-        }
-    })
-    decodeJwt.profile_image = res as Buffer
 
     useStorage('data').setItem(`profile_${decodeJwt.id}`, decodeJwt)
 
