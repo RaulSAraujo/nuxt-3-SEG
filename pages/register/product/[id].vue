@@ -17,17 +17,19 @@ if (product.value == undefined) {
 
   if (status.value === "success") {
     product.value = data.value!.rows[0];
+  }
+}
 
-    /**
-     * Formatação e validação do valor inicial
-     */
-    if (!Number.isInteger(product.value!.weight)) {
-      product.value!.weight = Math.ceil(
-        parseFloat(`${product.value!.weight ?? 0.0}`) * 1000
-      );
-    } else {
-      product.value!.weight = product.value!.weight ?? 0;
-    }
+/**
+ * Formatação e validação do valor inicial
+ */
+if (product.value) {
+  if (!Number.isInteger(product.value.weight)) {
+    product.value.weight = Math.ceil(
+      parseFloat(`${product.value!.weight ?? 0.0}`) * 1000
+    );
+  } else {
+    product.value.weight = product.value.weight ?? 0;
   }
 }
 
