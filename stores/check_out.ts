@@ -438,7 +438,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
   });
 
   async function setHistory() {
-    const { id, OrderStatus, ProductsSold, point_sale, shipment, Customer, OrderInvoice, shipment_value, MlOrder, sending_code } = salesOrder.value!
+    const { id, OrderStatus, ProductsSold, point_sale, shipment, Customer, OrderInvoice, shipment_value, MlOrder, sending_code, MarketplaceOrder } = salesOrder.value!
 
     try {
       const res = await $customFetch<RowSalesOrder>('sales-order', {
@@ -451,7 +451,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
           produto_chave: ProductsSold[0].ProductsSold.reference,
           description: ProductsSold[0].ProductsSold.original_name,
           weight_cubic: ProductsSold[0].ProductsSold.weight_cubic,
-          seller: sellerMap.value[id.length],
+          seller: MarketplaceOrder[0]?.MarketplaceOrder.marketplace_seller_name || sellerMap.value[id.length],
           poin_sale: point_sale,
           shipment_mode: shipment,
           customer: Customer.name,
