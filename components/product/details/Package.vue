@@ -24,10 +24,10 @@ const { status } = $api<Row[]>("package", {
     <v-col cols="12" sm="6" md="3" lg="3" xl="3">
       <TextField
         v-model="product!.weight"
-        v-maska="'N'"
         label="Peso liquido (g)"
         :hide-details="true"
       />
+      <!-- v-maska="'N'" -->
     </v-col>
     <v-col cols="12" sm="6" md="3" lg="3" xl="3">
       <ProductDetailsInputsPackageWeight />
