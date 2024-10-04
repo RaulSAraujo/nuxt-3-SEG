@@ -3,6 +3,10 @@ import type { SupportRequest, Row } from "~/interfaces/SupportRequest.js";
 
 const { params } = useRoute();
 
+useHead({
+  titleTemplate: `Chamado #${params.id} - %s`,
+});
+
 const { data, status } = $api<Row>(`support-request`, {
   key: `SupportRequest`,
   query: {
