@@ -60,6 +60,14 @@
                 "child": true
             },
             {
+                "icon": "",
+                "title": "Historico de movimentação",
+                "name": "register-product-name-movement-history",
+                "backUrl": "/movement-history",
+                "auth": false,
+                "child": true
+            },
+            {
                 "icon": "mdi-tag-minus",
                 "title": "Produto venda",
                 "name": "register-product-sell",

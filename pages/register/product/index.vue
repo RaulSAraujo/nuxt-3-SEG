@@ -21,12 +21,24 @@ const activateDialogToEdit = ref<boolean>(false);
           icon="mdi-pencil"
           variant="plain"
           size="small"
-          color="pink"
+          color="blue"
+          density="compact"
           :to="{
             name: 'register-product-id',
             params: { id: item.id },
           }"
           @click="product = item"
+        />
+
+        <v-btn
+          icon="mdi-history"
+          variant="plain"
+          size="small"
+          density="compact"
+          :to="{
+            name: 'register-product-name-movement-history',
+            params: { name: item.name },
+          }"
         />
       </template>
 
