@@ -258,6 +258,22 @@
                 "child": false
             },
             {
+                "icon": "mdi-file-alert",
+                "title": "Estoque mínimo",
+                "name": "purchase-minimum-stock",
+                "backUrl": "/minimum-stock",
+                "auth": false,
+                "child": false
+            },
+            {
+                "icon": "mdi-home-analytics",
+                "title": "Análise de movimentação de estoque",
+                "name": "purchase-stock-movement-analysis",
+                "backUrl": "/stock-movement-analysis",
+                "auth": false,
+                "child": false
+            },
+            {
                 "icon": "mdi-package-check",
                 "title": "Salvados",
                 "name": "purchase-saved-rma",
@@ -328,16 +344,7 @@
                 "backUrl": "/validate-virtual-stock",
                 "auth": false,
                 "child": false
-            },
-            {
-                "icon": "mdi-file-alert",
-                "title": "Estoque mínimo",
-                "name": "purchase-minimum-stock",
-                "backUrl": "/minimum-stock",
-                "auth": false,
-                "child": false
             }
-
         ]
     },
     {

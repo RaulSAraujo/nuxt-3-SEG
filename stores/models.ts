@@ -25,6 +25,7 @@ export const useModelStore = defineStore("models", () => {
         'purchase-validate-price-ml': 'ValidatePricePercentage',
         'purchase-validate-stock-virtual': 'ValidateVirtualStock',
         'purchase-minimum-stock': 'MinimumStock',
+        'purchase-stock-movement-analysis': 'StockMovementAnalysis',
         'sale-shipping-validation': 'ShippingValidation',
         'sale-order': 'SalesOrder',
         'sale-verification-order': 'SalesOrdersSeparation',

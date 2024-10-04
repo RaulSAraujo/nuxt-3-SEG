@@ -55,6 +55,7 @@ export const useTableStore = defineStore("table", () => {
         'purchase-validate-price-ml': 'ValidatePricePercentage',
         'purchase-validate-stock-virtual': 'ValidateVirtualStock',
         'purchase-minimum-stock': 'minimum-stock',
+        'purchase-stock-movement-analysis': 'stock-movement-analysis',
         'sale-order': 'SalesOrder',
         'sale-shipping-validation': 'shipping-validation',
         'sale-verification-order': 'SalesOrdersSeparation',
@@ -151,7 +152,7 @@ export const useTableStore = defineStore("table", () => {
                         value = databaseDate(value)
                     }
 
-                    if(typeof value === 'string' && layout_filters?.approximate){
+                    if (typeof value === 'string' && layout_filters?.approximate) {
                         value = `%${value}%`
                     }
 
