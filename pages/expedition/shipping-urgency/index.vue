@@ -1,22 +1,13 @@
 <script setup lang="ts">
+import type { Row } from "~/interfaces/ShippingUrgency.js";
+
 useHead({
   titleTemplate: `Urgencia de envio - %s`,
 });
 
-const getItemProps = (item: any) => {
-  console.log(item);
-
-  if (item.delayed) {
-    return "highlight-row";
-  }
-
-  return "";
-};
-
-const itemRowBackground = (row: any) => {
+const itemRowBackground = (row: { item: Row }) => {
   return { class: row.item.delayed ? "highlight-row" : "" };
 };
-
 </script>
 
 <template>
