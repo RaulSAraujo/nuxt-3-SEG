@@ -9,7 +9,11 @@ const {
   box,
 } = storeToRefs(checkOutStore);
 
-const seller = computed(() => sellerMap.value[salesOrder.value!.id.length]);
+const seller = computed(
+  () =>
+    salesOrder.value?.MarketplaceOrder[0]?.MarketplaceOrder.marketplace_seller_name ||
+    sellerMap.value[salesOrder.value!.id.length]
+);
 </script>
 
 <template>
