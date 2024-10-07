@@ -24,8 +24,16 @@ const { status, data } = await $api<StockMovementHistory>("stock-movement-histor
   },
 });
 
-const itemRowBackground = (item: any) => {
-  return item.protein > 4.2 ? "style-1" : "style-2";
+const itemRowBackground = (row: { index: number }) => {
+  if (row.index % 2 === 0) {
+    return {
+      class: "background-color-in-historical-movement-1",
+    };
+  } else {
+    return {
+      class: "background-color-in-historical-movement-2",
+    };
+  }
 };
 </script>
 
@@ -54,7 +62,7 @@ const itemRowBackground = (item: any) => {
         items-per-page="-1"
         multi-sort
         hide-default-footer
-        :item-class="itemRowBackground"
+        :row-props="itemRowBackground"
       >
         <template #item.date_movement="{ item }">
           <DateString
@@ -72,11 +80,8 @@ const itemRowBackground = (item: any) => {
   </div>
 </template>
 
-<style scoped>
-.style-1 {
-  background-color: rgb(215, 215, 44);
-}
-.style-2 {
-  background-color: rgb(114, 114, 67);
+<style>
+.background-color-in-historical-movement-1 {
+  background-color: rgb(39, 39, 39);
 }
 </style>
