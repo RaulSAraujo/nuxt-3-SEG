@@ -16,15 +16,9 @@ export default defineNuxtPlugin({
 
     const $customFetch = $fetch.create({
       baseURL,
-      headers: {
-        Authorization: `${token.value}`,
-      },
+      timeout: 30000,
       onRequest({ options }) {
-        options.headers = {
-          ...options.headers,
-          // @ts-ignore
-          Authorization: `${token.value}`,
-        }
+        options.headers.set('Authorization', `${token.value}`);
       },
       onResponseError({ response }) {
         if (response.status === 401) {
