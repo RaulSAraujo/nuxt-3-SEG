@@ -190,7 +190,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
             products.value.push({
               ...tag.Product,
               quantitySold: productInvoice.value?.quantity ?? 0,
-              imageUrl: productTray.value?.ProductsSold.ProductSoldImage[0].http ?? "",
+              imageUrl: productTray.value?.ProductsSold.ProductSoldImage[0]?.http ?? "",
               countedQuantity: 0,
               tags: tagsCheck
             });
@@ -198,7 +198,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
             products.value.push({
               ...tag.Product,
               quantitySold: quantityTag,
-              imageUrl: productTray.value?.ProductsSold.ProductSoldImage[0].http ?? "",
+              imageUrl: productTray.value?.ProductsSold.ProductSoldImage[0]?.http ?? "",
               countedQuantity: 0,
               tags: tagsCheck
             });
