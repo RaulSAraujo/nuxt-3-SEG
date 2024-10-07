@@ -85,12 +85,12 @@ const itemRowBackground = (row: { item: StockMovementAnalysisMonth }) => {
   </v-dialog>
 </template>
 
-<style scoped>
-::v-deep .parcial-row {
+<style>
+.parcial-row {
   color: orange;
 }
 
-::v-deep .integral-row {
+.integral-row {
   color: red;
 }
 </style>
