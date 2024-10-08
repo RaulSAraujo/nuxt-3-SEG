@@ -49,7 +49,7 @@ export const useTableStore = defineStore("table", () => {
         'purchase-request': 'purchase-request',
         'purchase-insumos': 'InputMaterials',
         'purchase-saved-rma': 'saved-rma',
-        'purchase-order-ml': 'OrdersFinalityStockMl',
+        'purchase-order-ml': 'orders-finality-stock-ml',
         'purchase-receipt': 'Receivement',
         'purchase-pending-price': 'PurchaseControlProduct',
         'purchase-validate-price-ml': 'ValidatePricePercentage',
