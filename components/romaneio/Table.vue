@@ -37,7 +37,7 @@ const headers = ref([
     density="compact"
   >
     <template #item.tag_id="{ item }">
-      <RomaneioTemplateTags :tags="item.tag_id" />
+      <TemplatesTags :tags="item.tag_id" />
     </template>
 
     <template #item.description="{ item }">

@@ -24,6 +24,10 @@ const itemRowBackground = (row: { item: Row }) => {
       <template #item.delayed="{ item }">
         <ShippingUrgencyTemplateDelayed :delayed="item.delayed" />
       </template>
+
+      <template #item.tags="{ item }">
+        <TemplatesTags :tags="item.tags" />
+      </template>
     </Table>
   </div>
 </template>

@@ -29,9 +29,14 @@ const headers = [
           <v-data-table
             :headers="headers"
             :items="tags"
+            items-per-page="-1"
             hide-default-footer
             disable-sort
-          />
+          >
+            <template #item.description="{ item }">
+              <Tooltip :text="item.description" :vw="10" />
+            </template>
+          </v-data-table>
         </template>
       </v-card>
     </template>

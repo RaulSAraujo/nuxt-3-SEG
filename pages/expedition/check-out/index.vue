@@ -81,7 +81,7 @@ const { brDateWithTime } = useDateConversion();
       </template>
 
       <template #item.tag_id="{ item }">
-        <CheckOutTemplateTags :tags="item.tag_id ?? []" />
+        <TemplatesTags :tags="item.tag_id ?? []" />
       </template>
 
       <template #item.finalized_freight_invoice="{ item }">

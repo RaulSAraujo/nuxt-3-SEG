@@ -26,7 +26,7 @@ useHead({
       </template>
 
       <template #item.tags="{ item }">
-        <ShippingValidationTemplateTags :tags="item.tags" />
+        <TemplatesTags :tags="item.tags" />
       </template>
 
       <template #item.actual_freight_price="{ item }">
