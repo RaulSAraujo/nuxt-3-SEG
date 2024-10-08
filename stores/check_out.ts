@@ -301,6 +301,8 @@ export const useCheckOutStore = defineStore("checkout", () => {
     'IMPRESSÃO CONCLUÍDA': 'EMBALADO',
   }
 
+  let textStatus: string
+
   async function verifyOrder() {
     if (!loading.isLoading.value) {
       loading.start()
@@ -338,7 +340,6 @@ export const useCheckOutStore = defineStore("checkout", () => {
 
     }
 
-    let textStatus
     if (OrderStatus.status === 'COLETA ADIADA') {
       textStatus = 'COLETA ADIADA'
     } else {
@@ -447,7 +448,7 @@ export const useCheckOutStore = defineStore("checkout", () => {
           sale_id: id,
           user: user.name,
           initial_status: OrderStatus.status,
-          status: statusMapping[saleTag.value?.sale_tag ?? ''] ?? OrderStatus.status,
+          status: textStatus ?? OrderStatus.status,
           produto_chave: ProductsSold[0].ProductsSold.reference,
           description: ProductsSold[0].ProductsSold.original_name,
           weight_cubic: ProductsSold[0].ProductsSold.weight_cubic,
