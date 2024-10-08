@@ -31,6 +31,7 @@ const headers = ref([
     disable-filtering
     disable-pagination
     density="compact"
+    items-per-page="-1"
     hide-default-footer
   >
     <template #item.verified_status_ecom="{ item }">
