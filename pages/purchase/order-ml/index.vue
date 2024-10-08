@@ -38,7 +38,7 @@ useHead({
       <template #item.refund_date="{ item }">
         <EditDialogDate
           :id="item.id"
-          :date="item.refund_date"
+          :date="item.refund_date ?? ''"
           attr="refund_date"
           :clearable="true"
           @update-text="item.refund_date = $event"
