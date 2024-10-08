@@ -6,8 +6,8 @@ const props = defineProps<{
   value: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: Array<any>;
-  itemTitle: string;
-  itemValue: string;
+  itemTitle?: string;
+  itemValue?: string;
 }>();
 
 const emit = defineEmits(["updateText"]);
