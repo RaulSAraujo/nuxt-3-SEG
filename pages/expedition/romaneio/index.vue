@@ -29,7 +29,7 @@ useHead({
       </template>
 
       <template #item.pdf="{ item }">
-        <RomaneioPdf :id="item.id" />
+        <LazyRomaneioPdf :id="item.id" />
       </template>
 
       <template #expanded-row="{ columns, item }">
