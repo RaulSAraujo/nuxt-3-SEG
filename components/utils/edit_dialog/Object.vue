@@ -8,9 +8,10 @@ const props = defineProps<{
   items: Array<any>;
   itemTitle?: string;
   itemValue?: string;
+  exportSave?: boolean;
 }>();
 
-const emit = defineEmits(["updateText"]);
+const emit = defineEmits(["updateText", "exportSave"]);
 
 const { url } = useTableStore();
 
@@ -19,6 +20,12 @@ const menu = ref<boolean>(false);
 const comp = computed({
   get: () => props.value,
   set: async (value) => {
+    if (props.exportSave) {
+      menu.value = false;
+
+      return emit("exportSave", value);
+    }
+
     const res = await update(value);
     if (!res.success) return $toast().error(res.message);
 
