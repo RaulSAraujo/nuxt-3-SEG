@@ -3,6 +3,7 @@ const props = defineProps<{
   id: number;
   attr: string;
   value: number;
+  disabled?: boolean;
 }>();
 
 const emit = defineEmits(["updateText", "enter", "response"]);
@@ -50,14 +51,18 @@ const update = (value: number) => {
     :close-on-content-click="false"
   >
     <template #activator="{ props: menuProp }">
-      <span v-bind="menuProp" class="d-flex" style="cursor: pointer">
+      <span
+        v-bind="!disabled ? menuProp : ''"
+        class="d-flex"
+        :style="!disabled ? 'cursor: pointer' : ''"
+      >
         {{ value }}
       </span>
     </template>
 
     <v-confirm-edit v-model="comp">
       <template #default="{ model: proxyModel, actions }">
-        <v-card class="mx-auto" width="250px">
+        <v-card class="mx-auto" width="250px" :disabled="disabled">
           <template #text>
             <NumberInput v-model="proxyModel.value" hide-details />
           </template>
