@@ -2,7 +2,7 @@
 const props = defineProps<{
   id: number;
   attr: string;
-  date: string;
+  date: string | null;
   clearable: boolean | undefined;
 }>();
 
@@ -15,7 +15,7 @@ const { brDate, databaseDate } = useDateConversion();
 const menu = ref<boolean>(false);
 
 const comp = computed({
-  get: () => brDate(props.date),
+  get: () => brDate(props.date ?? ""),
   set: async (value) => {
     const res = await update(value);
     if (!res.success) return $toast().error(res.message);
