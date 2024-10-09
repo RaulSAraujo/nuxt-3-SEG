@@ -31,7 +31,7 @@ const create = async () => {
       body: {
         ...form,
         status: "EM ABERTO",
-        purchased_by: data.value?.name,
+        requested_by: data.value?.name,
       },
     });
 
