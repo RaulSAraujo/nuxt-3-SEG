@@ -39,6 +39,12 @@ const create = async () => {
 
     items.value.splice(0, 0, {
       ...res,
+      total_cost: null,
+      unit_cost: null,
+      supplier: null,
+      purchased_by: "",
+      purchase_date: null,
+      received_date: null,
     });
   } catch (error) {
     const err = error as { statusText: string; message: string };
