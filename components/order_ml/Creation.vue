@@ -5,8 +5,8 @@ interface Form {
   description: string;
   finality: string;
   quantity_purchase: number;
-  review_data: string | undefined;
-  limit_date: string | undefined;
+  review_data: string | null;
+  limit_date: string | null;
   seller: string;
   total_cost: string;
   form_payment: null | string;
@@ -40,8 +40,8 @@ const { databaseDate } = useDateConversion();
 const create = async () => {
   loading.start();
 
-  form.review_data = databaseDate(form.review_data!) || undefined;
-  form.limit_date = databaseDate(form.limit_date!) || undefined;
+  form.review_data = databaseDate(form.review_data ?? "") || null;
+  form.limit_date = databaseDate(form.limit_date ?? "") || null;
 
   try {
     const res = await useNuxtApp().$customFetch<Row>("orders-finality-stock-ml", {
