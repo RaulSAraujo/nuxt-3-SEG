@@ -22,9 +22,10 @@ defineEmits(["enter"]);
     variant="outlined"
     :disabled="disabled"
     :auto-grow="autoGrow"
+    :rows="rows || 1"
     :clearable="clearable"
     :placeholder="placeholder"
-    :hide-details="hideDetails"
+    :hide-details="hideDetails || true"
     :shaped="true"
   />
 </template>

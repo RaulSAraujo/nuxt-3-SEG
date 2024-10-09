@@ -47,7 +47,7 @@ export const useTableStore = defineStore("table", () => {
         'purchase-order-import': 'ImportOrders',
         'purchase-quotation': 'quotation-pack',
         'purchase-request': 'purchase-request',
-        'purchase-insumos': 'InputMaterials',
+        'purchase-insumos': 'input-materials',
         'purchase-saved-rma': 'saved-rma',
         'purchase-order-ml': 'orders-finality-stock-ml',
         'purchase-receipt': 'Receivement',
