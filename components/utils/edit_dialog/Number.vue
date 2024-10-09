@@ -53,7 +53,7 @@ const update = (value: number) => {
     <template #activator="{ props: menuProp }">
       <span
         v-bind="!disabled ? menuProp : ''"
-        class="d-flex"
+        class="d-flex justify-center"
         :style="!disabled ? 'cursor: pointer' : ''"
       >
         {{ value }}
