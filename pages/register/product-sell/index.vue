@@ -19,7 +19,7 @@ const { product } = storeToRefs(productSellStore);
           icon="mdi-pencil"
           variant="plain"
           size="small"
-          color="pink"
+          color="blue"
           :to="{
             name: 'register-product-sell-id',
             params: { id: item.id },

@@ -27,7 +27,7 @@ useHead({
           icon="mdi-pencil"
           variant="plain"
           size="small"
-          color="pink"
+          color="blue"
           :to="{
             name: 'register-client-id',
             params: { id: item.id },
