@@ -19,17 +19,29 @@ useHead({
         <Delete :id="item.id" />
       </template>
 
+      <template #item.status="{ item }">
+        <InsumosTemplateStatus
+          :id="item.id"
+          :text="item.status"
+          @update-status="item.status = $event"
+          @update-purchased-by="item.purchased_by = $event"
+          @update-purchase-date="item.purchase_date = $event"
+          @update-received-date="item.received_date = $event"
+        />
+      </template>
+
       <template #item.unit_cost="{ item }">
         <ToLocaleString :value="item.unit_cost" />
       </template>
 
       <template #item.total_cost="{ item }">
-        <EditDialogCurrency
+        <InsumosTemplateTotalCost
           :id="item.id"
-          :value="item.total_cost"
-          attr="total_cost"
-          :vw="5"
-          @update-text="item.total_cost = $event"
+          :total-cost="item.total_cost"
+          :quantity-purchase="item.quantity_purchase"
+          @update-total-cost="item.total_cost = $event"
+          @update-unit-cost="item.unit_cost = $event"
+          @update-quantity-purchase="item.quantity_purchase = $event"
         />
       </template>
 
@@ -39,6 +51,7 @@ useHead({
           :value="item.quantity_purchase"
           attr="quantity_purchase"
           :vw="5"
+          :disabled="item.status === 'COMPRADO' || item.status === 'LIBERADO'"
           @update-text="item.quantity_purchase = $event"
         />
       </template>

@@ -38,7 +38,6 @@ useHead({
           :id="item.id"
           :value="item.bill_freight_price"
           attr="bill_freight_price"
-          :vw="5"
           @update-text="item.bill_freight_price = $event"
         />
       </template>
