@@ -62,7 +62,7 @@ export const useTableStore = defineStore("table", () => {
         'sale-warranty': 'WarrantyRma',
         'sale-shipping-verification': 'SalesOrder',
         'sale-sell-device': 'sell-device',
-        'service-order': 'ServiceOrder',
+        'service-order': 'service-order',
         'service-cash-control': 'ReceptionCashControl',
         'service-crm': 'Crm',
         'stock-storage-location': 'ErpProductStock',
