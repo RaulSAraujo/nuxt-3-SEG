@@ -9,9 +9,13 @@ const props = defineProps<{
 
 const emit = defineEmits(["updateText"]);
 
+const menu = ref<boolean>(false);
+
 const comp = computed({
   get: () => props.hint,
   set: async (value) => {
+    menu.value = false;
+
     emit("updateText", value);
   },
 });
@@ -31,6 +35,7 @@ const comp = computed({
   >
     <template #append-inner>
       <v-menu
+        v-model="menu"
         location="end"
         transition="slide-x-transition"
         offset="0 20"
