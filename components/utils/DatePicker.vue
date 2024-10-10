@@ -4,6 +4,7 @@ const props = defineProps<{
   clearable: boolean | undefined;
   multiple: boolean | string | undefined;
   alt?: string;
+  hideDetails?: boolean | "auto" | undefined;
 }>();
 
 const emit = defineEmits(["enter", "save"]);
@@ -45,7 +46,7 @@ const activeMenuRange = () => {
     variant="outlined"
     :label="label"
     :clearable="clearable"
-    hide-details
+    :hide-details="hideDetails || true"
     @keypress.enter="$emit('enter')"
     @click="activeMenuRange"
     @update:model-value="change($event)"
