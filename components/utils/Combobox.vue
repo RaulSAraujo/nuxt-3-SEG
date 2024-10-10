@@ -36,6 +36,7 @@ defineProps<{
     }"
     hide-details
     :auto-select-first="autoSelectFirst"
+    autocomplete="off"
   >
     <template v-if="multiple" #selection="{ item, index }">
       <span
